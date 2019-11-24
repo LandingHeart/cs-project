@@ -7,57 +7,85 @@ export default class SignIn extends React.Component {
     super(props);
 
     this.state = {
-      permission: false,
-      customers: []
-    }
+      username: "",
+      password: ""
+    };
   }
-  componentDidMount(){
-
-      fetch("http://localhost:3000/customers")
-        .then(res => res.json())
-        .then(customers =>
-          this.setState({ customers }, () => {
-            console.log("pots fetch", customers);
-          })
-        );
+  componentDidMount() {
+    fetch("http://localhost:3000/customers")
+      .then(res => res.json())
+      .then(customers =>
+        this.setState({ customers }, () => {
+          console.log("pots fetch", customers);
+        })
+      );
   }
 
   render() {
     const auth = this.props.auth;
 
     return (
-      <div className = "container">
-      <div className = "form-box">
-        <form onSubmit={this.onSubmit}>
-          <input
-          type="text"
-          name="username"
-          placeholder="Username"
-          // value={}
-          />
+      <div className="container">
+        <div className="form-box">
+          <form onSubmit={this.onSubmit}>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+            />
 
-          <input
-          type="text"
-          name="password"
-          placeholder="Password"
-          // value={}
-          />
+            <input
+              type="text"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+            />
 
-          <input
-          type="submit"
-          value="Submit"
-          className="btn"
-          onClick={this.successLogin}
-          />
-        </form>
+            <input
+              type="submit"
+              value="Submit"
+              className="btn"
+              onClick={this.successLogin}
+            />
+          </form>
         </div>
       </div>
     );
   }
 
-  successLogin = () => {
-    this.props.handleAuth();
+  handleInputChange = event => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
 
-    this.props.history.push("/");
+  successLogin = event => {
+    console.log("submit triggered");
+    event.preventDefault();
+    fetch("/customers/api/auth", {
+      method: "POST",
+      body: JSON.stringify(this.state),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status === 200) {
+          this.props.history.push("/");
+        } else {
+          const error = new Error(res.error);
+          throw error;
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error logging in please try again");
+      });
+      
+    // this.props.history.push("/");
   };
 }

@@ -40,6 +40,7 @@ router.post("/", async (req, res) => {
 
 router.post("/api/register", async function(req, res) {
   const { firstname, lastname, username, password } = req.body;
+
   const user = new Customer({ firstname, lastname, username, password });
   user.save(function(err) {
     if (err) {
@@ -50,6 +51,7 @@ router.post("/api/register", async function(req, res) {
   });
 });
 
+//check username in database 
 router.post("/api/auth", async (req, res) => {
   const { firstname, lastname, username, password } = req.body;
 
@@ -75,7 +77,7 @@ router.post("/api/auth", async (req, res) => {
           });
         } else {
           // Issue token
-          const payload = { email };
+          const payload = { username };
           const token = jwt.sign(payload, secret, {
             expiresIn: "1h"
           });

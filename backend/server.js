@@ -12,7 +12,10 @@ const bookingModel = require("./routes/bookings");
 const airlineModel = require("./routes/airlines");
 const flightModel = require("./routes/flights");
 const customerModel = require("./routes/customers");
+
+//middleware authentications
 const withAuth = require('./middleware');
+
 const cors = require("cors");
 require("dotenv/config");
 app.use(bodyParser.json());
@@ -22,6 +25,9 @@ app.use(cors());
 //use models
 router.get('/checkToken', withAuth, function(req, res) {
   res.sendStatus(200);
+});
+router.get('/api/secret', withAuth, function(req, res) {
+  res.send('The password is potato');
 });
 
 app.use("/customers", customerModel);
