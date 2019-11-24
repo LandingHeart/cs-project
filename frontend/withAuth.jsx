@@ -31,7 +31,7 @@ export default function withAuth(ComponentToProtect) {
         return null;
       }
       if (redirect) {
-        return <Redirect to="/login" />;// back to login if true 
+        return <Redirect to="/signin" />;// back to login if true 
       }
       return <ComponentToProtect {...this.props} />;
     }
