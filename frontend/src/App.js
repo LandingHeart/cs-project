@@ -9,6 +9,7 @@ import Search from "./components/Search.js";
 import SignIn from "./components/SignIn.js";
 import SignUp from "./components/SignUp.js";
 import SignInAdmin from "./components/SignInAdmin";
+import ReservationCustomer from "./components/ReservationCustomer";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -47,6 +48,10 @@ export default class App extends React.Component {
             <Route path="/reserve">
               <Search />
             </Route>
+            <Route
+              path="/admin/customerList"
+              render={props => <ReservationCustomer {...props} />}
+            ></Route>
             <Route
               path="/signin"
               render={props => (

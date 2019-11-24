@@ -83,7 +83,7 @@ export default class Airline extends React.Component {
         ) : null}
         <div>
           <table>
-            <tbody>
+            <thead>
               <tr>
                 <td>Flight</td>
                 <td>Destination</td>
@@ -92,7 +92,8 @@ export default class Airline extends React.Component {
                 <td>Fare</td>
                 <td>Capacity</td>
               </tr>
-
+            </thead>
+            <tbody>
               {this.state.data.map(item => (
                 <tr key={item.id}>
                   <td>{item.name}</td>
@@ -127,15 +128,16 @@ export default class Airline extends React.Component {
                       <button onClick={() => console.log("SHOW MODAL")}>
                         Cancel Flight
                       </button>
-                      <button
-                        onClick={() =>
-                          console.log(
-                            "GO TO ANOTHER PAGE WITH THIS ITEM AS PROPS"
-                          )
-                        }
+                      <Link
+                        to={{
+                          pathname: "/admin/customerList",
+                          state: {
+                            airline: item
+                          }
+                        }}
                       >
                         See All Customer Reservation
-                      </button>
+                      </Link>
                     </td>
                   )}
                 </tr>
