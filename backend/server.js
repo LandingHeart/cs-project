@@ -19,9 +19,9 @@ app.use(cors());
 
 //use models
 
-app.use(customerModel);
-app.use(airlineModel);
-app.use(bookingModel);
+app.use("/customers", customerModel);
+app.use("/airlines", airlineModel);
+app.use("/bookings", bookingModel);
 
 //connect to database
 mongoose.connect(

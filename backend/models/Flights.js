@@ -1,31 +1,34 @@
 const mongoose = require("mongoose");
 
-const FlightsSchema = mongoose.Schema({
-  runByAirline:{
-    type: String,
-    require: true
-  }, 
-  status:{
-    type: String,
-    require: true
-  }, 
-  flightName:{
-    type: String,
-    require: true
-  },
-  flightId:{
-    type: Number,
-    require: true
-  },
-  maxCapacity: { 
-    type: Number, 
-    require: true 
-  },
-  filled: {
-    type: Number,
-    require: true
-  },
-  fares: Number
-});
+const FLightSchema = mongoose.Schema({
+    flightId: {
+        type: String,
+        require: true
+    },
+    flightName: {
+        type: String,
+        require: true
+    },
+    capacity: {
+        type: Number,
+        require: true
+    },
+    fillStatus: {
+        type: Number,
+        require: true
+    },
+    dest: {
+        type: String,
+        require: true
+    },
+    depart: {
+        type: String, 
+        require: true
+    },
+    fares: {
+      type: Number,
+      require: true
+    }
+})
 
-module.exports = mongoose.model("Flights", FlightsSchema);
+module.exports = mongoose.model("FlightsSchema", FLightSchema)

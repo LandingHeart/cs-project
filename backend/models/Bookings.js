@@ -5,7 +5,6 @@ const BookingSchema = mongoose.Schema({
     flightId: Number,
     flightName: String,
     id: Number,
-
 })
 
 module.exports = mongoose.model("BookingSchema", BookingSchema);

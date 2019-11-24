@@ -22,7 +22,7 @@ router.get("/:airlineId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const airline = new Airline({
-    name: req.body.name,
+    ariline: req.body.airline,
     description: req.body.description,
   });
 

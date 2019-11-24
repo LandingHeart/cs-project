@@ -26,7 +26,7 @@ router.post("/", async (req, res) => {
   const customer = new Customer({
     firstname: req.body.firstname,
     lastname: req.body.lastname,
-    email: req.body.email,
+    username: req.body.username,
     password: req.body.password
   });
   try {
