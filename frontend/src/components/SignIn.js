@@ -8,12 +8,19 @@ export default class SignIn extends React.Component {
 
     this.state = {
       permission: false,
-      customer: []
+      customers: []
     }
 
   }
   componentDidMount(){
-    
+
+      fetch("http://localhost:3000/customers")
+        .then(res => res.json())
+        .then(customers =>
+          this.setState({ customers }, () => {
+            console.log("pots fetch", customers);
+          })
+        );
   }
 
   render() {
