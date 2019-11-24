@@ -9,44 +9,33 @@ export default class Navigation extends React.Component {
   render() {
     const auth = this.props.auth;
 
+    const linkStyle = {
+      color: '#fff',
+      textDecoration: 'none'
+    }
+
+    const headerStyle = {
+      background: '#333',
+      color: 'white',
+      textAlign: 'center',
+      padding: '10px'
+    }
+
     return (
-      <nav>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          {auth ? (
-            <div>
-              <li>
-                <Link to="/reserve">Reserve</Link>
-              </li>
-              <li>
-                <Link to="/airline">Airline</Link>
-              </li>
-              <li>
-                <Link to="/airport">Airport</Link>
-              </li>
-              <li>
-                <Link to="/profile">Profile</Link>
-              </li>
-              <li>
-                <Link to="/" onClick={this.props.handleAuth}>
-                  Log out
-                </Link>
-              </li>
-            </div>
+      <header style={headerStyle}>
+        <h1>Flights</h1>
+        <Link style={linkStyle} to="/">Home</Link> |
+        {auth ? (
+            <React.Fragment>
+              <Link style={linkStyle} to="/reserve"> Reserve</Link> | <Link style={linkStyle} to="/airline">Airline</Link> | <Link style={linkStyle} to="/airport">Airport</Link> |
+              <Link style={linkStyle} to="/profile"> Profile</Link> | <Link style={linkStyle} to="/" onClick={this.props.handleAuth}>Log out</Link>
+            </React.Fragment>
           ) : (
-            <div>
-              <li>
-                <Link to="/signin">Sign In</Link>
-              </li>
-              <li>
-                <Link to="/signup">Sign Up</Link>
-              </li>
-            </div>
-          )}
-        </ul>
-      </nav>
+            <React.Fragment>
+              <Link style={linkStyle} to="/signin"> Sign In</Link> | <Link style={linkStyle} to="/signup">Sign Up</Link>
+            </React.Fragment>
+        )}
+      </header>
     );
   }
 }
