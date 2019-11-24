@@ -1,14 +1,14 @@
 const express = require("express");
 
 const app = express();
-const port = 3000;
+const port = 8000;
 const mongoose = require("mongoose");
 //middleware, function when routes are hit
 const bodyParser = require("body-parser");
 
 const bookingModel = require("./routes/bookings");
 const airlineModel = require("./routes/airlines");
-
+const flightModel = require("./routes/flights");
 const customerModel = require("./routes/customers");
 
 const cors = require("cors");
@@ -22,6 +22,7 @@ app.use(cors());
 app.use("/customers", customerModel);
 app.use("/airlines", airlineModel);
 app.use("/bookings", bookingModel);
+app.use("/flights", flightModel);
 
 //connect to database
 mongoose.connect(

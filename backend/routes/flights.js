@@ -32,6 +32,7 @@ router.post("/", async (req, res) => {
     depart: req.body.depart,
     fares: req.body.depart
   });
+  
   try {
     const saveFlight = await flight.save();
     res.json(saveFlight);
