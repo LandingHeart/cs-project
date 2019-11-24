@@ -1,7 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { isTemplateElement } from "@babel/types";
-import { all } from "q";
 
 export default class Search extends React.Component {
   constructor(props) {
