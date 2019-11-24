@@ -1,6 +1,8 @@
 const express = require("express");
-
+const cookieparser = require("cookie-parser");
 const app = express();
+const router = express.Router();
+
 const port = 8000;
 const mongoose = require("mongoose");
 //middleware, function when routes are hit
@@ -10,14 +12,17 @@ const bookingModel = require("./routes/bookings");
 const airlineModel = require("./routes/airlines");
 const flightModel = require("./routes/flights");
 const customerModel = require("./routes/customers");
-
+const withAuth = require('./middleware');
 const cors = require("cors");
 require("dotenv/config");
 app.use(bodyParser.json());
-
+app.use(cookieparser());
 app.use(cors());
 
 //use models
+router.get('/checkToken', withAuth, function(req, res) {
+  res.sendStatus(200);
+});
 
 app.use("/customers", customerModel);
 app.use("/airlines", airlineModel);
@@ -30,5 +35,7 @@ mongoose.connect(
   { useNewUrlParser: true, useUnifiedTopology: true },
   () => console.log("connected to port " + port)
 );
+
+
 
 app.listen(port);
