@@ -20,6 +20,16 @@ const CustomersSchema = mongoose.Schema({
   }
 });
 
+CustomersSchema.methods.isCorrectPassword = function(password, callback){
+  bcrypt.compare(password, this.password, function(err, same) {
+    if (err) {
+      callback(err);
+    } else {
+      callback(err, same);
+    }
+  });
+}
+
 CustomersSchema.pre("save", function(next) {
   // Check if document is new or a new password has been set
   if (this.isNew || this.isModified("password")) {

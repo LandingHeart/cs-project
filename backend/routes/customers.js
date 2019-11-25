@@ -52,7 +52,7 @@ router.post("/api/register", async function(req, res) {
 });
 
 //check username in database 
-router.post("/auth", async (req, res) => {
+router.post("/api/auth", async (req, res) => {
   const { firstname, lastname, username, password } = req.body;
 
   Customer.findOne({ username }, (err, user) => {

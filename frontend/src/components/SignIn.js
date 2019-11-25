@@ -12,9 +12,7 @@ export default class SignIn extends React.Component {
       customers: []
     };
   }
-  componentDidMount() {
-  
-  }
+  componentDidMount() {}
 
   render() {
     const auth = this.props.auth;
@@ -58,9 +56,9 @@ export default class SignIn extends React.Component {
     });
   };
 
-  successLogin = event => {
+  onSubmit = event => {
     event.preventDefault();
-    fetch("/customers/auth", {
+    fetch("http://localhost:8000/customers/api/auth", {
       method: "POST",
       body: JSON.stringify(this.state),
       headers: {
@@ -79,7 +77,9 @@ export default class SignIn extends React.Component {
         console.error(err);
         alert("Error logging in please try again");
       });
+  };
 
+  successLogin = event => {
     // this.props.history.push("/");
   };
 }
