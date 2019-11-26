@@ -10,7 +10,6 @@ import SignIn from "./components/SignIn.js";
 import SignUp from "./components/SignUp.js";
 import SignInAdmin from "./components/SignInAdmin";
 import ReservationCustomer from "./components/ReservationCustomer";
-import "./components/css-files/SignIn.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
