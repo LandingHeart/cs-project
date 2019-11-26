@@ -83,6 +83,7 @@ export default class SignIn extends React.Component {
         console.log(res)
         if (res.status === 200) {
           this.props.history.push("/profile");
+          this.props.handleAuth();
         } else {
           const error = new Error(res.error);
           throw error;
