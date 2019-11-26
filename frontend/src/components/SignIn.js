@@ -28,6 +28,7 @@ export default class SignIn extends React.Component {
       <div className="container">
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
+            <h1>Customer Login</h1>
             <input
               type="text"
               name="username"
@@ -50,8 +51,13 @@ export default class SignIn extends React.Component {
               className="btn"
               onClick={this.successLogin}
             />
+            <input
+              type="submit"
+              value="Admin"
+              className="btn"
+              onClick={this.adminSignIn}
+            />
           </form>
-          <button onClick={this.adminSignIn}>Admin</button>
         </div>
       </div>
     );
@@ -90,9 +96,7 @@ export default class SignIn extends React.Component {
   };
 
   adminSignIn = event => {
-    // <React.Fragment>
-    //   <Link to="/signinadmin"></Link>
-    // </React.Fragment>
+    this.props.history.push("/signinadmin");
   };
 
   successLogin = event => {

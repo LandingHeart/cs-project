@@ -20,6 +20,7 @@ export default class SignInAdmin extends React.Component {
     return (
       <div className="container">
         <div className="form-box">
+        <h1>Admin Login</h1>
           <form onSubmit={this.onSubmit}>
             <input
               type="text"
