@@ -51,7 +51,7 @@ export default class SignUp extends React.Component {
       </div>
     );
   }
-  
+
   onSubmit = event => {
     event.preventDefault();
     fetch("/customers/api/register", {
@@ -74,6 +74,5 @@ export default class SignUp extends React.Component {
         alert("Error");
       });
   };
-  
-}
 
+}

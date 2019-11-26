@@ -45,6 +45,7 @@ export default class SignIn extends React.Component {
               onClick={this.successLogin}
             />
           </form>
+          <button onClick={this.adminSignIn}>Admin</button>
         </div>
       </div>
     );
@@ -67,6 +68,7 @@ export default class SignIn extends React.Component {
       }
     })
       .then(res => {
+        console.log(res)
         if (res.status === 200) {
           this.props.history.push("/");
         } else {
@@ -78,6 +80,13 @@ export default class SignIn extends React.Component {
         console.error(err);
         alert("Error logging in please try again");
       });
+
+  };
+
+  adminSignIn = event => {
+    // <React.Fragment>
+    //   <Link to="/signinadmin"></Link>
+    // </React.Fragment>
   };
 
   successLogin = event => {

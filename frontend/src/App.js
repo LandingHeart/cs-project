@@ -61,7 +61,7 @@ export default class App extends React.Component {
             <Route path="/signup">
               <SignUp />
             </Route>
-            <Route path="/signin-admin">
+            <Route path="/signinadmin">
               <SignInAdmin />
             </Route>
           </Switch>
