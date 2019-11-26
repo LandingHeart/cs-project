@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const secret = "mynameis";
 const Customer = require("../models/Customers");
 
-router.get("/", async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const customers = await Customer.find();
     res.json(customers);
@@ -23,12 +23,13 @@ router.get("/:customerId", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/api/register", async (req, res) => {
+  const { firstname, lastname, username, password } = req.body;
   const customer = new Customer({
-    firstname: req.body.firstname,
-    lastname: req.body.lastname,
-    username: req.body.username,
-    password: req.body.password
+    firstname,
+    lastname,
+    username,
+    password
   });
   try {
     const saveCustomer = await customer.save();
@@ -38,22 +39,9 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.post("/api/register", async function(req, res) {
-  const { firstname, lastname, username, password } = req.body;
-
-  const user = new Customer({ firstname, lastname, username, password });
-  user.save(function(err) {
-    if (err) {
-      res.status(500).send("Error registering new user please try again.");
-    } else {
-      res.status(200).send("Welcome to the club!", user);
-    }
-  });
-});
-
-//check username in database 
+//check username password in database
 router.post("/api/auth", async (req, res) => {
-  const { firstname, lastname, username, password } = req.body;
+  const { username, password } = req.body;
 
   Customer.findOne({ username }, (err, user) => {
     if (err) {
@@ -62,6 +50,7 @@ router.post("/api/auth", async (req, res) => {
         error: "internal failure"
       });
     } else if (!user) {
+      console.log("sever err");
       res.status(401).json({
         error: "Incorrect email or password"
       });
@@ -72,6 +61,7 @@ router.post("/api/auth", async (req, res) => {
             error: "Internal error please try again"
           });
         } else if (!same) {
+          console.log("401");
           res.status(401).json({
             error: "Incorrect email or password"
           });

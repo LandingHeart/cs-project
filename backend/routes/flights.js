@@ -24,13 +24,13 @@ router.get("/:flightId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const flight = new Flight({
-    flightId: req.body.flightId,
-    flightName: req.body.flightName,
+    flightid: req.body.flightid,
+    flightname: req.body.flightname,
     capacity: req.body.capacity,
-    fillStatus: req.body.fillStatus,
+    filled: req.body.filled,
     dest: req.body.dest,
     depart: req.body.depart,
-    fares: req.body.depart
+    fares: req.body.fares
   });
   
   try {

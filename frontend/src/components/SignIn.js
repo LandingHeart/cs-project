@@ -1,6 +1,6 @@
 import React from "react";
 import "./css-files/SignIn.css";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -9,7 +9,8 @@ export default class SignIn extends React.Component {
     this.state = {
       username: "",
       password: "",
-      customers: []
+      customers: [],
+      permission: false
     };
   }
   componentDidMount() {}
@@ -58,7 +59,7 @@ export default class SignIn extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    fetch("http://localhost:8000/customers/api/auth", {
+    fetch("/customers/api/auth", {
       method: "POST",
       body: JSON.stringify(this.state),
       headers: {
@@ -81,5 +82,6 @@ export default class SignIn extends React.Component {
 
   successLogin = event => {
     // this.props.history.push("/");
+
   };
 }

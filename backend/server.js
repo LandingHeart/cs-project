@@ -22,14 +22,14 @@ app.use(bodyParser.json());
 app.use(cookieparser());
 app.use(cors());
 
-//use models
 router.get("/checkToken", withAuth, function(req, res) {
   res.sendStatus(200);
 });
 router.get("/api/secret", withAuth, function(req, res) {
-  res.send("The password is potato");
+  res.send("password");
 });
 
+//use models
 app.use("/customers", customerModel);
 app.use("/airlines", airlineModel);
 app.use("/bookings", bookingModel);
