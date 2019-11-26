@@ -10,6 +10,7 @@ import SignIn from "./components/SignIn.js";
 import SignUp from "./components/SignUp.js";
 import SignInAdmin from "./components/SignInAdmin";
 import ReservationCustomer from "./components/ReservationCustomer";
+import AddFlight from "./components/AddFlight";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -64,6 +65,12 @@ export default class App extends React.Component {
             <Route path="/signinadmin">
               <SignInAdmin />
             </Route>
+
+            <Route
+              path="/admin/add"
+              render={props => <AddFlight {...props} />}
+            ></Route>
+
           </Switch>
         </div>
       </Router>

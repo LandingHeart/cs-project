@@ -78,7 +78,13 @@ export default class Airline extends React.Component {
         </div>
         {this.state.status === "ADMIN" ? (
           <div>
-            <button>Add Flight</button>
+            <Link
+              to={{
+                pathname: "/admin/add"
+              }}
+            >
+              Add Flight
+            </Link>
           </div>
         ) : null}
         <div>
