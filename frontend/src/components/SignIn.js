@@ -1,6 +1,12 @@
 import React from "react";
 import "./css-files/SignIn.css";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -70,7 +76,7 @@ export default class SignIn extends React.Component {
       .then(res => {
         console.log(res)
         if (res.status === 200) {
-          this.props.history.push("/");
+          this.props.history.push("/profile");
         } else {
           const error = new Error(res.error);
           throw error;
@@ -91,6 +97,5 @@ export default class SignIn extends React.Component {
 
   successLogin = event => {
     // this.props.history.push("/");
-
   };
 }
