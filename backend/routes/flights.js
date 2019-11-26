@@ -22,17 +22,17 @@ router.get("/:flightId", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/flights/newflights", async (req, res) => {
   const flight = new Flight({
-    flightid: req.body.flightid,
+    airlineid: req.body.airlineid,
     flightname: req.body.flightname,
     capacity: req.body.capacity,
     filled: req.body.filled,
     dest: req.body.dest,
     depart: req.body.depart,
-    fares: req.body.fares
+    fares: req.body.fares,
+    date: req.body.date
   });
-  
   try {
     const saveFlight = await flight.save();
     res.json(saveFlight);

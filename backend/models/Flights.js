@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const FLightSchema = mongoose.Schema({
-  flightid: {
+  airlineid: {
     type: String,
     require: true
   },
@@ -28,7 +28,11 @@ const FLightSchema = mongoose.Schema({
   fares: {
     type: Number,
     require: true
+  },
+  date: {
+    type: String,
+    require: true
   }
 });
 
-module.exports = mongoose.model("FlightsSchema", FLightSchema);
+module.exports = mongoose.model("flights", FLightSchema);

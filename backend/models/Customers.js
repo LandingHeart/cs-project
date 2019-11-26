@@ -60,8 +60,6 @@ CustomersSchema.methods.generateToken = function(cb) {
   });
 };
 
-
-
 CustomersSchema.statics.findByToken = function(token, cb) {
   var user = this;
 
