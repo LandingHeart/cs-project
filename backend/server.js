@@ -12,7 +12,7 @@ const bookingModel = require("./routes/bookings");
 const airlineModel = require("./routes/airlines");
 const flightModel = require("./routes/flights");
 const customerModel = require("./routes/customers");
-
+const adminModel = require("./routes/admin");
 //middleware authentications
 const withAuth = require("./middleware");
 
@@ -34,7 +34,7 @@ app.use("/customers", customerModel);
 app.use("/airlines", airlineModel);
 app.use("/bookings", bookingModel);
 app.use("/flights", flightModel);
-
+app.use("/admin", adminModel);
 //connect to database
 mongoose.connect(
   process.env.DB_CONNECTION,
