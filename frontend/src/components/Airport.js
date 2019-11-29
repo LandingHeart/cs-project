@@ -27,7 +27,23 @@ export default class Airport extends React.Component {
           name: "Flight#3",
           status: "DEPARTURE",
           airport: "LGA",
-          date: "November 22, 2019",
+          date: "December 22, 2019",
+          time: "22:35"
+        },
+        {
+          id: 3,
+          name: "Flight#4",
+          status: "DEPARTURE",
+          airport: "LGA",
+          date: "January 28, 2019",
+          time: "22:35"
+        },
+        {
+          id: 4,
+          name: "Flight#5",
+          status: "DEPARTURE",
+          airport: "LGA",
+          date: "November 30, 2019",
           time: "22:35"
         }
       ],
@@ -37,17 +53,21 @@ export default class Airport extends React.Component {
       ],
       airportName: "",
       arrival: [],
-      departure: []
+      departure: [],
+      lastUpdated: ""
     };
   }
 
   componentDidMount() {
     //TODO: fetch user data from DB or maybe no need, fetch the user data from the login, then passed as props
     //TODO: fetch flights from flight DB
-    //TODO: update every [..] minutes
-    //TODO: button to force - refresh the data from DB
-
     this.assignDepartureArrivalFlights();
+
+    //set interval to update every 5 seconds
+    this.interval = setInterval(
+      () => this.assignDepartureArrivalFlights(this.state.airportName),
+      5000
+    );
   }
 
   render() {
@@ -55,45 +75,57 @@ export default class Airport extends React.Component {
     return (
       <div>
         <div>Airport</div>
-
-        <select
-          value={this.state.airportName}
-          onChange={this.handleChangeAirport}
-        >
-          <option value=""></option>
-          {airports.map(item => (
-            <option key={item.id} value={item.name}>
-              {item.name}
-            </option>
-          ))}
-        </select>
+        <div>
+          <select
+            value={this.state.airportName}
+            onChange={this.handleChangeAirport}
+          >
+            <option value=""></option>
+            {airports.map(item => (
+              <option key={item.id} value={item.name}>
+                {item.name}
+              </option>
+            ))}
+          </select>
+        </div>
 
         <div>
-          <div>
-            <h2>Departure</h2>
-            {departure.map(item => (
-              <div key={item.id}>
-                <p>Name: {item.name}</p>
-                <p>Date: {item.date}</p>
-                <p>Time: {item.time}</p>
-              </div>
-            ))}
-          </div>
-          <hr />
-          <div>
-            <h2>Arrival</h2>
-            {arrival.map(item => (
-              <div key={item.id}>
-                <p>Name: {item.name}</p>
-                <p>Date: {item.date}</p>
-                <p>Time: {item.time}</p>
-              </div>
-            ))}
-          </div>
+          <button onClick={this.refresh}>Refresh</button>
+          <p>Last updated: {this.state.lastUpdated}</p>
+        </div>
+
+        <div>
+          <h2>Departure</h2>
+          {departure.map(item => (
+            <div key={item.id}>
+              <p>Name: {item.name}</p>
+              <p>Date: {item.date}</p>
+              <p>Time: {item.time}</p>
+            </div>
+          ))}
+        </div>
+        <hr />
+        <div>
+          <h2>Arrival</h2>
+          {arrival.map(item => (
+            <div key={item.id}>
+              <p>Name: {item.name}</p>
+              <p>Date: {item.date}</p>
+              <p>Time: {item.time}</p>
+            </div>
+          ))}
         </div>
       </div>
     );
   }
+
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  refresh = () => {
+    window.location.reload(false);
+  };
 
   handleChangeAirport = event => {
     const airportSelected = event.target.value;
@@ -101,8 +133,8 @@ export default class Airport extends React.Component {
   };
 
   assignDepartureArrivalFlights = airportName => {
-    const departure = [];
-    const arrival = [];
+    let departure = [];
+    let arrival = [];
 
     for (let i = 0; i < this.state.data.length; i++) {
       const curr = this.state.data[i];
@@ -113,6 +145,48 @@ export default class Airport extends React.Component {
       }
     }
 
-    this.setState({ departure, arrival, airportName });
+    departure = this.sortDateAndTime(departure);
+    arrival = this.sortDateAndTime(arrival);
+
+    const lastUpdated = this.getCurrentTime();
+
+    this.setState({ departure, arrival, airportName, lastUpdated });
+  };
+
+  sortDateAndTime = array => {
+    array.sort((a, b) => {
+      const first = this.convertDateTime(a);
+      const second = this.convertDateTime(b);
+      return first - second;
+    });
+
+    return array;
+  };
+
+  convertDateTime = obj => {
+    const date = new Date(obj.date);
+    const time = obj.time.split(":");
+    date.setHours(time[0]);
+    date.setMinutes(time[1]);
+
+    return date;
+  };
+
+  getCurrentTime = () => {
+    const now = new Date();
+
+    return (
+      now.getMonth() +
+      "/" +
+      now.getDate() +
+      "/" +
+      now.getFullYear() +
+      " " +
+      now.getHours() +
+      ":" +
+      now.getMinutes() +
+      ":" +
+      now.getSeconds()
+    );
   };
 }
