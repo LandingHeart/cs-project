@@ -5,6 +5,7 @@ export default class Airport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      flights: [],
       data: [
         {
           id: 0,
@@ -57,10 +58,17 @@ export default class Airport extends React.Component {
       lastUpdated: ""
     };
   }
-
+  
   componentDidMount() {
     //TODO: fetch user data from DB or maybe no need, fetch the user data from the login, then passed as props
     //TODO: fetch flights from flight DB
+    fetch("/flights")
+      .then(res => res.json())
+      .then(flights =>
+        this.setState({ flights }, () => {
+          console.log("flights fetch", flights);
+        })
+      );  
     this.assignDepartureArrivalFlights();
 
     //set interval to update every 5 seconds
