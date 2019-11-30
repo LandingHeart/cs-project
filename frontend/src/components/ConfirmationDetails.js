@@ -39,10 +39,10 @@ export default class ConfirmationDetails extends React.Component {
     const { type } = this.state;
     //POST to the DB that user register
     if (type === "REGISTER") {
+
     } else if (type === "CANCEL") {
       //POST to the DB that admin cancel fligth
     }
     this.props.history.push("/airline");
   };
-  x;
 }

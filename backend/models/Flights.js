@@ -9,7 +9,7 @@ const FLightSchema = mongoose.Schema({
     type: String,
     require: true
   },
-  flightname: {
+  flight: {
     type: String,
     require: true
   },
@@ -17,19 +17,19 @@ const FLightSchema = mongoose.Schema({
     type: Number,
     require: true
   },
-  filled: {
+  fill: {
     type: Number,
     require: true
   },
-  dest: {
+  arrival: {
     type: String,
     require: true
   },
-  depart: {
+  departure: {
     type: String,
     require: true
   },
-  fares: {
+  fare: {
     type: Number,
     require: true
   },

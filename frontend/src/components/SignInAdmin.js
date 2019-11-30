@@ -75,7 +75,11 @@ export default class SignInAdmin extends React.Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
+<<<<<<< HEAD
           //go to admin page
+=======
+          //go to admin page 
+>>>>>>> 9ed4c494ffd044fdf64237707c417ca72230a75d
           this.props.history.push("/airline");
         } else {
           const error = new Error(res.error);

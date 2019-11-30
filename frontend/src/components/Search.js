@@ -163,6 +163,7 @@ export default class Search extends React.Component {
               </label>
             </form>
           </div>
+          
           <div>
             {this.state.flights.map(item => (
               <div key={item.id}>

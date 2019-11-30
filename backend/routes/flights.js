@@ -26,12 +26,12 @@ router.post("/admin/add", async (req, res) => {
   const flight = new Flight({
     airlineid: req.body.airlineid,
     airline: req.body.airline,
-    flightname: req.body.flightname,
+    flight: req.body.flight,
     capacity: req.body.capacity,
-    filled: req.body.filled,
-    dest: req.body.dest,
-    depart: req.body.depart,
-    fares: req.body.fares,
+    fill: req.body.fill,
+    arrival: req.body.arrival,
+    departure: req.body.departure,
+    fare: req.body.fare,
     date: req.body.date
   });
   try {

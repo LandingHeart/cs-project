@@ -19,6 +19,23 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
+    //fetch users
+    fetch("/users")
+      .then(res => res.json())
+      .then(flights =>
+        this.setState({ flights }, () => {
+          console.log("customers fetch", flights);
+        })
+      );
+    //fetch bookings
+    fetch("/bookings")
+      .then(res => res.json())
+      .then(flights =>
+        this.setState({ flights }, () => {
+          console.log("flights fetch", flights);
+        })
+      );
+
     this.setFlight();
     this.interval = setInterval(() => this.setFlight(), 5000);
   }
