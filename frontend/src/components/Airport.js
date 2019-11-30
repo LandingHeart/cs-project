@@ -174,19 +174,29 @@ export default class Airport extends React.Component {
 
   getCurrentTime = () => {
     const now = new Date();
+    const month = this.addZero(now.getMonth());
+    const date = this.addZero(now.getDate());
+    const year = now.getFullYear();
+    const hour = this.addZero(now.getHours());
+    const minutes = this.addZero(now.getMinutes());
+    const seconds = this.addZero(now.getSeconds());
 
     return (
-      now.getMonth() +
+      month +
       "/" +
-      now.getDate() +
+      date +
       "/" +
-      now.getFullYear() +
+      year +
       " " +
-      now.getHours() +
+      hour +
       ":" +
-      now.getMinutes() +
+      minutes +
       ":" +
-      now.getSeconds()
+      seconds
     );
+  };
+
+  addZero = val => {
+    return val < 10 ? "0" + val : val;
   };
 }

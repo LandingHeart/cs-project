@@ -13,36 +13,15 @@ export default class Profile extends React.Component {
         dob: "November 10, 1990"
       },
       upcomingFlights: [],
-      previousFlights: []
+      previousFlights: [],
+      lastUpdated: ""
     };
   }
 
   componentDidMount() {
-    //TODO: fetch DB for getting all the flights
-    //const flight = fetch(..);
-    const flight = [
-      {
-        id: 1,
-        flightName: "Flight#1",
-        date: new Date("December 25, 2020 03:24:00")
-      },
-      {
-        id: 2,
-        flightName: "Flight#2",
-        date: new Date("December 17, 1995 03:24:00")
-      }
-    ];
-
-    //TODO: filter and assign the appropriatee flighst data for us based on the date
-    // const upcomingFlights = flight.filter(item => item.date-this.props.date > 0);
-    // const previousFlights = flight.filter(item => item.date-this.props.date < 0);
-    const upcomingFlights = flight.filter(item => item.date - new Date() > 0);
-    const previousFlights = flight.filter(item => item.date - new Date() < 0);
-    this.setState({ upcomingFlights, previousFlights });
+    this.setFlight();
+    this.interval = setInterval(() => this.setFlight(), 5000);
   }
-
-  //TODO: update the data every [...] minutes
-  //use case: (if user open new tab and cancel fligth in that tab, we should update it in the current tab)
 
   render() {
     const { user, upcomingFlights, previousFlights } = this.state;
@@ -50,6 +29,7 @@ export default class Profile extends React.Component {
       <div>
         <h1>Profile</h1>
         <button onClick={this.refresh}>Refresh</button>
+        <p>Last updated: {this.state.lastUpdated}</p>
         <div>
           <p>Name: {user.name}</p>
           <p>Email: {user.email}</p>
@@ -81,9 +61,72 @@ export default class Profile extends React.Component {
     );
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  setFlight = () => {
+    //TODO: fetch DB for getting all the flights
+    //const flight = fetch(..);
+    const flight = [
+      {
+        id: 1,
+        flightName: "Flight#1",
+        date: new Date("December 25, 2020 03:24:00")
+      },
+      {
+        id: 2,
+        flightName: "Flight#2",
+        date: new Date("December 17, 1995 03:24:00")
+      }
+    ];
+
+    //filter and assign the appropriatee flighst data for us based on the date
+    const upcomingFlights = flight.filter(item => item.date - new Date() > 0);
+    const previousFlights = flight.filter(item => item.date - new Date() < 0);
+    const lastUpdated = this.getCurrentTime();
+
+    this.setState({ upcomingFlights, previousFlights, lastUpdated });
+  };
+
   refresh = () => {
-    //TODO: create a refreh button to update the profile upcomning flight
-    console.log("refresh the data ");
     window.location.reload(false);
+  };
+
+  convertDateTime = obj => {
+    const date = new Date(obj.date);
+    const time = obj.time.split(":");
+    date.setHours(time[0]);
+    date.setMinutes(time[1]);
+
+    return date;
+  };
+
+  getCurrentTime = () => {
+    const now = new Date();
+    const month = this.addZero(now.getMonth());
+    const date = this.addZero(now.getDate());
+    const year = now.getFullYear();
+    const hour = this.addZero(now.getHours());
+    const minutes = this.addZero(now.getMinutes());
+    const seconds = this.addZero(now.getSeconds());
+
+    return (
+      month +
+      "/" +
+      date +
+      "/" +
+      year +
+      " " +
+      hour +
+      ":" +
+      minutes +
+      ":" +
+      seconds
+    );
+  };
+
+  addZero = val => {
+    return val < 10 ? "0" + val : val;
   };
 }
