@@ -1,9 +1,11 @@
-html, body, #root, #cont {
+html, body, #root, #App {
   text-align: center;
   margin: 0;
   padding: 0;
   height: 100%;
-  width: 100;
+  width: 100%;
+  background: url('image.jpg');
+  background-size: auto;
 }
 
 form {
@@ -12,19 +14,15 @@ form {
 
 .form-box {
   margin: 10px;
-  box-shadow: 3px 3px 5px 6px #ccc;
-  border-color:  grey;
+  box-shadow: 0px 1px 5px 6px #ccc;
+  color:  white;
   width: 25%;
   height: auto;
   display: inline-block;
-}
-
-.container{
-  text-align: center;
-  margin: 0;
-  padding: 0;
-  height: auto;
-  width: 100;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 input {

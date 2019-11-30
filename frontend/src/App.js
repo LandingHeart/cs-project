@@ -31,7 +31,7 @@ export default class App extends React.Component {
   render() {
     return (
       <Router>
-        <div>
+        <div id="App">
           <Navigation auth={this.state.auth} handleAuth={this.handleAuth} />
 
           <Switch>

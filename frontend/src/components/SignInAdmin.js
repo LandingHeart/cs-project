@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/SignIn.css";
 import {
   BrowserRouter as Router,
   Switch,
@@ -26,8 +27,8 @@ export default class SignInAdmin extends React.Component {
     return (
       <div className="container">
         <div className="form-box">
-          <h1>Admin Login</h1>
           <form onSubmit={this.onSubmit}>
+            <h1>Admin Login</h1>
             <input
               type="text"
               name="username"
@@ -75,11 +76,7 @@ export default class SignInAdmin extends React.Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-<<<<<<< HEAD
           //go to admin page
-=======
-          //go to admin page 
->>>>>>> 9ed4c494ffd044fdf64237707c417ca72230a75d
           this.props.history.push("/airline");
         } else {
           const error = new Error(res.error);

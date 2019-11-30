@@ -175,15 +175,15 @@ export default class AddFlight extends React.Component {
     };
 
     // NOT SURE THIS WORKS
-    try {
-      fetch("/flights/admin/add", {
-        method: "POST",
-        body: JSON.stringify(obj), //add the obj
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-    } catch (err) {msg: err}
+    // try {
+    //   fetch("/flights/admin/add", {
+    //     method: "POST",
+    //     body: JSON.stringify(obj), //add the obj
+    //     headers: {
+    //       "Content-Type": "application/json"
+    //     }
+    //   });
+    // } catch (err) {msg: err}
 
     console.log(obj);
     alert("Success");
