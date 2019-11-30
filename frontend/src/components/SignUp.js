@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/SignIn.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class SignUp extends React.Component {
@@ -18,35 +19,33 @@ export default class SignUp extends React.Component {
   };
   render() {
     return (
-      <div>
-        Sign Up
-        <div className="container">
-          <div className="form-box">
-            <form onSubmit={this.onSubmit}>
-              <input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={this.state.username}
-                onChange={this.handleInputChange}
-              />
+      <div className="container">
+        <div className="form-box">
+          <form onSubmit={this.onSubmit}>
+          <h1>New Account</h1>
+            <input
+              type="text"
+              name="username"
+              placeholder="Username"
+              value={this.state.username}
+              onChange={this.handleInputChange}
+            />
 
-              <input
-                type="text"
-                name="password"
-                placeholder="Password"
-                value={this.state.password}
-                onChange={this.handleInputChange}
-              />
+            <input
+              type="text"
+              name="password"
+              placeholder="Password"
+              value={this.state.password}
+              onChange={this.handleInputChange}
+            />
 
-              <input
-                type="submit"
-                value="Submit"
-                className="btn"
-                onClick={this.successLogin}
-              />
-            </form>
-          </div>
+            <input
+              type="submit"
+              value="Submit"
+              className="btn"
+              onClick={this.successLogin}
+            />
+          </form>
         </div>
       </div>
     );

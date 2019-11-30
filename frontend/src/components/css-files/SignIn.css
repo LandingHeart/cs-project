@@ -1,31 +1,42 @@
-body {
+html, body, #root, #cont {
   text-align: center;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100;
 }
 
-form{
+form {
+  display: inline-block;
+}
+
+.form-box {
+  margin: 10px;
+  box-shadow: 3px 3px 5px 6px #ccc;
+  border-color:  grey;
+  width: 25%;
+  height: auto;
   display: inline-block;
 }
 
 .container{
   text-align: center;
-  margin: 10px;
-  box-shadow: 3px 3px 5px 6px #ccc;
-  border-color:  grey;
+  margin: 0;
+  padding: 0;
   height: auto;
+  width: 100;
 }
 
 input {
   display: flex;
-  width: 300px;
+  height: 100%;
+  width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
   box-sizing: border-box;
 }
 
-.btnStyle {
-  border: none;
-  background: #555;
-  color: #fff;
+.btn {
   padding: 7px 20px;
   cursor: pointer;
 }
