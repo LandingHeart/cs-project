@@ -16,11 +16,21 @@ export default class Search extends React.Component {
       airlines_list: ["Delta", "American"],
       departure_list: ["JFK", "LGA"],
       arrival_list: ["JFK", "LGA"],
-      price: ""
+      price: "",
+      
     };
   }
 
   componentDidMount() {
+    //fecth add flight data// going to copy and past...... ;) and save to flights 
+    fetch("/flights")
+      .then(res => res.json())
+      .then(flights =>
+        this.setState({ flights }, () => {
+          console.log("flights fetch", flights);
+        })
+      );  
+
     const fakeData = [
       {
         id: 1,

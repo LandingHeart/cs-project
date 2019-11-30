@@ -18,6 +18,15 @@ export default class AddFlight extends React.Component {
   }
 
   componentDidMount() {
+    //fetch from flights and add to flights 
+    fetch("/flights/admin/add", {
+      method: "POST",
+      body: JSON.stringify(this.state),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
     const { flight, type } = this.props.location.state;
     console.log(flight);
     console.log(type);

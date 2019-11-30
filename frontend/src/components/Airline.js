@@ -9,12 +9,21 @@ export default class Airline extends React.Component {
       status: "ADMIN",
       airlines: [],
       allData: [],
-      data: []
+      data: [],
+      flightData: []
     };
   }
 
   componentDidMount() {
     //fetch all flight
+    fetch("/flights")
+    .then(res => res.json())
+    .then(flightsData =>
+      this.setState({ flightsData }, () => {
+        console.log("flights fetch", flightsData);
+      })
+    );
+
     const allData = [
       {
         id: 1,

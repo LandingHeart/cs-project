@@ -4,8 +4,8 @@ const AirlineSchema = mongoose.Schema({
     airlinename: String,
     airlineid: String,
     airportid: String,
-    description: String
+   
 
 })
 
-module.exports = mongoose.model("airline", AirlineSchema);
+module.exports = mongoose.model("airlines", AirlineSchema);

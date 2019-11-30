@@ -3,7 +3,10 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const SECRET = "mynameis";
 const AdminSchema = mongoose.Schema({
-
+  airline:{
+    type: String, 
+    require: true
+  },
   username: {
     type: String,
     required: true

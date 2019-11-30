@@ -5,6 +5,10 @@ const FLightSchema = mongoose.Schema({
     type: String,
     require: true
   },
+  airline: {
+    type: String,
+    require: true
+  },
   flightname: {
     type: String,
     require: true

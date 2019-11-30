@@ -22,9 +22,10 @@ router.get("/:flightId", async (req, res) => {
   }
 });
 
-router.post("/flights/newflights", async (req, res) => {
+router.post("/admin/add", async (req, res) => {
   const flight = new Flight({
     airlineid: req.body.airlineid,
+    airline: req.body.airline,
     flightname: req.body.flightname,
     capacity: req.body.capacity,
     filled: req.body.filled,

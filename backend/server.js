@@ -15,7 +15,6 @@ const customerModel = require("./routes/customers");
 const adminModel = require("./routes/admin");
 //middleware authentications
 const withAuth = require("./middleware");
-
 const cors = require("cors");
 require("dotenv/config");
 app.use(bodyParser.json());
@@ -34,7 +33,7 @@ app.use("/customers", customerModel);
 app.use("/airlines", airlineModel);
 app.use("/bookings", bookingModel);
 app.use("/flights", flightModel);
-app.use("/admin", adminModel);
+app.use("/admins", adminModel);
 //connect to database
 mongoose.connect(
   process.env.DB_CONNECTION,

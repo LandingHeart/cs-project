@@ -11,7 +11,7 @@ export default class ReservationCustomer extends React.Component {
 
   componentDidMount() {
     const { airline } = this.props.location.state;
-
+    
     //TODO: fetch user data, match the one who register for this flight
     // const user = await fetch("..");
 
