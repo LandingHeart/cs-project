@@ -7,13 +7,15 @@ export default class Airline extends React.Component {
     this.state = {
       airline: "",
       status: "ADMIN",
+      airlines: [],
       allData: [],
       data: []
     };
   }
 
   componentDidMount() {
-    const data = [
+    //fetch all flight
+    const allData = [
       {
         id: 1,
         name: "American",
@@ -52,7 +54,10 @@ export default class Airline extends React.Component {
       }
     ];
 
-    this.setState({ data, allData: data });
+    //fetch all airlines
+    const airlines = ["Delta", "American"];
+
+    this.setState({ allData, airlines });
   }
 
   render() {
@@ -66,13 +71,15 @@ export default class Airline extends React.Component {
         <div>
           <form onSubmit={this.handleSubmit}>
             <label>
-              Enter airline name:
-              <input
-                type="text"
-                value={this.state.airline}
-                onChange={this.handleName}
-                onBlur={this.search}
-              />
+              Choose airline :
+              <select value={this.state.airline} onChange={this.handleAirline}>
+                <option value=""></option>
+                {this.state.airlines.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </label>
           </form>
         </div>
@@ -80,7 +87,11 @@ export default class Airline extends React.Component {
           <div>
             <Link
               to={{
-                pathname: "/admin/add"
+                pathname: "/admin/add",
+                state: {
+                  flight: {},
+                  type: "ADD"
+                }
               }}
             >
               Add Flight
@@ -110,30 +121,42 @@ export default class Airline extends React.Component {
                   <td>{item.capacity}</td>
                   {this.state.status === "CUSTOMER" ? (
                     <td>
-                      <button
-                        onClick={() => {
-                          console.log(
-                            "CREATE A POP UP FOR CONFIRMATION OR GO TO ANOTHER PAGE FOR CONFIRMATION"
-                          );
+                      <Link
+                        to={{
+                          pathname: "/details",
+                          state: {
+                            flight: item,
+                            type: "REGISTTER"
+                          }
                         }}
                       >
                         Register
-                      </button>
+                      </Link>
                     </td>
                   ) : (
                     <td>
-                      <button
-                        onClick={() =>
-                          console.log(
-                            "GO TO ANOTHER PAGE PASSING THIS ITEM AS PROPS"
-                          )
-                        }
+                      <Link
+                        to={{
+                          pathname: "/admin/add",
+                          state: {
+                            flight: item,
+                            type: "EDIT"
+                          }
+                        }}
                       >
                         Edit Flight
-                      </button>
-                      <button onClick={() => console.log("SHOW MODAL")}>
+                      </Link>
+                      <Link
+                        to={{
+                          pathname: "/details",
+                          state: {
+                            flight: item,
+                            type: "CANCEL"
+                          }
+                        }}
+                      >
                         Cancel Flight
-                      </button>
+                      </Link>
                       <Link
                         to={{
                           pathname: "/admin/customerList",
@@ -155,20 +178,25 @@ export default class Airline extends React.Component {
     );
   }
 
-  search = () => {
-    const { allData, airline } = this.state;
+  search = airline => {
+    if (airline === "") {
+      this.setState({ data: [] });
+      return;
+    }
+
+    const { allData } = this.state;
     const data = allData.filter(item =>
       item.name.toLocaleLowerCase().includes(airline.toLocaleLowerCase())
     );
-    this.setState({ data });
+    this.setState({ data, airline });
+  };
+
+  handleAirline = e => {
+    const airline = e.target.value;
+    this.search(airline);
   };
 
   handleSubmit = e => {
     e.preventDefault();
-  };
-
-  handleName = e => {
-    const airline = e.target.value;
-    this.setState({ airline });
   };
 }
