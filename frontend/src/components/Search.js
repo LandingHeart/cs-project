@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/text.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Search extends React.Component {
@@ -17,19 +18,19 @@ export default class Search extends React.Component {
       departure_list: ["JFK", "LGA"],
       arrival_list: ["JFK", "LGA"],
       price: "",
-      
+
     };
   }
 
   componentDidMount() {
-    //fecth add flight data// going to copy and past...... ;) and save to flights 
+    //fecth add flight data// going to copy and past...... ;) and save to flights
     fetch("/flights")
       .then(res => res.json())
       .then(flights =>
         this.setState({ flights }, () => {
           console.log("flights fetch", flights);
         })
-      );  
+      );
 
     const fakeData = [
       {
@@ -163,7 +164,7 @@ export default class Search extends React.Component {
               </label>
             </form>
           </div>
-          
+
           <div>
             {this.state.flights.map(item => (
               <div key={item.id}>

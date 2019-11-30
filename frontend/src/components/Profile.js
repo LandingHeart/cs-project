@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/text.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 //DONT FORGET: WE ASSIGN CURRENT DATE AS PROPS IN THIS COMPONENTS

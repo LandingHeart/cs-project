@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/text.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Airport extends React.Component {
@@ -58,7 +59,7 @@ export default class Airport extends React.Component {
       lastUpdated: ""
     };
   }
-  
+
   componentDidMount() {
     //TODO: fetch user data from DB or maybe no need, fetch the user data from the login, then passed as props
     //TODO: fetch flights from flight DB
@@ -68,7 +69,7 @@ export default class Airport extends React.Component {
         this.setState({ flights }, () => {
           console.log("flights fetch", flights);
         })
-      );  
+      );
     this.assignDepartureArrivalFlights();
 
     //set interval to update every 5 seconds

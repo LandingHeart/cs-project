@@ -1,4 +1,5 @@
 import React from "react";
+import "./css-files/text.css";
 
 export default class AddFlight extends React.Component {
   constructor(props) {
