@@ -4,8 +4,10 @@ export default class AddFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      fligts: [], // added flights for all flgihts
       flight: "",
       airline: "",
+      airlineid: "",
       departure: "",
       arrival: "",
       capacity: 0,
@@ -18,14 +20,14 @@ export default class AddFlight extends React.Component {
   }
 
   componentDidMount() {
-    //fetch from flights and add to flights 
-    fetch("/flights/admin/add", {
-      method: "POST",
-      body: JSON.stringify(this.state),
-      headers: {
-        "Content-Type": "application/json"
-      }
-    })
+    //fetch from flights and add to flights, posting new flights
+    // fetch("/flights/admin/add", {
+    //   method: "POST",
+    //   body: JSON.stringify(this.state),
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }
+    // });
 
     const { flight, type } = this.props.location.state;
     console.log(flight);
@@ -146,20 +148,43 @@ export default class AddFlight extends React.Component {
     );
   }
 
+  getAllFlights() {
+    fetch("/flights")
+      .then(res => res.json())
+      .then(flights =>
+        this.setState({ flights }, () => {
+          console.log("flights fetch", flights);
+        })
+      );
+  }
   submit = e => {
     //check with database
+    //post to database the flights
     e.preventDefault();
     const obj = {
+      airlineid: this.state.airlineid, // handleAirlineId, generate random
       flight: this.state.flight,
       airline: this.state.airline,
-      departure: this.state.departure,
-      arrival: this.state.arrival,
+      departure: this.state.departure, // depart
+      arrival: this.state.arrival, //
       date: this.state.date,
       time: this.state.time,
       capacity: this.state.capacity,
       fare: this.state.fare,
       fill: 0
     };
+
+    // NOT SURE THIS WORKS
+    try {
+      fetch("/flights/admin/add", {
+        method: "POST",
+        body: JSON.stringify(obj), //add the obj
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+    } catch (err) {msg: err}
+
     console.log(obj);
     alert("Success");
   };
@@ -168,6 +193,12 @@ export default class AddFlight extends React.Component {
     const flight = e.target.value;
     console.log("Flight name " + flight);
     this.setState({ flight });
+  };
+  //handle random id generate to put into db
+  handleAirlineid = e => {
+    const airlineid = e.target.value; //math.random
+    console.log("airline id" + airlineid);
+    this.setState({ airlineid });
   };
 
   handleAirline = e => {

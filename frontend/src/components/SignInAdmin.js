@@ -1,5 +1,11 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link, Redirect } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect
+} from "react-router-dom";
 
 export default class SignInAdmin extends React.Component {
   constructor(props) {
@@ -20,7 +26,7 @@ export default class SignInAdmin extends React.Component {
     return (
       <div className="container">
         <div className="form-box">
-        <h1>Admin Login</h1>
+          <h1>Admin Login</h1>
           <form onSubmit={this.onSubmit}>
             <input
               type="text"
@@ -59,7 +65,7 @@ export default class SignInAdmin extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    fetch("/customers/api/auth", {
+    fetch("/admin/api/auth", {
       method: "POST",
       body: JSON.stringify(this.state),
       headers: {
@@ -67,9 +73,10 @@ export default class SignInAdmin extends React.Component {
       }
     })
       .then(res => {
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
-          this.props.history.push("/");
+          //go to admin page 
+          this.props.history.push("/airline");
         } else {
           const error = new Error(res.error);
           throw error;
@@ -83,6 +90,5 @@ export default class SignInAdmin extends React.Component {
 
   successLogin = event => {
     // this.props.history.push("/");
-
   };
 }

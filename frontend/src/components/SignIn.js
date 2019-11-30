@@ -80,7 +80,7 @@ export default class SignIn extends React.Component {
       }
     })
       .then(res => {
-        console.log(res)
+        console.log(res);
         if (res.status === 200) {
           this.props.history.push("/profile");
           this.props.handleAuth();
@@ -93,7 +93,6 @@ export default class SignIn extends React.Component {
         console.error(err);
         alert("Error logging in please try again");
       });
-
   };
 
   adminSignIn = event => {
