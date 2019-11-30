@@ -12,9 +12,36 @@ export default class AddFlight extends React.Component {
       fill: 0,
       fare: 0,
       date: "",
-      time: ""
+      time: "",
+      type: ""
     };
   }
+
+  componentDidMount() {
+    const { flight, type } = this.props.location.state;
+    console.log(flight);
+    console.log(type);
+
+    if (Object.keys(flight).length === 0) {
+      this.setState({ type });
+    } else {
+      const { capacity, date, departure, destination, fare, name } = flight;
+      const month = this.addZero(date.getMonth());
+      const day = this.addZero(date.getDate());
+      const year = date.getFullYear();
+      const dateString = year + "-" + month + "-" + day;
+
+      this.setState({
+        type,
+        capacity,
+        date: dateString,
+        departure,
+        arrival: destination,
+        airline: name
+      });
+    }
+  }
+
   render() {
     return (
       <div>
@@ -103,7 +130,7 @@ export default class AddFlight extends React.Component {
               />
             </label>
 
-            <button>Submit</button>
+            <button>{this.state.type}</button>
           </form>
         </div>
       </div>
@@ -174,5 +201,9 @@ export default class AddFlight extends React.Component {
     const fare = e.target.value;
     console.log("Fare " + fare);
     this.setState({ fare });
+  };
+
+  addZero = val => {
+    return val < 10 ? "0" + val : val;
   };
 }
