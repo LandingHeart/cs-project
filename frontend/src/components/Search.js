@@ -5,14 +5,18 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { id: 1, name: "John", status: "ADMIN" },
+      user: { id: 1, name: "John", status: "CUSTOMER" },
       name: "",
       departure: "",
       arrival: "",
       date: undefined,
       dateString: "",
       allFlights: [],
-      flights: []
+      flights: [],
+      airlines_list: ["Delta", "American"],
+      departure_list: ["JFK", "LGA"],
+      arrival_list: ["JFK", "LGA"],
+      price: ""
     };
   }
 
@@ -23,28 +27,32 @@ export default class Search extends React.Component {
         name: "Flight#1",
         departure: "JFK",
         arrival: "LGA",
-        date: new Date("November 29, 2019")
+        date: new Date("November 29, 2019"),
+        fare: 1000
       },
       {
         id: 2,
         name: "Flight#2",
         departure: "LGA",
         arrival: "BSN",
-        date: new Date("November 30, 2019")
+        date: new Date("November 30, 2019"),
+        fare: 5000
       },
       {
         id: 3,
         name: "Flight#3",
         departure: "SNH",
         arrival: "SGP",
-        date: new Date("November 31, 2019")
+        date: new Date("November 31, 2019"),
+        fare: 1500
       },
       {
         id: 4,
         name: "Flight#4",
         departure: "JKT",
         arrival: "SBY",
-        date: new Date("November 28, 2019")
+        date: new Date("November 28, 2019"),
+        fare: 200
       }
     ];
 
@@ -61,41 +69,56 @@ export default class Search extends React.Component {
   render() {
     return (
       <div>
-        <div>Find Flight</div>
+        <div>
+          <h1>Search for a flight</h1>
+        </div>
 
         <form onSubmit={this.handleSubmit}>
           <div>
             <label>
               Airline name:
-              <input
-                type="text"
-                value={this.state.name}
-                onChange={this.handleName}
-                onBlur={this.search}
-              />
+              <select value={this.state.airline} onChange={this.handleAirline}>
+                <option value=""></option>
+                {this.state.airlines_list.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
             </label>
           </div>
-          <label>
-            Departure:
-            <input
-              type="text"
-              value={this.state.departure}
-              onChange={this.handleDeparture}
-              onBlur={this.search}
-            />
-          </label>
-          <label>
-            Arrival:
-            <input
-              type="text"
-              value={this.state.arrival}
-              onChange={this.handleArrival}
-              onBlur={this.search}
-            />
-          </label>
           <div>
             <label>
-              Date:
+              Departure :
+              <select
+                value={this.state.departure}
+                onChange={this.handleDeparture}
+              >
+                <option value=""></option>
+                {this.state.departure_list.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>
+              Arrival :
+              <select value={this.state.arrival} onChange={this.handleArrival}>
+                <option value=""></option>
+                {this.state.arrival_list.map(item => (
+                  <option value={item} key={item}>
+                    {item}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div>
+            <label>
+              Date :
               <input
                 type="date"
                 value={this.state.date}
@@ -105,34 +128,56 @@ export default class Search extends React.Component {
           </div>
           <input type="submit" value="Submit" />
         </form>
-        <div>Result:</div>
+
         <div>
-          {this.state.user.status === "ADMIN"
-            ? this.state.flights.map(item => (
-                <div key={item.id}>
-                  <div>
-                    <p>{item.id}</p>
-                    <p>{item.name}</p>
-                    <p>{item.departure}</p>
-                    <p>{item.arrival}</p>
-                    <p>{item.date}</p>
-                  </div>
-                  <button onClick={() => console.log("do something")}>
-                    See All Customers Who Reserved
-                  </button>
+          <h3>Result:</h3>
+          <div>
+            <form>
+              <label>
+                Low to high
+                <input
+                  type="radio"
+                  value="LTH"
+                  checked={this.state.price === "LTH"}
+                  onChange={this.handlePrice}
+                />
+              </label>
+              <label>
+                High to low
+                <input
+                  type="radio"
+                  value="HTL"
+                  checked={this.state.price === "HTL"}
+                  onChange={this.handlePrice}
+                />
+              </label>
+            </form>
+          </div>
+          <div>
+            {this.state.flights.map(item => (
+              <div key={item.id}>
+                <div>
+                  <p>Name: {item.name}</p>
+                  <p>Departure: {item.departure}</p>
+                  <p>Arrival: {item.arrival}</p>
+                  <p>Date: {item.date}</p>
+                  <p>Fare: {item.fare}</p>
                 </div>
-              ))
-            : this.state.flights.map(item => (
-                <div key={item.id}>
-                  <div>
-                    <p>{item.id}</p>
-                    <p>{item.name}</p>
-                    <p>{item.departure}</p>
-                    <p>{item.arrival}</p>
-                    <p>{item.date}</p>
-                  </div>
-                </div>
-              ))}
+                {this.state.user.status === "ADMIN" ? (
+                  <Link
+                    to={{
+                      pathname: "/admin/customerList",
+                      state: {
+                        airline: item
+                      }
+                    }}
+                  >
+                    See All Customer Reservation
+                  </Link>
+                ) : null}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -168,6 +213,17 @@ export default class Search extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.search();
+  };
+
+  handlePrice = e => {
+    const price = e.target.value;
+    const { flights } = this.state;
+
+    if (price === "HTL") flights.sort((a, b) => b.fare - a.fare);
+    else flights.sort((a, b) => a.fare - b.fare);
+
+    this.setState({ price, flights });
   };
 
   handleName = e => {
@@ -204,10 +260,5 @@ export default class Search extends React.Component {
     const year = dateObject.getUTCFullYear();
     const date = year + "/" + month + "/" + day;
     return date;
-  };
-
-  seeAllCustomer = () => {
-    //TODO: OPEN MODAL / LINK TO ANOTHER PAGE, SHOWING LIST OF CUSTOMEER
-    console.log("DO SOMETHING");
   };
 }
