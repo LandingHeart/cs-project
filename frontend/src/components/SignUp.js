@@ -22,7 +22,7 @@ export default class SignUp extends React.Component {
       <div className="container">
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
-            <h1>New Account</h1>
+            <h1 style = {{color: "black"}}>New Account</h1>
             <input
               type="text"
               name="username"
