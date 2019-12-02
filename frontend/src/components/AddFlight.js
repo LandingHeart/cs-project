@@ -157,6 +157,7 @@ export default class AddFlight extends React.Component {
         })
       );
   }
+
   submit = e => {
     //check with database
     //post to database the flights
@@ -183,8 +184,6 @@ export default class AddFlight extends React.Component {
           "Content-Type": "application/json"
         }
       });
-  
-
     console.log(obj);
     alert("Success");
   };
