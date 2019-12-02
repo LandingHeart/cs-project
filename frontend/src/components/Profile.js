@@ -14,25 +14,8 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    //fetch users
-    // fetch("/users")
-    //   .then(res => res.json())
-    //   .then(flights =>
-    //     this.setState({ flights }, () => {
-    //       console.log("customers fetch", flights);
-    //     })
-    //   );
-    // //fetch bookings
-    // fetch("/bookings")
-    //   .then(res => res.json())
-    //   .then(bookings =>
-    //     this.setState({ bookings }, () => {
-    //       console.log("flights fetch", bookings);
-    //     })
-    //   );
-
     this.setFlight();
-    this.interval = setInterval(() => this.setFlight(), 5000);
+    this.interval = setInterval(() => this.setFlight(), 30000);
   }
 
   render() {
@@ -46,8 +29,10 @@ export default class Profile extends React.Component {
         <button onClick={this.refresh}>Refresh</button>
         <p>Last updated: {this.state.lastUpdated}</p>
         <div>
-          <p>Name: {user.firstname}</p>
-          <p>Email: {user.email}</p>
+          <p>
+            Name: {user.firstname} {user.lastname}
+          </p>
+          <p>Username: {user.username}</p>
 
           <hr />
           <p>Upcoming flights: </p>
@@ -55,8 +40,11 @@ export default class Profile extends React.Component {
             ? null
             : upcomingFlights.map(item => (
                 <div key={item.id}>
-                  <p>Name: {item.flightName}</p>
+                  <p>Flight: {item.flightName}</p>
+                  <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
                 </div>
               ))}
 
@@ -66,8 +54,11 @@ export default class Profile extends React.Component {
             ? null
             : previousFlights.map(item => (
                 <div key={item.id}>
-                  <p>Name: {item.flightName}</p>
+                  <p>Flight: {item.flightName}</p>
+                  <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
                 </div>
               ))}
         </div>
@@ -80,39 +71,50 @@ export default class Profile extends React.Component {
   }
 
   async setFlight() {
-    //TODO: fetch DB for getting all the flights
-    //const flight = fetch(..);
-    const flight = [
-      {
-        id: 1,
-        flightName: "Flight#1",
-        date: new Date("December 25, 2020 03:24:00")
-      },
-      {
-        id: 2,
-        flightName: "Flight#2",
-        date: new Date("December 17, 1995 03:24:00")
+    try {
+      console.log(this.state.user);
+      const bookings_json = await fetch("/bookings");
+      const all_bookings = await bookings_json.json();
+      console.log(all_bookings);
+
+      const user_booking = all_bookings.filter(
+        item => item.bookedBy === this.state.user.username
+      );
+      console.log(user_booking);
+
+      const flights_json = await fetch("/flights");
+      const all_flights = await flights_json.json();
+      console.log(all_flights);
+
+      const flight = [];
+
+      for (let i = 0; i < user_booking.length; i++) {
+        const booking = user_booking[i];
+        for (let j = 0; j < all_flights.length; j++) {
+          const curr = all_flights[j];
+          if (curr.flightid === booking.flightid) {
+            console.log("FOUND!");
+            console.log(curr);
+            console.log(booking);
+            flight.push(curr);
+          }
+        }
       }
-    ];
+      console.log("result");
+      console.log(flight);
+      //filter and assign the appropriatee flighst data for us based on the date
+      const upcomingFlights = flight.filter(
+        item => new Date(item.date) - new Date() > 0
+      );
+      const previousFlights = flight.filter(
+        item => new Date(item.date) - new Date() < 0
+      );
+      const lastUpdated = this.getCurrentTime();
 
-    const bookings = await fetch("/bookings");
-    const json = await bookings.json();
-
-    //fetch bookings
-    // fetch("/bookings")
-    //   .then(res => res.json())
-    //   .then(bookings =>
-    //     this.setState({ bookings }, () => {
-    //       console.log("flights fetch", bookings);
-    //     })
-    //   );
-
-    //filter and assign the appropriatee flighst data for us based on the date
-    const upcomingFlights = flight.filter(item => item.date - new Date() > 0);
-    const previousFlights = flight.filter(item => item.date - new Date() < 0);
-    const lastUpdated = this.getCurrentTime();
-
-    this.setState({ upcomingFlights, previousFlights, lastUpdated });
+      this.setState({ upcomingFlights, previousFlights, lastUpdated });
+    } catch (e) {
+      console.log(e);
+    }
   }
 
   refresh = () => {
