@@ -80,21 +80,21 @@ export default class SignIn extends React.Component {
       }
     })
       .then(res => {
-        console.log(res);
-        if (res.status === 200) {
-          this.props.history.push("/");
-          this.props.handleAuth();
-        } else {
+        if (res.status !== 200) {
           const error = new Error(res.error);
           throw error;
         }
+        return res.json();
+      })
+      .then(user => {
+        this.props.setUser(user);
+        this.props.history.push("/");
+        this.props.handleAuth();
       })
       .catch(err => {
         console.error(err);
         alert("Error logging in please try again");
       });
-    //fetch and pass customer name to customer id
-    // fetch('/bookings/{customerid}')
   };
 
   adminSignIn = event => {

@@ -1,17 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-//DONT FORGET: WE ASSIGN CURRENT DATE AS PROPS IN THIS COMPONENTS
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: {
-        id: 1,
-        name: "John Smith",
-        email: "john.smith@gmail.com",
-        dob: "November 10, 1990"
-      },
+      user: this.props.user,
       upcomingFlights: [],
       previousFlights: [],
       lastUpdated: "",
@@ -22,21 +15,21 @@ export default class Profile extends React.Component {
 
   componentDidMount() {
     //fetch users
-    fetch("/users")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("customers fetch", flights);
-        })
-      );
-    //fetch bookings
-    fetch("/bookings")
-      .then(res => res.json())
-      .then(bookings =>
-        this.setState({ bookings }, () => {
-          console.log("flights fetch", bookings);
-        })
-      );
+    // fetch("/users")
+    //   .then(res => res.json())
+    //   .then(flights =>
+    //     this.setState({ flights }, () => {
+    //       console.log("customers fetch", flights);
+    //     })
+    //   );
+    // //fetch bookings
+    // fetch("/bookings")
+    //   .then(res => res.json())
+    //   .then(bookings =>
+    //     this.setState({ bookings }, () => {
+    //       console.log("flights fetch", bookings);
+    //     })
+    //   );
 
     this.setFlight();
     this.interval = setInterval(() => this.setFlight(), 5000);
@@ -44,15 +37,17 @@ export default class Profile extends React.Component {
 
   render() {
     const { user, upcomingFlights, previousFlights } = this.state;
+
+    if (user === null) return null;
+
     return (
       <div>
         <h1>Profile</h1>
         <button onClick={this.refresh}>Refresh</button>
         <p>Last updated: {this.state.lastUpdated}</p>
         <div>
-          <p>Name: {user.name}</p>
+          <p>Name: {user.firstname}</p>
           <p>Email: {user.email}</p>
-          <p>Date of birth: {user.dob}</p>
 
           <hr />
           <p>Upcoming flights: </p>
@@ -84,7 +79,7 @@ export default class Profile extends React.Component {
     clearInterval(this.interval);
   }
 
-  setFlight = () => {
+  async setFlight() {
     //TODO: fetch DB for getting all the flights
     //const flight = fetch(..);
     const flight = [
@@ -100,13 +95,25 @@ export default class Profile extends React.Component {
       }
     ];
 
+    const bookings = await fetch("/bookings");
+    const json = await bookings.json();
+
+    //fetch bookings
+    // fetch("/bookings")
+    //   .then(res => res.json())
+    //   .then(bookings =>
+    //     this.setState({ bookings }, () => {
+    //       console.log("flights fetch", bookings);
+    //     })
+    //   );
+
     //filter and assign the appropriatee flighst data for us based on the date
     const upcomingFlights = flight.filter(item => item.date - new Date() > 0);
     const previousFlights = flight.filter(item => item.date - new Date() < 0);
     const lastUpdated = this.getCurrentTime();
 
     this.setState({ upcomingFlights, previousFlights, lastUpdated });
-  };
+  }
 
   refresh = () => {
     window.location.reload(false);
