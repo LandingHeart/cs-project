@@ -14,7 +14,9 @@ export default class Profile extends React.Component {
       },
       upcomingFlights: [],
       previousFlights: [],
-      lastUpdated: ""
+      lastUpdated: "",
+      flights: [],
+      bookings: []
     };
   }
 
@@ -30,9 +32,9 @@ export default class Profile extends React.Component {
     //fetch bookings
     fetch("/bookings")
       .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("flights fetch", flights);
+      .then(bookings =>
+        this.setState({ bookings }, () => {
+          console.log("flights fetch", bookings);
         })
       );
 
