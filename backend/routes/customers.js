@@ -24,12 +24,13 @@ router.get("/:customerId", async (req, res) => {
 });
 
 router.post("/api/register", async (req, res) => {
-  const { firstname, lastname, username, password } = req.body;
+  const { firstname, lastname, username, password,customerid } = req.body;
   const customer = new Customer({
     firstname,
     lastname,
     username,
-    password
+    password,
+    customerid
   });
   try {
     const saveCustomer = await customer.save();
@@ -66,12 +67,12 @@ router.post("/api/auth", async (req, res) => {
             error: "Incorrect email or password"
           });
         } else {
+          // Issue token
           const payload = { username };
           const token = jwt.sign(payload, secret, {
             expiresIn: "1h"
           });
-          // res.cookie("token", token, { httpOnly: true }).sendStatus(200);
-          res.status(200).json(user);
+          res.cookie("token", token, { httpOnly: true }).sendStatus(200);
         }
       });
     }
@@ -90,3 +91,4 @@ router.delete("/:customerId", async (req, res) => {
 });
 
 module.exports = router;
+

@@ -3,6 +3,10 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const SECRET = "mynameis";
 const CustomersSchema = mongoose.Schema({
+  customerid: {
+    type: String,
+    required: true
+  },
   firstname: {
     type: String,
     required: true
@@ -71,8 +75,7 @@ CustomersSchema.statics.findByToken = function(token, cb) {
   });
 };
 
-
-//on log out 
+//on log out
 CustomersSchema.methods.deleteToken = function(token, cb) {
   var user = this;
 
