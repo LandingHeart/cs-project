@@ -5,16 +5,32 @@ export default class ReservationCustomer extends React.Component {
     super(props);
     this.state = {
       airline: null,
-      user: null
+      user: null,
+      bookings: [],
+      customers: []
     };
   }
 
   componentDidMount() {
     const { airline } = this.props.location.state;
-    
+
     //TODO: fetch user data, match the one who register for this flight
     // const user = await fetch("..");
 
+    //fetch from bookings and set to bookings
+    fetch("/bookings")
+      .then(res => res.json())
+      .then(bookings => {
+        this.setState({ bookings });
+        console.log("bookings fetch", bookings);
+      });
+
+    fetch("/customers")
+      .then(res=>res.json())
+      .then(customers =>{
+        this.setState({customers});
+        console.log("customers fetch", customers)
+      })
     const user = [
       { id: 1, name: "John Doe" },
       { id: 2, name: "Sally Smith" }

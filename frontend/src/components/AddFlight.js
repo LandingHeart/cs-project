@@ -69,7 +69,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Airline Name
               <input
@@ -80,7 +80,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Departure
               <input
@@ -91,7 +91,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Arrival
               <input
@@ -102,7 +102,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Date
               <input
@@ -113,12 +113,12 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Time
               <input type="time" onChange={this.handleTime} required />
             </label>
-
+            <br />
             <label>
               Capacity
               <input
@@ -129,7 +129,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Fare
               <input

@@ -5,7 +5,8 @@ export default class Airline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      airline: "",
+      airlines: "",
+      myirlines: "",
       status: "ADMIN",
       airlines: [],
       allData: [],
@@ -17,13 +18,22 @@ export default class Airline extends React.Component {
   componentDidMount() {
     //fetch all flight
     fetch("/flights")
-    .then(res => res.json())
-    .then(flightsData =>
-      this.setState({ flightsData }, () => {
-        console.log("flights fetch", flightsData);
-      })
-    );
+      .then(res => res.json())
+      .then(flightsData =>
+        this.setState({ flightsData }, () => {
+          console.log("flights fetch", flightsData);
+        })
+      );
 
+ //fetch all airlines
+    fetch("/airlines")
+      .then(res => res.json())
+      .then(myairlines =>
+        this.setState({ myairlines }, () => {
+          console.log("flights fetch", myairlines);
+        })
+      );
+      
     const allData = [
       {
         id: 1,
@@ -63,7 +73,8 @@ export default class Airline extends React.Component {
       }
     ];
 
-    //fetch all airlines
+   
+
     const airlines = ["Delta", "American"];
 
     this.setState({ allData, airlines });
@@ -81,7 +92,7 @@ export default class Airline extends React.Component {
           <form onSubmit={this.handleSubmit}>
             <label>
               Choose airline :
-              <select value={this.state.airline} onChange={this.handleAirline}>
+              <select value={this.state.airlines} onChange={this.handleAirline}>
                 <option value=""></option>
                 {this.state.airlines.map(item => (
                   <option value={item} key={item}>
@@ -201,8 +212,8 @@ export default class Airline extends React.Component {
   };
 
   handleAirline = e => {
-    const airline = e.target.value;
-    this.search(airline);
+    const myairlines = e.target.value;
+    this.search(myairlines);
   };
 
   handleSubmit = e => {

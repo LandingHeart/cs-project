@@ -7,10 +7,11 @@ export default class ConfirmationDetails extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state === undefined) return;
 
+    if (this.props.location.state === undefined) return;
     const { flight, type } = this.props.location.state;
     this.setState({ flight, type });
+    
   }
 
   render() {

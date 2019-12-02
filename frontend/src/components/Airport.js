@@ -48,7 +48,7 @@ export default class Airport extends React.Component {
           time: "22:35"
         }
       ],
-      airports: [
+      airport: [
         { id: 1, name: "JFK" },
         { id: 2, name: "LGA" }
       ],
@@ -58,17 +58,28 @@ export default class Airport extends React.Component {
       lastUpdated: ""
     };
   }
-  
+
   componentDidMount() {
     //TODO: fetch user data from DB or maybe no need, fetch the user data from the login, then passed as props
     //TODO: fetch flights from flight DB
+    //fetch flights
     fetch("/flights")
       .then(res => res.json())
       .then(flights =>
         this.setState({ flights }, () => {
           console.log("flights fetch", flights);
         })
-      );  
+      );
+      
+      //fetch airport 
+    fetch("/airports")
+      .then(res => res.json())
+      .then(airports =>
+        this.setState({ airports }, () => {
+          console.log("airport fetch", airports);
+        })
+      );
+
     this.assignDepartureArrivalFlights();
 
     //set interval to update every 5 seconds
@@ -79,22 +90,24 @@ export default class Airport extends React.Component {
   }
 
   render() {
-    const { arrival, departure, airports } = this.state;
+    const { arrival, departure, airport } = this.state;
     return (
       <div>
         <div>Airport</div>
         <div>
+          <label>dest</label>
           <select
             value={this.state.airportName}
             onChange={this.handleChangeAirport}
           >
             <option value=""></option>
-            {airports.map(item => (
+            {airport.map(item => (
               <option key={item.id} value={item.name}>
                 {item.name}
               </option>
             ))}
           </select>
+          <br />
         </div>
 
         <div>
