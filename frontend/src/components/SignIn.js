@@ -48,7 +48,7 @@ export default class SignIn extends React.Component {
             <input
               type="submit"
               value="Submit"
-              className="btn"
+              className="btn-primary"
               onClick={this.successLogin}
             />
             <input

@@ -11,7 +11,6 @@ import {
 export default class SignInAdmin extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: "",
       password: "",
@@ -19,8 +18,9 @@ export default class SignInAdmin extends React.Component {
       permission: false
     };
   }
-  componentDidMount() {}
 
+  componentDidMount() {}
+  
   render() {
     const auth = this.props.auth;
 
