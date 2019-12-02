@@ -22,7 +22,8 @@ export default class SignUp extends React.Component {
       <div className="container">
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
-            <h1 style = {{color: "black"}}>New Account</h1>
+            <h1 style={{ color: "black" }}>New Account</h1>
+            <label>username</label>
             <input
               type="text"
               name="username"
@@ -30,7 +31,8 @@ export default class SignUp extends React.Component {
               value={this.state.username}
               onChange={this.handleInputChange}
             />
-
+          
+            <label>password</label>
             <input
               type="text"
               name="password"
@@ -38,11 +40,11 @@ export default class SignUp extends React.Component {
               value={this.state.password}
               onChange={this.handleInputChange}
             />
-
+           
             <input
               type="submit"
               value="Submit"
-              className="btn"
+              className="btn-primary"
               onClick={this.successLogin}
             />
           </form>
@@ -73,5 +75,4 @@ export default class SignUp extends React.Component {
         alert("Error");
       });
   };
-
 }

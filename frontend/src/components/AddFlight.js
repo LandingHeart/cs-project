@@ -138,10 +138,19 @@ export default class AddFlight extends React.Component {
                 placeholder={"Enter fare"}
                 onChange={this.handleFare}
                 required
+                style={{
+                  marginLeft: "25px"
+                }}
               />
             </label>
 
-            <button>{this.state.type}</button>
+            <button className = "btn-primary"
+              style={{
+                marginLeft: "30px"
+              }}
+            >
+              {this.state.type}
+            </button>
           </form>
         </div>
       </div>
@@ -176,14 +185,14 @@ export default class AddFlight extends React.Component {
     };
 
     // NOT SURE THIS WORKS
-    
-      fetch("/flights/admin/add", {
-        method: "POST",
-        body: JSON.stringify(obj), //add the obj
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
+
+    fetch("/flights/admin/add", {
+      method: "POST",
+      body: JSON.stringify(obj), //add the obj
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     console.log(obj);
     alert("Success");
   };

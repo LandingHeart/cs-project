@@ -28,7 +28,7 @@ export default class SignIn extends React.Component {
       <div className="container">
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
-            <h1 style = {{color: "black"}}>Customer Login</h1>
+            <h1 style={{ color: "black" }}>Customer Login</h1>
             <input
               type="text"
               name="username"
@@ -54,7 +54,7 @@ export default class SignIn extends React.Component {
             <input
               type="submit"
               value="Admin"
-              className="btn"
+              className="btn-primary"
               onClick={this.adminSignIn}
             />
           </form>
@@ -82,7 +82,7 @@ export default class SignIn extends React.Component {
       .then(res => {
         console.log(res);
         if (res.status === 200) {
-          this.props.history.push("/profile");
+          this.props.history.push("/");
           this.props.handleAuth();
         } else {
           const error = new Error(res.error);
@@ -93,9 +93,8 @@ export default class SignIn extends React.Component {
         console.error(err);
         alert("Error logging in please try again");
       });
-      //fetch and pass customer name to customer id 
-      // fetch('/bookings/{customerid}') 
-        
+    //fetch and pass customer name to customer id
+    // fetch('/bookings/{customerid}')
   };
 
   adminSignIn = event => {
