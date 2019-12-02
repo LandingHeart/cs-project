@@ -24,13 +24,14 @@ router.get("/:customerId", async (req, res) => {
 });
 
 router.post("/api/register", async (req, res) => {
-  const { firstname, lastname, username, password,customerid } = req.body;
+  const { customerid ,firstname, lastname, username, password} = req.body;
   const customer = new Customer({
+    customerid,
     firstname,
     lastname,
     username,
     password,
-    customerid
+   
   });
   try {
     const saveCustomer = await customer.save();
