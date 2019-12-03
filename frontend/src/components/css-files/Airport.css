@@ -5,10 +5,9 @@
   -webkit-column-count: 2;
 }
 
-.departures-table {
-
-}
-
-.arrivals-table {
-  
+.flights-table {
+  box-shadow: 0px 0.5px 2px 3px #ccc;
+  width: 70%;
+  display: inline-block;
+  background-color: rgba(0,0,0, 0.8);
 }

@@ -19,13 +19,13 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <label for="start">Start date:</label>
+        <label for="start" style={{ display: "block" }}>Start date:</label>
 
         <input type="date" id="start" name="trip-start"
-           value="2018-07-22"
            style={{
              display: "inline-block",
-             width: "15%"
+             width: "15%",
+             height: "auto"
            }}>
         </input>
       </div>

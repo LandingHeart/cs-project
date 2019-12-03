@@ -67,12 +67,8 @@ export default class Airline extends React.Component {
         )}
 
         <hr />
-<<<<<<< HEAD
-        <div className="airline-table-box">
-=======
 
         <div className="table-box">
->>>>>>> 6f2adba3502a3018ac5325a2f48167f891acb168
           <table>
             <thead>
               <tr>

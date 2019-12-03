@@ -66,38 +66,35 @@ export default class Airport extends React.Component {
         </div>
 
         <div className="parent-table">
-          <h2>Departure</h2>
-          {departures.map(item => (
-            <div key={item._id} className="departures-table">
-              <p>Name: {item.flightname}</p>
-              <p>Airline: {item.airline}</p>
-              <p>Date: {item.date}</p>
-              <p>Time: {item.time}</p>
-              <p>Departure: {item.depart}</p>
-              <p>Arrival: {item.dest}</p>
-            </div>
-          ))}
+          <div style={{ textAlign:"center" }}>
+            <h2>Departure</h2>
+            {departures.map(item => (
+              <div key={item._id} className="flights-table">
+                <p>Name: {item.flightname}</p>
+                <p>Airline: {item.airline}</p>
+                <p>Date: {item.date}</p>
+                <p>Time: {item.time}</p>
+                <p>Departure: {item.depart}</p>
+                <p>Arrival: {item.dest}</p>
+              </div>
+            ))}
+          </div>
 
-          <hr />
-
-          <h2>Arrival</h2>
-          {arrivals.map(item => (
-            <div key={item._id} className="arrivals-table">
-              <p>Name: {item.flightname}</p>
-              <p>Airline: {item.airline}</p>
-              <p>Date: {item.date}</p>
-              <p>Time: {item.time}</p>
-              <p>Departure: {item.depart}</p>
-              <p>Arrival: {item.dest}</p>
-            </div>
-          ))}
+          <div>
+            <h2>Arrival</h2>
+            {arrivals.map(item => (
+              <div key={item._id} className="flights-table">
+                <p>Name: {item.flightname}</p>
+                <p>Airline: {item.airline}</p>
+                <p>Date: {item.date}</p>
+                <p>Time: {item.time}</p>
+                <p>Departure: {item.depart}</p>
+                <p>Arrival: {item.dest}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
-
-
-        <div>
-
-        </div>
       </div>
     );
   }
