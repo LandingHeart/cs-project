@@ -1,6 +1,6 @@
 import React from "react";
 // import "./css-files/text.css";
-import "./css-files/page-style-def.css";
+import "./css-files/Airport.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Airport extends React.Component {
@@ -65,10 +65,24 @@ export default class Airport extends React.Component {
           <pre>Last updated: {lastUpdated}</pre>
         </div>
 
-        <div>
+        <div className="parent-table">
           <h2>Departure</h2>
           {departures.map(item => (
-            <div key={item._id} className="div-box">
+            <div key={item._id} className="departures-table">
+              <p>Name: {item.flightname}</p>
+              <p>Airline: {item.airline}</p>
+              <p>Date: {item.date}</p>
+              <p>Time: {item.time}</p>
+              <p>Departure: {item.depart}</p>
+              <p>Arrival: {item.dest}</p>
+            </div>
+          ))}
+
+          <hr />
+
+          <h2>Arrival</h2>
+          {arrivals.map(item => (
+            <div key={item._id} className="arrivals-table">
               <p>Name: {item.flightname}</p>
               <p>Airline: {item.airline}</p>
               <p>Date: {item.date}</p>
@@ -79,20 +93,10 @@ export default class Airport extends React.Component {
           ))}
         </div>
 
-        <hr />
+
 
         <div>
-          <h2>Arrival</h2>
-          {arrivals.map(item => (
-            <div key={item._id} className="div-box">
-              <p>Name: {item.flightname}</p>
-              <p>Airline: {item.airline}</p>
-              <p>Date: {item.date}</p>
-              <p>Time: {item.time}</p>
-              <p>Departure: {item.depart}</p>
-              <p>Arrival: {item.dest}</p>
-            </div>
-          ))}
+
         </div>
       </div>
     );

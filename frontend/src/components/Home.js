@@ -17,7 +17,19 @@ export default class Home extends React.Component {
       });
   }
   render() {
-    return <></>;
+    return (
+      <div>
+        <label for="start">Start date:</label>
+
+        <input type="date" id="start" name="trip-start"
+           value="2018-07-22"
+           style={{
+             display: "inline-block",
+             width: "15%"
+           }}>
+        </input>
+      </div>
+    );
   }
 
   handleChange = e => {

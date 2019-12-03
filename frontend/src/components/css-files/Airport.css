@@ -1,0 +1,14 @@
+.parent-table {
+  column-count: 2;
+  column-gap: 20px;
+  -moz-column-count: 2;
+  -webkit-column-count: 2;
+}
+
+.departures-table {
+
+}
+
+.arrivals-table {
+  
+}

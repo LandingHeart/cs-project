@@ -60,7 +60,7 @@ export default class Airline extends React.Component {
           </div>
         ) : null}
         <hr />
-        <div className="table-box">
+        <div className="airline-table-box">
           <table>
             <thead>
               <tr>
