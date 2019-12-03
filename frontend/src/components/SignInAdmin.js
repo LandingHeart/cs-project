@@ -91,7 +91,7 @@ export default class SignIn extends React.Component {
         console.log(user);
         // this.props.setUser(user);
         this.props.setAdmin(user);
-        // this.props.history.push("/");
+        this.props.history.push("/");
       })
       .catch(err => {
         console.log("heeee");

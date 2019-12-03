@@ -89,7 +89,7 @@ export default class SignIn extends React.Component {
       .then(user => {
         this.props.setUser(user);
         this.props.history.push("/");
-        this.props.handleAuth();
+        this.props.handleAuth(true);
       })
       .catch(err => {
         console.error(err);

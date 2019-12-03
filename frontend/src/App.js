@@ -25,9 +25,8 @@ export default class App extends React.Component {
     };
   }
 
-  handleAuth = () => {
-    const auth = this.state.auth;
-    this.setState({ auth: !auth });
+  handleAuth = auth => {
+    this.setState({ auth });
   };
 
   setUser = user => {
@@ -44,6 +43,7 @@ export default class App extends React.Component {
         <div id="App">
           <Navigation
             auth={this.state.auth}
+            admin={this.state.admin}
             handleAuth={this.handleAuth}
             setAdmin={this.setAdmin}
           />
