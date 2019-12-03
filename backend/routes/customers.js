@@ -24,17 +24,22 @@ router.get("/:customerId", async (req, res) => {
 });
 
 router.post("/api/register", async (req, res) => {
-  const { firstname, lastname, username, password } = req.body;
+  const { customerid, firstname, lastname, username, password } = req.body;
+
   const customer = new Customer({
+    customerid,
     firstname,
     lastname,
     username,
     password
   });
+  console.log(customer);
   try {
     const saveCustomer = await customer.save();
+    console.log("Aaa");
     res.json(saveCustomer);
   } catch (err) {
+    console.log("err");
     res.json({ message: err });
   }
 });
@@ -71,7 +76,8 @@ router.post("/api/auth", async (req, res) => {
           const token = jwt.sign(payload, secret, {
             expiresIn: "1h"
           });
-          res.cookie("token", token, { httpOnly: true }).sendStatus(200);
+          // res.cookie("token", token, { httpOnly: true }).sendStatus(200);
+          res.status(200).json(user);
         }
       });
     }

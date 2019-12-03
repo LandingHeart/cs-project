@@ -18,14 +18,19 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: true,
-      currentDate: null
+      auth: false,
+      currentDate: null,
+      user: null
     };
   }
 
   handleAuth = () => {
     const auth = this.state.auth;
     this.setState({ auth: !auth });
+  };
+
+  setUser = user => {
+    this.setState({ user });
   };
 
   render() {
@@ -41,23 +46,34 @@ export default class App extends React.Component {
             <Route path="/airline">
               <Airline />
             </Route>
-            <Route path="/airport">
-              <Airport />
-            </Route>
-            <Route path="/profile">
-              <Profile />
-            </Route>
+
+            <Route
+              path="/airport"
+              render={props => <Airport {...props} user={this.state.user} />}
+            />
+
+            <Route
+              path="/profile"
+              render={props => <Profile {...props} user={this.state.user} />}
+            />
+
             <Route path="/reserve">
               <Search />
             </Route>
+
             <Route
               path="/admin/customerList"
               render={props => <ReservationCustomer {...props} />}
-            ></Route>
+            />
+
             <Route
               path="/signin"
               render={props => (
-                <SignIn {...props} handleAuth={this.handleAuth} />
+                <SignIn
+                  {...props}
+                  handleAuth={this.handleAuth}
+                  setUser={this.setUser}
+                />
               )}
             />
             <Route path="/signup">

@@ -1,98 +1,60 @@
 import React from "react";
-import "./css-files/text.css";
+// import "./css-files/text.css";
+import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Airport extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      flights: [],
-      data: [
-        {
-          id: 0,
-          name: "Flight#1",
-          status: "DEPARTURE",
-          airport: "JFK",
-          date: "November 21, 2019",
-          time: "22:25"
-        },
-        {
-          id: 1,
-          name: "Flight#2",
-          status: "ARRIVAL",
-          airport: "LGA",
-          date: "November 21, 2019",
-          time: "22:25"
-        },
-        {
-          id: 2,
-          name: "Flight#3",
-          status: "DEPARTURE",
-          airport: "LGA",
-          date: "December 22, 2019",
-          time: "22:35"
-        },
-        {
-          id: 3,
-          name: "Flight#4",
-          status: "DEPARTURE",
-          airport: "LGA",
-          date: "January 28, 2019",
-          time: "22:35"
-        },
-        {
-          id: 4,
-          name: "Flight#5",
-          status: "DEPARTURE",
-          airport: "LGA",
-          date: "November 30, 2019",
-          time: "22:35"
-        }
-      ],
-      airports: [
-        { id: 1, name: "JFK" },
-        { id: 2, name: "LGA" }
-      ],
+      airports: [],
+      arrivals: [],
+      departures: [],
       airportName: "",
-      arrival: [],
-      departure: [],
       lastUpdated: ""
     };
   }
 
   componentDidMount() {
-    //TODO: fetch user data from DB or maybe no need, fetch the user data from the login, then passed as props
-    //TODO: fetch flights from flight DB
-    fetch("/flights")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("flights fetch", flights);
-        })
-      );
+    if (this.props.user === null) {
+      this.props.history.push("/");
+    }
+
+    fetch("/airports")
+      .then(resp => resp.json())
+      .then(airports => this.setState({ airports }))
+      .catch(err => console.log(err));
+
     this.assignDepartureArrivalFlights();
 
-    //set interval to update every 5 seconds
     this.interval = setInterval(
       () => this.assignDepartureArrivalFlights(this.state.airportName),
-      5000
+      30000
     );
   }
 
   render() {
-    const { arrival, departure, airports } = this.state;
+    const {
+      arrivals,
+      departures,
+      airports,
+      airportName,
+      lastUpdated
+    } = this.state;
+
     return (
       <div>
-        <div>Airport</div>
         <div>
-          <select
-            value={this.state.airportName}
-            onChange={this.handleChangeAirport}
-          >
+          <h1>Airport</h1>
+        </div>
+
+        <div>
+          <label>Select airport :</label>
+          <select value={airportName} onChange={this.handleChangeAirport}>
             <option value=""></option>
             {airports.map(item => (
-              <option key={item.id} value={item.name}>
-                {item.name}
+              <option key={item._id} value={item.airports}>
+                {item.airports}
               </option>
             ))}
           </select>
@@ -100,27 +62,35 @@ export default class Airport extends React.Component {
 
         <div>
           <button onClick={this.refresh}>Refresh</button>
-          <p>Last updated: {this.state.lastUpdated}</p>
+          <pre>Last updated: {lastUpdated}</pre>
         </div>
 
         <div>
           <h2>Departure</h2>
-          {departure.map(item => (
-            <div key={item.id}>
-              <p>Name: {item.name}</p>
+          {departures.map(item => (
+            <div key={item._id} className="div-box">
+              <p>Name: {item.flightname}</p>
+              <p>Airline: {item.airline}</p>
               <p>Date: {item.date}</p>
               <p>Time: {item.time}</p>
+              <p>Departure: {item.depart}</p>
+              <p>Arrival: {item.dest}</p>
             </div>
           ))}
         </div>
+
         <hr />
+
         <div>
           <h2>Arrival</h2>
-          {arrival.map(item => (
-            <div key={item.id}>
-              <p>Name: {item.name}</p>
+          {arrivals.map(item => (
+            <div key={item._id} className="div-box">
+              <p>Name: {item.flightname}</p>
+              <p>Airline: {item.airline}</p>
               <p>Date: {item.date}</p>
               <p>Time: {item.time}</p>
+              <p>Departure: {item.depart}</p>
+              <p>Arrival: {item.dest}</p>
             </div>
           ))}
         </div>
@@ -141,26 +111,34 @@ export default class Airport extends React.Component {
     this.assignDepartureArrivalFlights(airportSelected);
   };
 
-  assignDepartureArrivalFlights = airportName => {
-    let departure = [];
-    let arrival = [];
-
-    for (let i = 0; i < this.state.data.length; i++) {
-      const curr = this.state.data[i];
-      if (curr.status === "DEPARTURE" && curr.airport === airportName) {
-        departure.push(curr);
-      } else if (curr.status === "ARRIVAL" && curr.airport === airportName) {
-        arrival.push(curr);
+  async assignDepartureArrivalFlights(airportName = "") {
+    try {
+      const lastUpdated = this.getCurrentTime();
+      let departures = [];
+      let arrivals = [];
+      if (airportName === "") {
+        this.setState({ departures, arrivals, airportName, lastUpdated });
+        return;
       }
+
+      const flights_json = await fetch("/flights");
+      const all_flights = await flights_json.json();
+
+      for (let flight of all_flights) {
+        if (flight.depart === airportName) {
+          departures.push(flight);
+        } else if (flight.dest === airportName) {
+          arrivals.push(flight);
+        }
+      }
+
+      departures = this.sortDateAndTime(departures);
+      arrivals = this.sortDateAndTime(arrivals);
+      this.setState({ departures, arrivals, airportName, lastUpdated });
+    } catch (err) {
+      console.log(err);
     }
-
-    departure = this.sortDateAndTime(departure);
-    arrival = this.sortDateAndTime(arrival);
-
-    const lastUpdated = this.getCurrentTime();
-
-    this.setState({ departure, arrival, airportName, lastUpdated });
-  };
+  }
 
   sortDateAndTime = array => {
     array.sort((a, b) => {

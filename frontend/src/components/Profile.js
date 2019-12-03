@@ -1,18 +1,13 @@
 import React from "react";
 import "./css-files/text.css";
+import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-
-//DONT FORGET: WE ASSIGN CURRENT DATE AS PROPS IN THIS COMPONENTS
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      user: {
-        id: 1,
-        name: "John Smith",
-        email: "john.smith@gmail.com",
-        dob: "November 10, 1990"
-      },
+      user: this.props.user,
       upcomingFlights: [],
       previousFlights: [],
       lastUpdated: ""
@@ -20,58 +15,57 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    //fetch users
-    fetch("/users")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("customers fetch", flights);
-        })
-      );
-    //fetch bookings
-    fetch("/bookings")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("flights fetch", flights);
-        })
-      );
+    if (this.state.user === null) this.props.history.push("/");
 
     this.setFlight();
-    this.interval = setInterval(() => this.setFlight(), 5000);
+    this.interval = setInterval(() => this.setFlight(), 30000);
   }
 
   render() {
-    const { user, upcomingFlights, previousFlights } = this.state;
+    const { user, upcomingFlights, previousFlights, lastUpdated } = this.state;
+
+    if (user === null) return null;
+
     return (
       <div>
-        <h1>Profile</h1>
-        <button onClick={this.refresh}>Refresh</button>
-        <p>Last updated: {this.state.lastUpdated}</p>
         <div>
-          <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
-          <p>Date of birth: {user.dob}</p>
-
-          <hr />
-          <p>Upcoming flights: </p>
+          <h1>Profile</h1>
+          <button onClick={this.refresh}>Refresh</button>
+          <pre>Last updated: {lastUpdated}</pre>
+        </div>
+        <div className="div-box">
+          <p>
+            Name: {user.firstname} {user.lastname}
+          </p>
+          <p>Username: {user.username}</p>
+        </div>
+        <hr />
+        <div>
+          <h2>Upcoming flights</h2>
           {upcomingFlights === null
             ? null
             : upcomingFlights.map(item => (
-                <div key={item.id}>
-                  <p>Name: {item.flightName}</p>
+                <div key={item._id} className="div-box">
+                  <p>Flight: {item.flightname}</p>
+                  <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
                 </div>
               ))}
-
-          <hr />
-          <p>Previous flights: </p>
+        </div>
+        <hr />
+        <div>
+          <h2>Previous flights</h2>
           {previousFlights === null
             ? null
             : previousFlights.map(item => (
-                <div key={item.id}>
-                  <p>Name: {item.flightName}</p>
+                <div key={item._id} className="div-box">
+                  <p>Flight: {item.flightname}</p>
+                  <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
                 </div>
               ))}
         </div>
@@ -83,43 +77,52 @@ export default class Profile extends React.Component {
     clearInterval(this.interval);
   }
 
-  setFlight = () => {
-    //TODO: fetch DB for getting all the flights
-    //const flight = fetch(..);
-    const flight = [
-      {
-        id: 1,
-        flightName: "Flight#1",
-        date: new Date("December 25, 2020 03:24:00")
-      },
-      {
-        id: 2,
-        flightName: "Flight#2",
-        date: new Date("December 17, 1995 03:24:00")
+  async setFlight() {
+    try {
+      //GET ALL BOOKINGS
+      const bookings_json = await fetch("/bookings");
+      const all_bookings = await bookings_json.json();
+
+      const user_booking = all_bookings.filter(
+        item => item.bookedBy === this.state.user.username
+      );
+
+      //GET ALL FLIGHTS
+      const flights_json = await fetch("/flights");
+      const all_flights = await flights_json.json();
+
+      //FILTER THE FLIGHT BASED ON BOOKING
+      const flight = [];
+      for (let i = 0; i < user_booking.length; i++) {
+        const booking = user_booking[i];
+        for (let j = 0; j < all_flights.length; j++) {
+          const curr = all_flights[j];
+          if (curr.flightid === booking.flightid) flight.push(curr);
+        }
       }
-    ];
 
-    //filter and assign the appropriatee flighst data for us based on the date
-    const upcomingFlights = flight.filter(item => item.date - new Date() > 0);
-    const previousFlights = flight.filter(item => item.date - new Date() < 0);
-    const lastUpdated = this.getCurrentTime();
+      //FILTER THE FLIGHTS BASED ON THE DATES
+      const upcomingFlights = flight.filter(
+        item => new Date(item.date) - new Date() > 0
+      );
 
-    this.setState({ upcomingFlights, previousFlights, lastUpdated });
-  };
+      const previousFlights = flight.filter(
+        item => new Date(item.date) - new Date() < 0
+      );
+
+      const lastUpdated = this.getCurrentTime();
+      this.setState({ upcomingFlights, previousFlights, lastUpdated });
+    } catch (e) {
+      console.log(e);
+    }
+  }
 
   refresh = () => {
     window.location.reload(false);
   };
 
-  convertDateTime = obj => {
-    const date = new Date(obj.date);
-    const time = obj.time.split(":");
-    date.setHours(time[0]);
-    date.setMinutes(time[1]);
-
-    return date;
-  };
-
+  // convert from date object to this format:
+  // 12/05/2019 23:40:05
   getCurrentTime = () => {
     const now = new Date();
     const month = this.addZero(now.getMonth());

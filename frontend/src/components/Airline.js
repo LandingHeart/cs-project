@@ -1,73 +1,24 @@
 import React from "react";
-import "./css-files/text.css";
+// import "./css-files/text.css";
+import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Airline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      status: "CUSTOMER",
       airline: "",
-      status: "ADMIN",
-      airlines: [],
       allData: [],
       data: [],
-      flightData: []
+      all_flights: [],
+      all_airlines: []
     };
   }
 
+  //HUGE TO DO: WORK ON ADMIN SIDE OF THINGS
   componentDidMount() {
-    //fetch all flight
-    fetch("/flights")
-    .then(res => res.json())
-    .then(flightsData =>
-      this.setState({ flightsData }, () => {
-        console.log("flights fetch", flightsData);
-      })
-    );
-
-    const allData = [
-      {
-        id: 1,
-        name: "American",
-        departure: "JFK",
-        destination: "LGA",
-        date: new Date("November 29, 2019"),
-        fare: "500",
-        capacity: "300"
-      },
-      {
-        id: 2,
-        name: "American",
-        departure: "LGA",
-        destination: "BSN",
-        date: new Date("November 30, 2019"),
-        fare: "200",
-        capacity: "10"
-      },
-      {
-        id: 3,
-        name: "Delta",
-        departure: "SNH",
-        destination: "SGP",
-        date: new Date("November 31, 2019"),
-        fare: "300",
-        capacity: "20"
-      },
-      {
-        id: 4,
-        name: "Delta",
-        departure: "JKT",
-        destination: "SBY",
-        date: new Date("November 28, 2019"),
-        fare: "400",
-        capacity: "50"
-      }
-    ];
-
-    //fetch all airlines
-    const airlines = ["Delta", "American"];
-
-    this.setState({ allData, airlines });
+    this.getData();
   }
 
   render() {
@@ -84,9 +35,9 @@ export default class Airline extends React.Component {
               Choose airline :
               <select value={this.state.airline} onChange={this.handleAirline}>
                 <option value=""></option>
-                {this.state.airlines.map(item => (
-                  <option value={item} key={item}>
-                    {item}
+                {this.state.all_airlines.map(item => (
+                  <option value={item.airline} key={item._id}>
+                    {item.airline}
                   </option>
                 ))}
               </select>
@@ -108,7 +59,8 @@ export default class Airline extends React.Component {
             </Link>
           </div>
         ) : null}
-        <div>
+        <hr />
+        <div className="table-box">
           <table>
             <thead>
               <tr>
@@ -122,12 +74,12 @@ export default class Airline extends React.Component {
             </thead>
             <tbody>
               {this.state.data.map(item => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.destination}</td>
-                  <td>{item.departure}</td>
+                <tr key={item._id}>
+                  <td>{item.flightname}</td>
+                  <td>{item.dest}</td>
+                  <td>{item.depart}</td>
                   <td>{item.time}</td>
-                  <td>{item.fare}</td>
+                  <td>${item.fares}</td>
                   <td>{item.capacity}</td>
                   {this.state.status === "CUSTOMER" ? (
                     <td>
@@ -136,7 +88,7 @@ export default class Airline extends React.Component {
                           pathname: "/details",
                           state: {
                             flight: item,
-                            type: "REGISTTER"
+                            type: "REGISTER"
                           }
                         }}
                       >
@@ -194,12 +146,39 @@ export default class Airline extends React.Component {
       return;
     }
 
-    const { allData } = this.state;
-    const data = allData.filter(item =>
-      item.name.toLocaleLowerCase().includes(airline.toLocaleLowerCase())
+    const { all_flights } = this.state;
+    const data = all_flights.filter(item =>
+      item.airline.toLocaleLowerCase().includes(airline.toLocaleLowerCase())
     );
     this.setState({ data, airline });
   };
+
+  async getData() {
+    this.getFlight();
+    this.getAirline();
+  }
+
+  async getFlight() {
+    try {
+      const flight_json = await fetch("/flights");
+      const all_flights = await flight_json.json();
+      console.log(all_flights);
+      this.setState({ all_flights });
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async getAirline() {
+    try {
+      const airline_json = await fetch("/airlines");
+      const all_airlines = await airline_json.json();
+      console.log(all_airlines);
+      this.setState({ all_airlines });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   handleAirline = e => {
     const airline = e.target.value;

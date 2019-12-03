@@ -1,5 +1,6 @@
 import React from "react";
-import "./css-files/text.css";
+// import "./css-files/text.css";
+import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class Search extends React.Component {
@@ -79,7 +80,7 @@ export default class Search extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="container">
         <div>
           <h1>Search for a flight</h1>
         </div>
@@ -129,7 +130,7 @@ export default class Search extends React.Component {
           </div>
           <div>
             <label>
-              Date :
+
               <input
                 type="date"
                 value={this.state.date}
@@ -141,8 +142,8 @@ export default class Search extends React.Component {
         </form>
 
         <div>
-          <h3>Result:</h3>
-          <div>
+          <div id="div-box">
+            <h3>Result</h3>
             <form>
               <label>
                 Low to high
@@ -153,6 +154,7 @@ export default class Search extends React.Component {
                   onChange={this.handlePrice}
                 />
               </label>
+              &emsp;
               <label>
                 High to low
                 <input
@@ -168,7 +170,7 @@ export default class Search extends React.Component {
           <div>
             {this.state.flights.map(item => (
               <div key={item.id}>
-                <div>
+                <div className="div-box">
                   <p>Name: {item.name}</p>
                   <p>Departure: {item.departure}</p>
                   <p>Arrival: {item.arrival}</p>

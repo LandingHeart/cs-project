@@ -5,7 +5,7 @@ export default class AddFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fligts: [], // added flights for all flgihts
+      fligts: [], // added flights for all flights
       flight: "",
       airline: "",
       airlineid: "",
@@ -58,7 +58,7 @@ export default class AddFlight extends React.Component {
     return (
       <div>
         <div>Add Flight</div>
-        <div>
+        <div className="form-box-sign-in">
           <form onSubmit={this.submit}>
             <label>
               Flight Name
@@ -70,7 +70,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Airline Name
               <input
@@ -81,7 +81,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Departure
               <input
@@ -92,7 +92,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Arrival
               <input
@@ -103,7 +103,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Date
               <input
@@ -114,12 +114,12 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Time
               <input type="time" onChange={this.handleTime} required />
             </label>
-
+            <br />
             <label>
               Capacity
               <input
@@ -130,7 +130,7 @@ export default class AddFlight extends React.Component {
                 required
               />
             </label>
-
+            <br />
             <label>
               Fare
               <input
@@ -139,10 +139,19 @@ export default class AddFlight extends React.Component {
                 placeholder={"Enter fare"}
                 onChange={this.handleFare}
                 required
+                style={{
+                  marginLeft: "25px"
+                }}
               />
             </label>
 
-            <button>{this.state.type}</button>
+            <button className = "btn-primary"
+              style={{
+                marginLeft: "30px"
+              }}
+            >
+              {this.state.type}
+            </button>
           </form>
         </div>
       </div>
@@ -158,6 +167,7 @@ export default class AddFlight extends React.Component {
         })
       );
   }
+
   submit = e => {
     //check with database
     //post to database the flights
@@ -176,16 +186,14 @@ export default class AddFlight extends React.Component {
     };
 
     // NOT SURE THIS WORKS
-    // try {
-    //   fetch("/flights/admin/add", {
-    //     method: "POST",
-    //     body: JSON.stringify(obj), //add the obj
-    //     headers: {
-    //       "Content-Type": "application/json"
-    //     }
-    //   });
-    // } catch (err) {msg: err}
 
+    fetch("/flights/admin/add", {
+      method: "POST",
+      body: JSON.stringify(obj), //add the obj
+      headers: {
+        "Content-Type": "application/json"
+      }
+    });
     console.log(obj);
     alert("Success");
   };
