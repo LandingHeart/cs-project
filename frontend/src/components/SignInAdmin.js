@@ -15,7 +15,7 @@ export default class SignIn extends React.Component {
     this.state = {
       username: "",
       password: "",
-      customers: [],
+      customers: []
     };
   }
   componentDidMount() {}
@@ -90,7 +90,7 @@ export default class SignIn extends React.Component {
         console.log("success");
         console.log(user);
         // this.props.setUser(user);
-        this.props.handleAdminAuth();
+        this.props.setAdmin(user);
         // this.props.history.push("/");
       })
       .catch(err => {

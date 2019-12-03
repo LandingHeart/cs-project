@@ -21,7 +21,7 @@ export default class App extends React.Component {
       auth: false,
       currentDate: null,
       user: null,
-      permission: false
+      admin: null
     };
   }
 
@@ -34,15 +34,19 @@ export default class App extends React.Component {
     this.setState({ user });
   };
 
-  setPermission = permission => {
-    this.setState({ permission });
+  setAdmin = admin => {
+    this.setState({ admin });
   };
 
   render() {
     return (
       <Router>
         <div id="App">
-          <Navigation auth={this.state.auth} handleAuth={this.handleAuth} handleAdminAuth ={this.setPermission}/>
+          <Navigation
+            auth={this.state.auth}
+            handleAuth={this.handleAuth}
+            setAdmin={this.setAdmin}
+          />
 
           <Switch>
             <Route path="/" exact>
@@ -84,9 +88,12 @@ export default class App extends React.Component {
             <Route path="/signup">
               <SignUp />
             </Route>
-            <Route path="/signinadmin" >
-              <SignInAdmin />
-            </Route>
+            <Route
+              path="/signinadmin"
+              render={props => (
+                <SignInAdmin {...props} setAdmin={this.setAdmin} />
+              )}
+            />
 
             <Route
               path="/admin/add"
