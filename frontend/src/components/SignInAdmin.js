@@ -66,7 +66,7 @@ export default class SignInAdmin extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    fetch("/admin/api/auth", {
+    fetch("/admins/api/auth", {
       method: "POST",
       body: JSON.stringify(this.state),
       headers: {

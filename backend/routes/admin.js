@@ -27,9 +27,9 @@ router.post("/add", async (req, res) => {
   }
 });
 
-router.post("/admin/api/auth", async (req, res) => {
+router.post("/api/auth", async (req, res) => {
   const { username, password } = req.body;
-
+  
   Admin.findOne({ username }, (err, user) => {
     if (err) {
       console.log(err);

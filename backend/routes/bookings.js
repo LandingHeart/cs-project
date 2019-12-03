@@ -38,7 +38,7 @@ router.get("/:customerid", async (req, res) => {
 router.post("/", async (req, res) => {
   const booking = new Booking({
     bookedBy: req.body.bookedBy,
-    flightId: req.body.flightId,
+    flightid: req.body.flightid,
     flightName: req.body.flightName,
     id: req.body.id
   });
