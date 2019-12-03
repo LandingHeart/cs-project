@@ -3,7 +3,7 @@
   width: 25%;
   height: auto;
   display: inline-block;
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgba(0,0,0, 0.8);
 }
 
 .table-box {
@@ -11,5 +11,5 @@
   width: 35%;
   height: auto;
   display: inline-block;
-  background-color: rgba(0,0,0, 0.7);
+  background-color: rgba(0,0,0, 0.8);
 }
