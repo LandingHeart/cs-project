@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const BookingSchema = mongoose.Schema({
     bookedBy: String,
-    flightId: Number,
+    flightid: Number,
     flightName: String,
     id: Number,
 })

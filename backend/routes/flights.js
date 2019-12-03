@@ -22,6 +22,13 @@ router.get("/:flightId", async (req, res) => {
   }
 });
 
+router.put("/update", (req, res) => {
+  try {
+  } catch (err) {
+    res.json({ msg: err });
+  }
+});
+
 router.post("/admin/add", async (req, res) => {
   const flight = new Flight({
     airlineid: req.body.airlineid,
