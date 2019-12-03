@@ -5,128 +5,157 @@ export default class AddFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      fligts: [], // added flights for all flights
-      flight: "",
+      flightName: "",
       airline: "",
-      airlineid: "",
       departure: "",
-      arrival: "",
+      destination: "",
       capacity: 0,
-      fill: 0,
       fare: 0,
       date: "",
       time: "",
-      type: ""
+      type: "",
+      airports: []
     };
   }
 
   componentDidMount() {
-    //fetch from flights and add to flights, posting new flights
-    // fetch("/flights/admin/add", {
-    //   method: "POST",
-    //   body: JSON.stringify(this.state),
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   }
-    // });
-
     const { flight, type } = this.props.location.state;
-    console.log(flight);
-    console.log(type);
 
-    if (Object.keys(flight).length === 0) {
-      this.setState({ type });
+    fetch("/airports")
+      .then(resp => resp.json())
+      .then(airports => this.setState({ airports }))
+      .catch(err => console.log(err));
+
+    if (Object.keys(flight).length === 0) return;
+    console.log(flight);
+
+    if (Object.keys(flight).length === 1) {
+      const airline = flight.airline;
+      this.setState({ airline, type });
     } else {
-      const { capacity, date, departure, destination, fare, name } = flight;
-      const month = this.addZero(date.getMonth());
-      const day = this.addZero(date.getDate());
-      const year = date.getFullYear();
+      const {
+        capacity,
+        date,
+        departure,
+        destination,
+        fare,
+        airline,
+        airlineid
+      } = flight;
+
+      const dateSplit = date.split("/");
+      const month = this.addZero(dateSplit[0]);
+      const day = this.addZero(dateSplit[1]);
+      const year = this.addZero(dateSplit[2]);
       const dateString = year + "-" + month + "-" + day;
 
       this.setState({
+        flightName: flight.flight,
         type,
         capacity,
+        airlineid,
         date: dateString,
         departure,
-        arrival: destination,
-        airline: name
+        destination,
+        fare,
+        airline
       });
     }
   }
 
   render() {
+    const {
+      flightName,
+      airline,
+      departure,
+      airports,
+      destination
+    } = this.state;
+
     return (
       <div>
-        <div>Add Flight</div>
+        <div>
+          <h1>{this.props.location.state.type} FLIGHT</h1>
+        </div>
         <div className="form-box-sign-in">
           <form onSubmit={this.submit}>
             <label>
               Flight Name
               <input
                 type="text"
-                value={this.state.flight}
+                name="flightName"
+                value={flightName}
                 placeholder={"Enter flight name"}
-                onChange={this.handleFlight}
+                onChange={this.handleInputChange}
                 required
               />
             </label>
             <br />
             <label>
               Airline Name
-              <input
-                type="text"
-                value={this.state.airline}
-                placeholder={"Enter airline name"}
-                onChange={this.handleAirline}
-                required
-              />
+              <input type="text" value={airline} disabled />
             </label>
             <br />
             <label>
-              Departure
-              <input
-                type="text"
-                value={this.state.departure}
-                placeholder={"Enter departure"}
-                onChange={this.handleDeparture}
-                required
-              />
+              Departure : {departure}
+              <select
+                name="departure"
+                value={departure}
+                onChange={this.handleInputChange}
+              >
+                <option value=""></option>
+                {airports.map(item => (
+                  <option key={item._id} value={item.airports}>
+                    {item.airports}
+                  </option>
+                ))}
+              </select>
             </label>
             <br />
             <label>
-              Arrival
-              <input
-                type="text"
-                value={this.state.arrival}
-                onChange={this.handleArrival}
-                placeholder={"Enter arrival"}
-                required
-              />
+              Destination : {destination}
+              <select
+                name="destination"
+                value={destination}
+                onChange={this.handleInputChange}
+              >
+                <option value=""></option>
+                {airports.map(item => (
+                  <option key={item._id} value={item.airports}>
+                    {item.airports}
+                  </option>
+                ))}
+              </select>
             </label>
             <br />
             <label>
               Date
               <input
                 type="date"
+                name="date"
                 value={this.state.date}
-                placeholder={"Enter date"}
-                onChange={this.handleDate}
+                onChange={this.handleInputChange}
                 required
               />
             </label>
             <br />
             <label>
               Time
-              <input type="time" onChange={this.handleTime} required />
+              <input
+                type="time"
+                name="time"
+                onChange={this.handleInputChange}
+                required
+              />
             </label>
             <br />
             <label>
               Capacity
               <input
                 type="number"
+                name="capacity"
                 value={this.state.capacity}
-                placeholder={"Enter capacity"}
-                onChange={this.handleCapacity}
+                onChange={this.handleInputChange}
                 required
               />
             </label>
@@ -135,17 +164,17 @@ export default class AddFlight extends React.Component {
               Fare
               <input
                 type="number"
+                name="fare"
                 value={this.state.fare}
-                placeholder={"Enter fare"}
-                onChange={this.handleFare}
+                onChange={this.handleInputChange}
                 required
-                style={{
-                  marginLeft: "25px"
-                }}
               />
             </label>
 
-            <button className = "btn-primary"
+            <br />
+
+            <button
+              className="btn-primary"
               style={{
                 marginLeft: "30px"
               }}
@@ -158,98 +187,100 @@ export default class AddFlight extends React.Component {
     );
   }
 
-  getAllFlights() {
-    fetch("/flights")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("flights fetch", flights);
+  submit = e => {
+    e.preventDefault();
+    const { type } = this.state;
+    if (type === "ADD") this.addNewFlight();
+    if (type === "EDIT") this.editFlight();
+  };
+
+  async addNewFlight() {
+    try {
+      const airlines_json = await fetch("/airlines");
+      const all_airlines = await airlines_json.json();
+
+      let airline_id = null;
+      for (let currentAirline of all_airlines) {
+        if (currentAirline.airline === this.state.airline) {
+          airline_id = currentAirline.airlineid;
+        }
+      }
+
+      const obj = {
+        airlineid: airline_id,
+        airline: this.state.airline,
+        flight: this.state.flightName,
+        capacity: this.state.capacity,
+        fill: 0,
+        arrival: this.state.arrival,
+        departure: this.state.departure,
+        time: this.state.time,
+        date: this.state.date,
+        fare: this.state.fare
+      };
+
+      fetch("/flights/admin/add", {
+        method: "POST",
+        body: JSON.stringify(obj), //add the obj
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(resp => {
+          console.log(resp);
+          this.props.history.push("/");
         })
-      );
+        .catch(err => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  submit = e => {
-    //check with database
-    //post to database the flights
-    e.preventDefault();
-    const obj = {
-      airlineid: this.state.airlineid, // handleAirlineId, generate random
-      flight: this.state.flight,
-      airline: this.state.airline,
-      departure: this.state.departure, // depart
-      arrival: this.state.arrival, //
-      date: this.state.date,
-      time: this.state.time,
-      capacity: this.state.capacity,
-      fare: this.state.fare,
-      fill: 0
-    };
+  //EDIT FLIGHT
+  async editFlight() {
+    try {
+      const airlines_json = await fetch("/airlines");
+      const all_airlines = await airlines_json.json();
 
-    // NOT SURE THIS WORKS
-
-    fetch("/flights/admin/add", {
-      method: "POST",
-      body: JSON.stringify(obj), //add the obj
-      headers: {
-        "Content-Type": "application/json"
+      let airline_id = null;
+      for (let currentAirline of all_airlines) {
+        if (currentAirline.airline === this.state.airline) {
+          airline_id = currentAirline.airlineid;
+        }
       }
+
+      const obj = {
+        airlineid: airline_id,
+        airline: this.state.airline,
+        flight: this.state.flightName,
+        capacity: this.state.capacity,
+        fill: 0,
+        arrival: this.state.arrival,
+        departure: this.state.departure,
+        time: this.state.time,
+        date: this.state.date,
+        fare: this.state.fare
+      };
+
+      fetch("/flights/admin/add", {
+        method: "PUT",
+        body: JSON.stringify(obj), //add the obj
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(resp => console.log(resp))
+        .catch(err => console.log(err));
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  handleInputChange = event => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
     });
-    console.log(obj);
-    alert("Success");
-  };
-
-  handleFlight = e => {
-    const flight = e.target.value;
-    console.log("Flight name " + flight);
-    this.setState({ flight });
-  };
-  //handle random id generate to put into db
-  handleAirlineid = e => {
-    const airlineid = e.target.value; //math.random
-    console.log("airline id" + airlineid);
-    this.setState({ airlineid });
-  };
-
-  handleAirline = e => {
-    const airline = e.target.value;
-    console.log("Airline name " + airline);
-    this.setState({ airline });
-  };
-
-  handleDeparture = e => {
-    const departure = e.target.value;
-    console.log("Departure " + departure);
-    this.setState({ departure });
-  };
-
-  handleArrival = e => {
-    const arrival = e.target.value;
-    console.log("Arrival " + arrival);
-    this.setState({ arrival });
-  };
-
-  handleDate = e => {
-    const date = e.target.value;
-    console.log("Date " + date);
-    this.setState({ date });
-  };
-
-  handleTime = e => {
-    const time = e.target.value;
-    console.log("Time " + time);
-    this.setState({ time });
-  };
-
-  handleCapacity = e => {
-    const capacity = e.target.value;
-    console.log("Capacity " + capacity);
-    this.setState({ capacity });
-  };
-
-  handleFare = e => {
-    const fare = e.target.value;
-    console.log("Fare " + fare);
-    this.setState({ fare });
   };
 
   addZero = val => {

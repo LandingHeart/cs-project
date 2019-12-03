@@ -56,7 +56,7 @@ export default class Airline extends React.Component {
               to={{
                 pathname: "/admin/add",
                 state: {
-                  flight: {},
+                  flight: { airline: this.state.airline },
                   type: "ADD"
                 }
               }}
