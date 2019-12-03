@@ -52,9 +52,11 @@ export default class App extends React.Component {
             <Route path="/" exact>
               <Home />
             </Route>
-            <Route path="/airline">
-              <Airline />
-            </Route>
+
+            <Route
+              path="/airline"
+              render={props => <Airline {...props} admin={this.state.admin} />}
+            />
 
             <Route
               path="/airport"
