@@ -7,11 +7,11 @@ export default class ConfirmationDetails extends React.Component {
   }
 
   componentDidMount() {
-
     if (this.props.location.state === undefined) return;
+
     const { flight, type } = this.props.location.state;
+    console.log(flight);
     this.setState({ flight, type });
-    
   }
 
   render() {
@@ -24,11 +24,13 @@ export default class ConfirmationDetails extends React.Component {
           <h1>Confirmation Detail</h1>
         </div>
         <div>
-          <p>Name: {flight.name}</p>
-          <p>Departure: {flight.departure}</p>
-          <p>Arrival: {flight.arrival}</p>
-          <p>Date: {flight.date.toString()}</p>
-          <p>Fare: {flight.fare}</p>
+          <p>Name: {flight.flightname}</p>
+          <p>Airline: {flight.airline}</p>
+          <p>Departure: {flight.depart}</p>
+          <p>Destination: {flight.dest}</p>
+          <p>Date: {flight.date}</p>
+          <p>Time: {flight.time}</p>
+          <p>Fare: {flight.fares}</p>
           <p>Capacity: {flight.capacity}</p>
           <button onClick={this.submit}>{type}</button>
         </div>
@@ -40,7 +42,6 @@ export default class ConfirmationDetails extends React.Component {
     const { type } = this.state;
     //POST to the DB that user register
     if (type === "REGISTER") {
-
     } else if (type === "CANCEL") {
       //POST to the DB that admin cancel fligth
     }
