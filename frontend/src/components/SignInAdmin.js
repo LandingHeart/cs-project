@@ -20,7 +20,7 @@ export default class SignInAdmin extends React.Component {
   }
 
   componentDidMount() {}
-  
+
   render() {
     const auth = this.props.auth;
 
@@ -28,7 +28,7 @@ export default class SignInAdmin extends React.Component {
       <div className="container">
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
-            <h1>Admin Login</h1>
+            <h1 style={{color: "black" }}>Admin Login</h1>
             <input
               type="text"
               name="username"
@@ -48,7 +48,7 @@ export default class SignInAdmin extends React.Component {
             <input
               type="submit"
               value="Submit"
-              className="btn"
+              className="btn-primary"
               onClick={this.successLogin}
             />
           </form>
