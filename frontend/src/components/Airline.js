@@ -7,44 +7,50 @@ export default class Airline extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      status: "CUSTOMER",
+      admin: this.props.admin,
       airline: "",
-      allData: [],
-      data: [],
       all_flights: [],
-      all_airlines: []
+      all_airlines: [],
+      data: []
     };
   }
 
-  //HUGE TO DO: WORK ON ADMIN SIDE OF THINGS
   componentDidMount() {
-    this.getData();
+    const { admin } = this.state;
+
+    if (admin !== null) {
+      this.getDataAdmin();
+    } else {
+      this.getDataCustomer();
+    }
   }
 
   render() {
+    const { admin, airline, all_airlines } = this.state;
+
     return (
       <div>
         <div>
-          <h1>
-            Airline {this.state.status === "ADMIN" ? <span>Admin</span> : null}
-          </h1>
+          {admin === null ? <h1>Airlines</h1> : <h1>{admin.airline} Admin</h1>}
         </div>
-        <div>
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Choose airline :
-              <select value={this.state.airline} onChange={this.handleAirline}>
-                <option value=""></option>
-                {this.state.all_airlines.map(item => (
-                  <option value={item.airline} key={item._id}>
-                    {item.airline}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </form>
-        </div>
-        {this.state.status === "ADMIN" ? (
+
+        {admin === null ? (
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <label>
+                Choose airline :
+                <select value={airline} onChange={this.handleAirline}>
+                  <option value=""></option>
+                  {all_airlines.map(item => (
+                    <option value={item.airline} key={item._id}>
+                      {item.airline}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </form>
+          </div>
+        ) : (
           <div>
             <Link
               to={{
@@ -58,8 +64,10 @@ export default class Airline extends React.Component {
               Add Flight
             </Link>
           </div>
-        ) : null}
+        )}
+
         <hr />
+
         <div className="table-box">
           <table>
             <thead>
@@ -67,6 +75,7 @@ export default class Airline extends React.Component {
                 <td>Flight</td>
                 <td>Destination</td>
                 <td>Departure</td>
+                <td>Date</td>
                 <td>Time</td>
                 <td>Fare</td>
                 <td>Capacity</td>
@@ -78,10 +87,11 @@ export default class Airline extends React.Component {
                   <td>{item.flightname}</td>
                   <td>{item.dest}</td>
                   <td>{item.depart}</td>
+                  <td>{item.date}</td>
                   <td>{item.time}</td>
                   <td>${item.fares}</td>
                   <td>{item.capacity}</td>
-                  {this.state.status === "CUSTOMER" ? (
+                  {admin === null ? (
                     <td>
                       <Link
                         to={{
@@ -145,36 +155,48 @@ export default class Airline extends React.Component {
       this.setState({ data: [] });
       return;
     }
-
     const { all_flights } = this.state;
     const data = all_flights.filter(item =>
       item.airline.toLocaleLowerCase().includes(airline.toLocaleLowerCase())
     );
+
     this.setState({ data, airline });
   };
 
-  async getData() {
-    this.getFlight();
-    this.getAirline();
-  }
-
-  async getFlight() {
+  async getDataAdmin() {
     try {
-      const flight_json = await fetch("/flights");
-      const all_flights = await flight_json.json();
-      console.log(all_flights);
-      this.setState({ all_flights });
+      const flights_json = await fetch("/flights");
+      const flights_unfiltered = await flights_json.json();
+
+      const admin_airline = this.state.admin.airline;
+      const all_flights_filtered = flights_unfiltered.filter(
+        item => item.airline === admin_airline
+      );
+
+      const data = all_flights_filtered.sort(
+        (a, b) =>
+          new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
+      );
+
+      this.setState({ data });
     } catch (err) {
       console.log(err);
     }
   }
 
-  async getAirline() {
+  async getDataCustomer() {
     try {
+      const flight_json = await fetch("/flights");
+      const all_flights_unsorted = await flight_json.json();
+      const all_flights = all_flights_unsorted.sort(
+        (a, b) =>
+          new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
+      );
+
       const airline_json = await fetch("/airlines");
       const all_airlines = await airline_json.json();
-      console.log(all_airlines);
-      this.setState({ all_airlines });
+
+      this.setState({ all_flights, all_airlines });
     } catch (err) {
       console.log(err);
     }
