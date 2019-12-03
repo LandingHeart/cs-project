@@ -46,9 +46,12 @@ export default class App extends React.Component {
             <Route path="/airline">
               <Airline />
             </Route>
-            <Route path="/airport">
-              <Airport />
-            </Route>
+
+            <Route
+              path="/airport"
+              render={props => <Airport {...props} user={this.state.user} />}
+            />
+
             <Route
               path="/profile"
               render={props => <Profile {...props} user={this.state.user} />}
@@ -66,7 +69,7 @@ export default class App extends React.Component {
             <Route
               path="/signin"
               render={props => (
-                <SignIn 
+                <SignIn
                   {...props}
                   handleAuth={this.handleAuth}
                   setUser={this.setUser}
