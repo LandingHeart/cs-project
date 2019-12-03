@@ -22,14 +22,11 @@ export default class Home extends React.Component {
         <form>
           <label> Search for flights </label>
           <input type="text" onChange={this.handleChange} />
-          <button className = "btn-primary">
-          Search
-          </button>
+          <button className="btn-primary">Search</button>
         </form>
         {this.state.flights.map(data => (
-          <div>
+          <div key={data.flightid}>
             <section
-              key={data.id}
               style={{
                 border: "1px solid grey",
                 margin: "20px",

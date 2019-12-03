@@ -6,15 +6,13 @@ export default class SignUp extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      customersid: "",
+      customerid: "100",
       firstname: "",
       lastname: "",
       username: "",
       password: "",
-      customers: [],
-      
+      customers: []
     };
-    this.handleCustomerid();
   }
   handleInputChange = event => {
     const { value, name } = event.target;
@@ -74,9 +72,9 @@ export default class SignUp extends React.Component {
     );
   }
   handleCustomerid = e => {
-    const customersid = 10;
-    console.log("automate id" + customersid);
-    this.setState({ customersid });
+    const customerid = 10;
+    console.log("automate id" + customerid);
+    this.setState({ customerid });
   };
   handleFirstname = e => {
     const firstname = e.target.value;
@@ -98,7 +96,7 @@ export default class SignUp extends React.Component {
   onSubmit = event => {
     event.preventDefault();
     const obj = {
-      customersid: this.state.customersid,
+      customerid: this.state.customerid,
       firstname: this.state.firstname,
       lastname: this.state.lastname,
       username: this.state.username,
@@ -110,7 +108,9 @@ export default class SignUp extends React.Component {
       headers: {
         "Content-Type": "application/json"
       }
-    });
+    })
+      .then(res => console.log(res))
+      .catch(err => console.log(err));
     console.log(obj);
     alert("Success");
   };

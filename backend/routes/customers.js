@@ -24,19 +24,22 @@ router.get("/:customerId", async (req, res) => {
 });
 
 router.post("/api/register", async (req, res) => {
-  const { customerid ,firstname, lastname, username, password} = req.body;
+  const { customerid, firstname, lastname, username, password } = req.body;
+
   const customer = new Customer({
     customerid,
     firstname,
     lastname,
     username,
-    password,
-   
+    password
   });
+  console.log(customer);
   try {
     const saveCustomer = await customer.save();
+    console.log("Aaa");
     res.json(saveCustomer);
   } catch (err) {
+    console.log("err");
     res.json({ message: err });
   }
 });
@@ -74,7 +77,7 @@ router.post("/api/auth", async (req, res) => {
             expiresIn: "1h"
           });
           // res.cookie("token", token, { httpOnly: true }).sendStatus(200);
-          res.status(200).json(user)
+          res.status(200).json(user);
         }
       });
     }
@@ -93,4 +96,3 @@ router.delete("/:customerId", async (req, res) => {
 });
 
 module.exports = router;
-

@@ -33,6 +33,10 @@ const FLightSchema = mongoose.Schema({
     type: Number,
     require: true
   },
+  time: {
+    type: String,
+    require: true
+  },
   date: {
     type: String,
     require: true

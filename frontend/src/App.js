@@ -66,7 +66,7 @@ export default class App extends React.Component {
             <Route
               path="/signin"
               render={props => (
-                <SignIn
+                <SignIn 
                   {...props}
                   handleAuth={this.handleAuth}
                   setUser={this.setUser}

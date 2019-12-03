@@ -31,6 +31,7 @@ router.post("/admin/add", async (req, res) => {
     fill: req.body.fill,
     arrival: req.body.arrival,
     departure: req.body.departure,
+    time: req.body.time,
     fare: req.body.fare,
     date: req.body.date
   });
