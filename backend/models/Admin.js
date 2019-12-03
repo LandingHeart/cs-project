@@ -2,9 +2,10 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
 const SECRET = "mynameis";
+const jwt = require("jsonwebtoken");
 const AdminSchema = mongoose.Schema({
-  airline:{
-    type: String, 
+  airline: {
+    type: String,
     require: true
   },
   username: {
@@ -67,8 +68,7 @@ AdminSchema.statics.findByToken = function(token, cb) {
   });
 };
 
-
-//on log out 
+//on log out
 AdminSchema.methods.deleteToken = function(token, cb) {
   var user = this;
 
@@ -78,4 +78,4 @@ AdminSchema.methods.deleteToken = function(token, cb) {
   });
 };
 
-module.exports = mongoose.model("Admin", AdminSchema);
+module.exports = mongoose.model("admins", AdminSchema);

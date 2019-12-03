@@ -33,6 +33,7 @@ export default class Navigation extends React.Component {
           ) : (
             <React.Fragment>
               <Link style={linkStyle} to="/signin"> Sign In</Link> | <Link style={linkStyle} to="/signup">Sign Up</Link>
+              | <Link style={linkStyle} to="/signinadmin">Admin Login</Link>
             </React.Fragment>
         )}
       </header>

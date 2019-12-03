@@ -28,7 +28,7 @@ export default class SignIn extends React.Component {
       <div className="container">
         <div className="form-box-sign-in">
           <form onSubmit={this.onSubmit}>
-            <h1 style={{color: "black" }}>Customer Login</h1>
+            <h1 style={{ color: "black" }}>Customer Login</h1>
             <input
               type="text"
               name="username"

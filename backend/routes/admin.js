@@ -1,7 +1,9 @@
 const express = require("express");
+const secret = "mynameis";
 
 const router = express.Router();
 const Admin = require("../models/Admin");
+const jwt = require("jsonwebtoken");
 
 router.get("/", async (req, res) => {
   try {
@@ -28,9 +30,12 @@ router.post("/add", async (req, res) => {
 });
 
 router.post("/api/auth", async (req, res) => {
-  const { username, password } = req.body;
-  
+  const { airline, username, password } = req.body;
+  console.log("error message");
   Admin.findOne({ username }, (err, user) => {
+    console.log(username);
+    console.log("BEGINNING");
+    console.log(user);
     if (err) {
       console.log(err);
       res.status(500).json({
@@ -42,8 +47,11 @@ router.post("/api/auth", async (req, res) => {
         error: "Incorrect email or password"
       });
     } else {
+      console.log("REACH ELSE");
       user.isCorrectPassword(password, function(err, same) {
+        console.log("password" + password);
         if (err) {
+          console.log(err);
           res.status(500).json({
             error: "Internal error please try again"
           });
@@ -58,7 +66,10 @@ router.post("/api/auth", async (req, res) => {
           const token = jwt.sign(payload, secret, {
             expiresIn: "1h"
           });
-          res.cookie("token", token, { httpOnly: true }).sendStatus(200);
+          // res.cookie("token", token, { httpOnly: true }).sendStatus(200);
+          console.log("SENDING USER");
+          console.log(user);
+          res.status(200).json(user);
         }
       });
     }
