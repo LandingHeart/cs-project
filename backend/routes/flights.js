@@ -22,6 +22,8 @@ router.get("/:flightId", async (req, res) => {
   }
 });
 
+router.get("/");
+
 router.put("/update", (req, res) => {
   try {
   } catch (err) {
@@ -36,7 +38,7 @@ router.post("/admin/add", async (req, res) => {
     flight: req.body.flight,
     capacity: req.body.capacity,
     fill: req.body.fill,
-    arrival: req.body.arrival,
+    dest: req.body.dest,
     departure: req.body.departure,
     time: req.body.time,
     fare: req.body.fare,
@@ -48,6 +50,14 @@ router.post("/admin/add", async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
+});
+
+router.put("/update/:id", function(req, res) {
+  Flight.findByIdAndUpdate({ _id: id }, req.body).then(function() {
+    Flight.findOne({ _id: id }).then(function(flight) {
+      res.send({ flight });
+    });
+  });
 });
 
 router.delete("/:flightId", async (req, res) => {
