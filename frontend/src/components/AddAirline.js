@@ -20,6 +20,8 @@ export default class AddAirline extends React.Component {
     };
   }
 
+
+  //airline id generation ,..,
   componentDidMount() {
     fetch("/airlines")
       .then(res => res.json())

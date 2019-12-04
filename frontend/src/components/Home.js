@@ -26,7 +26,7 @@ export default class Home extends React.Component {
              display: "inline-block",
              width: "15%",
              height: "auto"
-           }}>
+           }}> 
         </input>
       </div>
     );

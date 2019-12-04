@@ -15,6 +15,7 @@ export default class Search extends React.Component {
       dateString: "",
       allFlights: [],
       flights: [],
+      airlines: [], //fetch airlines 
       airlines_list: ["Delta", "American"],
       departure_list: ["JFK", "LGA"],
       arrival_list: ["JFK", "LGA"],
@@ -31,7 +32,14 @@ export default class Search extends React.Component {
           console.log("flights fetch", flights);
         })
       );
-
+      
+    fetch('/airlines')
+        .then(res => res.json())
+        .then(airlines =>{
+          this.setState({airlines})
+          console.log("airlines")
+        })
+        
     const fakeData = [
       {
         id: 1,
@@ -221,6 +229,12 @@ export default class Search extends React.Component {
     });
 
     this.setState({ flights });
+  };
+
+  //airline 
+  handleAirline = e => {
+    const airline = e.target.value;
+    this.search(airline);
   };
 
   handleSubmit = e => {

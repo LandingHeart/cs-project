@@ -99,7 +99,7 @@ export default class Profile extends React.Component {
           const curr = all_flights[j];
           if (curr.flightid === booking.flightid) flight.push(curr);
         }
-      }
+      } 
 
       //FILTER THE FLIGHTS BASED ON THE DATES
       const upcomingFlights = flight.filter(

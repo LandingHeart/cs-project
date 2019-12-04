@@ -22,42 +22,46 @@ export default class SignUp extends React.Component {
   };
   render() {
     return (
-      <div className="container">
+      <div className="container" style = {{color: "black"}}>
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
             <h1 style={{ color: "black" }}>New Account</h1>
-             <label>First Name</label>
+             <label style = {{color: "black"}}>First Name</label>
             <input
               type="text"
               name="firstname"
               placeholder="First Name"
               value={this.state.firstname}
               onChange={this.handleFirstname}
+              required
             />
-            // <label>Last Name</label>
+            // <label style = {{color: "black"}}>Last Name</label>
             <input
               type="text"
               name="lastname"
               placeholder="Last Name"
               value={this.state.lastname}
               onChange={this.handleLastname}
+              required
             />
-            // <label>Username</label>
+             <label style = {{color: "black"}}>Username</label>
             <input
               type="text"
               name="username"
               placeholder="Username"
               value={this.state.username}
               onChange={this.handleUsername}
+              required
             />
 
-            // <label>Password</label>
+             <label style = {{color: "black"}}>Password</label>
             <input
               type="text"
               name="password"
               placeholder="Password"
               value={this.state.password}
               onChange={this.handlePassword}
+              required
             />
 
             <input
