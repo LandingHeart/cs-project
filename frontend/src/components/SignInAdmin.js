@@ -14,15 +14,11 @@ export default class SignIn extends React.Component {
 
     this.state = {
       username: "",
-      password: "",
-      customers: []
+      password: ""
     };
   }
-  componentDidMount() {}
 
   render() {
-    const auth = this.props.auth;
-
     return (
       <div className="container">
         <div className="form-box-sign-in">
@@ -44,12 +40,7 @@ export default class SignIn extends React.Component {
               onChange={this.handleInputChange}
             />
 
-            <input
-              type="submit"
-              value="Submit"
-              className="btn-primary"
-              onClick={this.successLogin}
-            />
+            <input type="submit" value="Submit" className="btn-primary" />
           </form>
         </div>
       </div>
@@ -69,7 +60,7 @@ export default class SignIn extends React.Component {
       username: this.state.username,
       password: this.state.password
     };
-    console.log(obj);
+
     fetch("/admins/api/auth", {
       method: "POST",
       body: JSON.stringify(obj),
@@ -78,8 +69,6 @@ export default class SignIn extends React.Component {
       }
     })
       .then(res => {
-        console.log("hello");
-        console.log(res);
         if (res.status !== 200) {
           const error = new Error(res.error);
           throw error;
@@ -87,24 +76,12 @@ export default class SignIn extends React.Component {
         return res.json();
       })
       .then(user => {
-        console.log("success");
-        console.log(user);
-        // this.props.setUser(user);
         this.props.setAdmin(user);
         this.props.history.push("/");
       })
       .catch(err => {
-        console.log("heeee");
         console.error(err);
         alert("Error logging in please try again");
       });
-  };
-
-  adminSignIn = event => {
-    this.props.history.push("/signinadmin");
-  };
-
-  successLogin = event => {
-    // this.props.history.push("/");
   };
 }

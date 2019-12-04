@@ -14,16 +14,11 @@ export default class SignIn extends React.Component {
 
     this.state = {
       username: "",
-      password: "",
-      customers: [],
-      permission: false
+      password: ""
     };
   }
-  componentDidMount() {}
 
   render() {
-    const auth = this.props.auth;
-
     return (
       <div className="container">
         <div className="form-box-sign-in">
@@ -45,18 +40,9 @@ export default class SignIn extends React.Component {
               onChange={this.handleInputChange}
             />
 
-            <input
-              type="submit"
-              value="Submit"
-              className="btn-primary"
-              onClick={this.successLogin}
-            />
-            <input
-              type="submit"
-              value="Admin"
-              className="btn-primary"
-              onClick={this.adminSignIn}
-            />
+            <input type="submit" value="Submit" className="btn-primary" />
+
+            <Link to={"/signinadmin"}>Log in as Admin</Link>
           </form>
         </div>
       </div>
@@ -89,19 +75,10 @@ export default class SignIn extends React.Component {
       .then(user => {
         this.props.setUser(user);
         this.props.history.push("/");
-        this.props.handleAuth(true);
       })
       .catch(err => {
         console.error(err);
         alert("Error logging in please try again");
       });
-  };
-
-  adminSignIn = event => {
-    this.props.history.push("/signinadmin");
-  };
-
-  successLogin = event => {
-    // this.props.history.push("/");
   };
 }

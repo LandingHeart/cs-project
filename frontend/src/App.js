@@ -18,16 +18,11 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      auth: false,
       currentDate: null,
       user: null,
       admin: null
     };
   }
-
-  handleAuth = auth => {
-    this.setState({ auth });
-  };
 
   setUser = user => {
     this.setState({ user });
@@ -42,9 +37,9 @@ export default class App extends React.Component {
       <Router>
         <div id="App">
           <Navigation
-            auth={this.state.auth}
+            user={this.state.user}
             admin={this.state.admin}
-            handleAuth={this.handleAuth}
+            setUser={this.setUser}
             setAdmin={this.setAdmin}
           />
 
@@ -79,17 +74,13 @@ export default class App extends React.Component {
 
             <Route
               path="/signin"
-              render={props => (
-                <SignIn
-                  {...props}
-                  handleAuth={this.handleAuth}
-                  setUser={this.setUser}
-                />
-              )}
+              render={props => <SignIn {...props} setUser={this.setUser} />}
             />
+
             <Route path="/signup">
               <SignUp />
             </Route>
+
             <Route
               path="/signinadmin"
               render={props => (

@@ -6,13 +6,6 @@ export default class Navigation extends React.Component {
     super(props);
   }
 
-  isLogin = () => {
-    const { admin, auth } = this.props;
-    console.log(admin);
-    console.log(auth);
-    return !(admin === null && auth === false);
-  };
-
   render() {
     const linkStyle = {
       color: "#fff",
@@ -26,61 +19,106 @@ export default class Navigation extends React.Component {
       padding: "10px"
     };
 
-    return (
-      <header style={headerStyle}>
-        <h1>Flights</h1>
-        <Link style={linkStyle} to="/">
-          Home
-        </Link>{" "}
-        |
-        {this.isLogin() ? (
+    //IF ADMIN LOGGED IN
+    if (this.props.admin !== null) {
+      return (
+        <header style={headerStyle}>
+          <h1>Flights</h1>
+          <Link style={linkStyle} to="/">
+            Home
+          </Link>
+          <Space />
           <React.Fragment>
             <Link style={linkStyle} to="/reserve">
-              {" "}
               Reserve
-            </Link>{" "}
-            |{" "}
+            </Link>
+            <Space />
             <Link style={linkStyle} to="/airline">
               Airline
-            </Link>{" "}
-            |{" "}
+            </Link>
+            <Space />
             <Link style={linkStyle} to="/airport">
               Airport
-            </Link>{" "}
-            |
-            <Link style={linkStyle} to="/profile">
-              {" "}
-              Profile
-            </Link>{" "}
-            |{" "}
+            </Link>
+            <Space />
             <Link
               style={linkStyle}
               to="/"
               onClick={() => {
                 this.props.setAdmin(null);
-                this.props.handleAuth(false);
+                this.props.setUser(null);
               }}
             >
               Log out
             </Link>
           </React.Fragment>
-        ) : (
+        </header>
+      );
+    }
+
+    //IF USER LOGGED IN
+    if (this.props.user !== null) {
+      return (
+        <header style={headerStyle}>
+          <h1>Flights</h1>
+          <Link style={linkStyle} to="/">
+            Home
+          </Link>
+          <Space />
           <React.Fragment>
-            <Link style={linkStyle} to="/signin">
-              {" "}
-              Sign In
-            </Link>{" "}
-            |{" "}
-            <Link style={linkStyle} to="/signup">
-              Sign Up
+            <Link style={linkStyle} to="/reserve">
+              Reserve
             </Link>
-            |{" "}
-            <Link style={linkStyle} to="/signinadmin">
-              Admin Login
+            <Space />
+            <Link style={linkStyle} to="/airline">
+              Airline
+            </Link>
+            <Space />
+            <Link style={linkStyle} to="/airport">
+              Airport
+            </Link>
+            <Space />
+            <Link style={linkStyle} to="/profile">
+              Profile
+            </Link>
+            <Space />
+            <Link
+              style={linkStyle}
+              to="/"
+              onClick={() => {
+                this.props.setAdmin(null);
+                this.props.setUser(null);
+              }}
+            >
+              Log out
             </Link>
           </React.Fragment>
-        )}
+        </header>
+      );
+    }
+
+    //IF NOBODY LOGGED IN
+    return (
+      <header style={headerStyle}>
+        <h1>Flights</h1>
+        <Link style={linkStyle} to="/">
+          Home
+        </Link>
+        <Space />
+        <React.Fragment>
+          <Link style={linkStyle} to="/signin">
+            Sign In
+          </Link>
+          <Space />
+          <Link style={linkStyle} to="/signup">
+            Sign Up
+          </Link>
+        </React.Fragment>
       </header>
     );
   }
+}
+
+function Space() {
+  return <span> | </span>;
 }
