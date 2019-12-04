@@ -49,6 +49,7 @@ export default class Profile extends React.Component {
                   <p>Flight: {item.flightname}</p>
                   <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
                 </div>
@@ -64,6 +65,7 @@ export default class Profile extends React.Component {
                   <p>Flight: {item.flightname}</p>
                   <p>Airline Name: {item.airline}</p>
                   <p>Date: {new String(item.date)}</p>
+                  <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
                 </div>
@@ -84,7 +86,7 @@ export default class Profile extends React.Component {
       const all_bookings = await bookings_json.json();
 
       const user_booking = all_bookings.filter(
-        item => item.customer === this.state.user.username
+        item => item.customer === this.state.user.customerid
       );
 
       //GET ALL FLIGHTS
@@ -99,9 +101,10 @@ export default class Profile extends React.Component {
           const curr = all_flights[j];
           if (curr.flightid === booking.flightid) flight.push(curr);
         }
-      } 
+      }
 
       //FILTER THE FLIGHTS BASED ON THE DATES
+      //TODO: NEED TO CHANGE new Date() WITH THE DATE USER INPUT
       const upcomingFlights = flight.filter(
         item => new Date(item.date) - new Date() > 0
       );
@@ -115,7 +118,6 @@ export default class Profile extends React.Component {
     } catch (e) {
       console.log(e);
     }
-    console.log(this.state.upcomingFlights);
   }
 
   refresh = () => {
