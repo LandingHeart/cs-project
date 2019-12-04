@@ -20,9 +20,9 @@ router.get("/:airlineId", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/add", async (req, res) => {
   const airline = new Airline({
-    arilinename: req.body.airlinename,
+    ariline: req.body.airline,
     airlineid: req.body.airlineid,
   });
 

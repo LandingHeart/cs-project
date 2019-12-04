@@ -14,6 +14,8 @@ import AddFlight from "./components/AddFlight";
 import ConfirmationDetails from "./components/ConfirmationDetails";
 import AddAirport from "./components/AddAirport";
 
+import AddAirline from "./components/AddAirline";
+
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -97,6 +99,10 @@ export default class App extends React.Component {
             <Route
               path="/admin/addAirport"
               render={props => <AddAirport {...props} />}
+            />
+            <Route
+              path="/admin/addAirline"
+              render={props => <AddAirline {...props} />}
             />
 
             <Route
