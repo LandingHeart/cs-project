@@ -18,8 +18,7 @@ export default class Search extends React.Component {
       airlines_list: ["Delta", "American"],
       departure_list: ["JFK", "LGA"],
       arrival_list: ["JFK", "LGA"],
-      price: "",
-
+      price: ""
     };
   }
 
@@ -130,7 +129,6 @@ export default class Search extends React.Component {
           </div>
           <div>
             <label>
-
               <input
                 type="date"
                 value={this.state.date}

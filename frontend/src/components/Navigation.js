@@ -37,6 +37,12 @@ export default class Navigation extends React.Component {
               Airport
             </Link>
             <Space />
+
+            <Link style={linkStyle} to="/admin/addAirport">
+              Add Airport
+            </Link>
+
+            <Space />
             <Link
               style={linkStyle}
               to="/"

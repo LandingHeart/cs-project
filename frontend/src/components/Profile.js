@@ -84,7 +84,7 @@ export default class Profile extends React.Component {
       const all_bookings = await bookings_json.json();
 
       const user_booking = all_bookings.filter(
-        item => item.bookedBy === this.state.user.username
+        item => item.customer === this.state.user.username
       );
 
       //GET ALL FLIGHTS
@@ -115,6 +115,7 @@ export default class Profile extends React.Component {
     } catch (e) {
       console.log(e);
     }
+    console.log(this.state.upcomingFlights);
   }
 
   refresh = () => {

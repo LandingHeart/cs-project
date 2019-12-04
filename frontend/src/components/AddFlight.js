@@ -74,10 +74,21 @@ export default class AddFlight extends React.Component {
 
     return (
       <div>
-        <div>
-          <h1>{this.props.location.state.type} FLIGHT</h1>
-        </div>
-        <div className="form-box-sign-in">
+        <div></div>
+        <div
+          className="container"
+          style={{
+            backgroundColor: "white",
+            width: "300px",
+            marginTop: "20px",
+            marginBottom: "20px",
+            color: "black",
+            boxShadow: "0px 0.5px 2px 3px #ccc"
+          }}
+        >
+          <h1 style={{ color: "black" }}>
+            {this.props.location.state.type} FLIGHT
+          </h1>
           <form onSubmit={this.submit}>
             <label>
               Flight Name
@@ -229,6 +240,7 @@ export default class AddFlight extends React.Component {
         .then(resp => {
           console.log(resp);
           this.props.history.push("/");
+          alert("success");
         })
         .catch(err => console.log(err));
     } catch (err) {

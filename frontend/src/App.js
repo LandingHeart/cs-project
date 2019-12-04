@@ -12,6 +12,8 @@ import SignInAdmin from "./components/SignInAdmin";
 import ReservationCustomer from "./components/ReservationCustomer";
 import AddFlight from "./components/AddFlight";
 import ConfirmationDetails from "./components/ConfirmationDetails";
+import AddAirport from "./components/AddAirport";
+
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 export default class App extends React.Component {
@@ -91,6 +93,10 @@ export default class App extends React.Component {
             <Route
               path="/admin/add"
               render={props => <AddFlight {...props} />}
+            />
+            <Route
+              path="/admin/addAirport"
+              render={props => <AddAirport {...props} />}
             />
 
             <Route

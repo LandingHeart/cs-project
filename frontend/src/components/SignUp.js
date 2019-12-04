@@ -26,7 +26,7 @@ export default class SignUp extends React.Component {
         <div className="form-box">
           <form onSubmit={this.onSubmit}>
             <h1 style={{ color: "black" }}>New Account</h1>
-            // <label>First Name</label>
+             <label>First Name</label>
             <input
               type="text"
               name="firstname"

@@ -20,10 +20,10 @@ router.get("/:airportid", async (req, res) => {
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/add", async (req, res) => {
   const airport = new Airport({
-    ariline: req.body.airline,
-    description: req.body.description,
+    airport: req.body.airport,
+    description: req.body.description
   });
 
   try {
@@ -36,7 +36,7 @@ router.post("/", async (req, res) => {
 
 router.delete("/:airportid", async (req, res) => {
   try {
-    const removeAirport= await Flight.remove({ _id: req.params.airportid });
+    const removeAirport = await Flight.remove({ _id: req.params.airportid });
     res.json(removeAirport);
   } catch (err) {
     res.json({ message: err });
