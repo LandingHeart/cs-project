@@ -29,10 +29,6 @@ export default class Navigation extends React.Component {
           </Link>
           <Space />
           <React.Fragment>
-            <Link style={linkStyle} to="/reserve">
-              Reserve
-            </Link>
-            <Space />
             <Link style={linkStyle} to="/airline">
               Airline
             </Link>

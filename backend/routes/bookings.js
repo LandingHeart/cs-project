@@ -22,8 +22,7 @@ router.get("/:bookingId", async (req, res) => {
   }
 });
 
-
-//route to pass in the customerid and find 
+//route to pass in the customerid and find
 // {this.state.customerName}
 router.get("/:customerid", async (req, res) => {
   try {
@@ -34,13 +33,22 @@ router.get("/:customerid", async (req, res) => {
   }
 });
 
+router.put("/update/:id", async (req, res) => {
+  Booking.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function() {
+    Booking.findOne({ id: req.params.id }).then(function(booking) {
+      res.send({ booking });
+    });
+  });
+});
 
 router.post("/", async (req, res) => {
   const booking = new Booking({
-    bookedBy: req.body.bookedBy,
+    customer: req.body.customer,
     flightid: req.body.flightid,
     flightName: req.body.flightName,
-    id: req.body.id
+    id: req.body.id,
+    bookfrom: req.body.bookfrom
+    
   });
 
   try {

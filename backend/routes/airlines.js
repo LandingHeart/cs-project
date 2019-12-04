@@ -22,8 +22,8 @@ router.get("/:airlineId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const airline = new Airline({
-    ariline: req.body.airline,
-    description: req.body.description,
+    arilinename: req.body.airlinename,
+    airlineid: req.body.airlineid,
   });
 
   try {

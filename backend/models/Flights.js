@@ -17,11 +17,11 @@ const FLightSchema = mongoose.Schema({
     type: Number,
     require: true
   },
-  fill: {
+  filled: {
     type: Number,
     require: true
   },
-  arrival: {
+  dest: {
     type: String,
     require: true
   },
@@ -40,7 +40,12 @@ const FLightSchema = mongoose.Schema({
   date: {
     type: String,
     require: true
+  },
+  status:{
+    type: String,
+    require: true
   }
 });
+
 
 module.exports = mongoose.model("flights", FLightSchema);

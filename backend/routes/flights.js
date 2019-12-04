@@ -15,20 +15,19 @@ router.get("/", async (req, res) => {
 
 router.get("/:flightId", async (req, res) => {
   try {
-    const flights = await Flight.findById(req.params.customerId);
+    const flights = await Flight.findById(req.params.flightId);
     res.json(flights);
   } catch (err) {
     res.json({ message: err });
   }
 });
 
-router.get("/");
-
-router.put("/update", (req, res) => {
-  try {
-  } catch (err) {
-    res.json({ msg: err });
-  }
+router.put("/update/:id", function(req, res) {
+  Flight.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function() {
+    Flight.findOne({ _id: req.params.id }).then(function(flight) {
+      res.send(flight);
+    });
+  });
 });
 
 router.post("/admin/add", async (req, res) => {
@@ -37,12 +36,13 @@ router.post("/admin/add", async (req, res) => {
     airline: req.body.airline,
     flight: req.body.flight,
     capacity: req.body.capacity,
-    fill: req.body.fill,
+    filled: req.body.filled,
     dest: req.body.dest,
     departure: req.body.departure,
     time: req.body.time,
     fare: req.body.fare,
-    date: req.body.date
+    date: req.body.date,
+    status: req.body.status
   });
   try {
     const saveFlight = await flight.save();
@@ -50,14 +50,6 @@ router.post("/admin/add", async (req, res) => {
   } catch (err) {
     res.json({ message: err });
   }
-});
-
-router.put("/update/:id", function(req, res) {
-  Flight.findByIdAndUpdate({ _id: id }, req.body).then(function() {
-    Flight.findOne({ _id: id }).then(function(flight) {
-      res.send({ flight });
-    });
-  });
 });
 
 router.delete("/:flightId", async (req, res) => {
