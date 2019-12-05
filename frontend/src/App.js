@@ -14,7 +14,6 @@ import AddFlight from "./components/AddFlight";
 import ConfirmationDetails from "./components/ConfirmationDetails";
 import AddAirport from "./components/AddAirport";
 import { Animated } from "react-animated-css";
-
 // import AddAirline from "./components/AddAirline";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -23,22 +22,29 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: null,
+      currentDate: "",
       user: null,
-      admin: null
+      admin: null,
+      notChosenDate: true
     };
   }
 
-  setUser = user => {
-    this.setState({ user });
-  };
-
-  setAdmin = admin => {
-    this.setState({ admin });
-  };
-
   render() {
-    const { user, admin } = this.state;
+    const { user, admin, currentDate, notChosenDate } = this.state;
+
+    if (notChosenDate) {
+      return (
+        <div>
+          <h1>ENTER CURRENT DATE</h1>
+          <input type="date" onChange={this.setDate}></input>
+          {currentDate === "" ? null : <h3>Date: {currentDate}</h3>}
+          <button onClick={this.saveDate} disabled={currentDate.length === 0}>
+            SAVE
+          </button>
+        </div>
+      );
+    }
+
     return (
       <Router>
         <div id="App">
@@ -56,22 +62,45 @@ export default class App extends React.Component {
 
             <Route
               path="/airline"
-              render={props => <Airline {...props} user={user} admin={admin} />}
+              render={props => (
+                <Airline
+                  {...props}
+                  user={user}
+                  admin={admin}
+                  currentDate={currentDate}
+                />
+              )}
             />
 
             <Route
               path="/airport"
-              render={props => <Airport {...props} user={user} admin={admin} />}
+              render={props => (
+                <Airport
+                  {...props}
+                  user={user}
+                  admin={admin}
+                  currentDate={currentDate}
+                />
+              )}
             />
 
             <Route
               path="/profile"
-              render={props => <Profile {...props} user={user} />}
+              render={props => (
+                <Profile {...props} user={user} currentDate={currentDate} />
+              )}
             />
 
             <Route
               path="/reserve"
-              render={props => <Search {...props} user={user} admin={admin} />}
+              render={props => (
+                <Search
+                  {...props}
+                  user={user}
+                  admin={admin}
+                  currentDate={currentDate}
+                />
+              )}
             />
 
             <Route
@@ -88,6 +117,7 @@ export default class App extends React.Component {
               path="/signup"
               render={props => <SignUp {...props} setUser={this.setUser} />}
             />
+
             <Route
               path="/signinadmin"
               render={props => (
@@ -114,4 +144,24 @@ export default class App extends React.Component {
       </Router>
     );
   }
+
+  setUser = user => {
+    this.setState({ user });
+  };
+
+  setAdmin = admin => {
+    this.setState({ admin });
+  };
+
+  setDate = e => {
+    const date = e.target.value;
+    const split = date.split("-");
+    const currentDate = split[1] + "/" + split[2] + "/" + split[0];
+
+    this.setState({ currentDate });
+  };
+
+  saveDate = () => {
+    this.setState({ notChosenDate: false });
+  };
 }
