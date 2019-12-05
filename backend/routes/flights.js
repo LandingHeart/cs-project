@@ -24,9 +24,9 @@ router.get("/:flightId", async (req, res) => {
 
 router.put("/update/:id", function(req, res) {
   const flight = req.body;
-  Flight.findByIdAndUpdate({ _id: id }, flight)
+  Flight.findByIdAndUpdate({ _id: req.params.id }, flight)
     .then(function() {
-      Flight.findOne({ _id: id }).then(function(flight) {
+      Flight.findOne({ _id: req.params.id }).then(function(flight) {
         res.send(flight);
       });
     })
