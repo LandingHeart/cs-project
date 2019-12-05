@@ -22,11 +22,30 @@ router.get("/:flightId", async (req, res) => {
   }
 });
 
-router.put("/update/:id", function(req, res) {
+router.put("/updateAddFilledIntoFlight/:id", async (req, res) => {
   const flight = req.body;
-  Flight.findByIdAndUpdate({ _id: req.params.id }, flight)
+  const filled = flight.filled
+  const filledPlusOne = filled + 1;
+  flight['filled'] = filledPlusOne
+
+  Flight.findByIdAndUpdate({ _id: flight._id }, flight)
     .then(function() {
-      Flight.findOne({ _id: req.params.id }).then(function(flight) {
+      Flight.findOne({ _id: flight._id }).then(function(flight) {
+        res.send(flight);
+      });
+    })
+    .catch(err => console.log(err));
+});
+
+router.put("/updateSubsFilledIntoFlight/:id", async (req, res) => {
+  const flight = req.body;
+  const filled = flight.filled
+  const filledMinusOne = filled - 1;
+  flight['filled'] = filledMinusOne
+
+  Flight.findByIdAndUpdate({ _id: flight._id }, flight)
+    .then(function() {
+      Flight.findOne({ _id: flight._id }).then(function(flight) {
         res.send(flight);
       });
     })
@@ -94,7 +113,7 @@ router.post("/search", async (req, res) => {
       }
     }
 
-    const keys = Object.keys(our_flight);
+    const keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       if (our_flight[key] !== obj[key]) {

@@ -47,8 +47,7 @@ router.post("/", async (req, res) => {
     flightid: req.body.flightid,
     flightName: req.body.flightName,
     id: req.body.id,
-    bookfrom: req.body.bookfrom
-    
+    bookedFrom: req.body.bookedFrom
   });
 
   try {

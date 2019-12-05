@@ -69,8 +69,23 @@ export default class ConfirmationDetails extends React.Component {
                 }
               })
                 .then(res => {
-                  alert("Success");
-                  this.props.history.push("/airline");
+                  if (res.status === 200) {
+                    fetch(
+                      `/flights/updateAddFilledIntoFlight/${this.props.location.state.flight.flightid}`,
+                      {
+                        method: "PUT",
+                        body: JSON.stringify(this.props.location.state.flight),
+                        headers: { "Content-Type": "application/json" }
+                      }
+                    )
+                      .then(resp => {
+                        if (resp.status === 200) {
+                          alert("Success");
+                          this.props.history.push("/airline");
+                        }
+                      })
+                      .catch(err => console.log(err));
+                  }
                 })
                 .catch(err => console.log(err));
             } else if (this.props.location.state.type === "CANCEL") {
