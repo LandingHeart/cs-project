@@ -16,7 +16,7 @@ export default class Airline extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.user === null) {
+    if (this.props.user === null && this.props.admin === null) {
       this.props.history.push("/");
     }
     this.getData();

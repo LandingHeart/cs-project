@@ -19,7 +19,6 @@ export default class Navigation extends React.Component {
       padding: "10px"
     };
 
-    //IF ADMIN LOGGED IN
     if (this.props.admin !== null) {
       return (
         <header style={headerStyle}>
@@ -29,10 +28,17 @@ export default class Navigation extends React.Component {
           </Link>
           <Space />
           <React.Fragment>
-            <Link style={linkStyle} to="/airline">
-              Airline
-            </Link>
+            {this.props.admin.airline === "SEARCH" ? (
+              <Link style={linkStyle} to="/reserve">
+                Reserve
+              </Link>
+            ) : (
+              <Link style={linkStyle} to="/airline">
+                Airline
+              </Link>
+            )}
             <Space />
+
             <Link style={linkStyle} to="/airport">
               Airport
             </Link>

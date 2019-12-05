@@ -7,85 +7,48 @@ export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: { id: 1, name: "John", status: "CUSTOMER" },
-      name: "",
+      user: this.props.user,
+      admin: this.props.admin,
+      all_airports: [],
+      all_flights: [],
+      all_airlines: [],
+      flights_showed: [],
+      airline: "",
       departure: "",
       arrival: "",
-      date: undefined,
+      date: null,
       dateString: "",
-      allFlights: [],
-      flights: [],
-      airlines: [], //fetch airlines 
-      airlines_list: ["Delta", "American"],
-      departure_list: ["JFK", "LGA"],
-      arrival_list: ["JFK", "LGA"],
       price: ""
     };
   }
 
   componentDidMount() {
-    //fecth add flight data// going to copy and past...... ;) and save to flights
-    fetch("/flights")
-      .then(res => res.json())
-      .then(flights =>
-        this.setState({ flights }, () => {
-          console.log("flights fetch", flights);
-        })
-      );
-      
-    fetch('/airlines')
-        .then(res => res.json())
-        .then(airlines =>{
-          this.setState({airlines})
-          console.log("airlines")
-        })
-        
-    const fakeData = [
-      {
-        id: 1,
-        name: "Flight#1",
-        departure: "JFK",
-        arrival: "LGA",
-        date: new Date("November 29, 2019"),
-        fare: 1000
-      },
-      {
-        id: 2,
-        name: "Flight#2",
-        departure: "LGA",
-        arrival: "BSN",
-        date: new Date("November 30, 2019"),
-        fare: 5000
-      },
-      {
-        id: 3,
-        name: "Flight#3",
-        departure: "SNH",
-        arrival: "SGP",
-        date: new Date("November 31, 2019"),
-        fare: 1500
-      },
-      {
-        id: 4,
-        name: "Flight#4",
-        departure: "JKT",
-        arrival: "SBY",
-        date: new Date("November 28, 2019"),
-        fare: 200
-      }
-    ];
+    if (this.props.user === null && this.props.admin === null) {
+      this.props.history.push("/");
+      return;
+    }
 
-    //converting it for easy search index
-    const allFlights = [];
-    fakeData.forEach(item => {
-      item.date = this.convertDateToString(item.date);
-      allFlights.push(item);
-    });
-
-    this.setState({ allFlights });
+    this.fetchData();
+    this.interval = setInterval(() => this.fetchData(), 30000);
   }
 
   render() {
+    if (this.props.user === null && this.props.admin === null) return null;
+    if (
+      this.state.all_airlines === null ||
+      this.state.all_flights === null ||
+      this.state.all_airports === null
+    )
+      return null;
+
+    const {
+      flights_showed,
+      all_airports,
+      all_airlines,
+      price,
+      admin
+    } = this.state;
+
     return (
       <div className="container">
         <div>
@@ -96,11 +59,11 @@ export default class Search extends React.Component {
           <div>
             <label>
               Airline name:
-              <select value={this.state.airline} onChange={this.handleAirline}>
+              <select name="airline" onChange={this.handleInputChange}>
                 <option value=""></option>
-                {this.state.airlines_list.map(item => (
-                  <option value={item} key={item}>
-                    {item}
+                {all_airlines.map(item => (
+                  <option value={item.airline} key={item.airline}>
+                    {item.airline}
                   </option>
                 ))}
               </select>
@@ -109,14 +72,11 @@ export default class Search extends React.Component {
           <div>
             <label>
               Departure :
-              <select
-                value={this.state.departure}
-                onChange={this.handleDeparture}
-              >
+              <select name="departure" onChange={this.handleInputChange}>
                 <option value=""></option>
-                {this.state.departure_list.map(item => (
-                  <option value={item} key={item}>
-                    {item}
+                {all_airports.map(item => (
+                  <option value={item.airports} key={item.airports}>
+                    {item.airports}
                   </option>
                 ))}
               </select>
@@ -125,11 +85,11 @@ export default class Search extends React.Component {
           <div>
             <label>
               Arrival :
-              <select value={this.state.arrival} onChange={this.handleArrival}>
+              <select name="arrival" onChange={this.handleInputChange}>
                 <option value=""></option>
-                {this.state.arrival_list.map(item => (
-                  <option value={item} key={item}>
-                    {item}
+                {all_airports.map(item => (
+                  <option value={item.airports} key={item.airports}>
+                    {item.airports}
                   </option>
                 ))}
               </select>
@@ -137,11 +97,7 @@ export default class Search extends React.Component {
           </div>
           <div>
             <label>
-              <input
-                type="date"
-                value={this.state.date}
-                onChange={this.handleDate}
-              />
+              <input type="date" onChange={this.handleDate} />
             </label>
           </div>
           <input type="submit" value="Submit" />
@@ -156,7 +112,7 @@ export default class Search extends React.Component {
                 <input
                   type="radio"
                   value="LTH"
-                  checked={this.state.price === "LTH"}
+                  checked={price === "LTH"}
                   onChange={this.handlePrice}
                 />
               </label>
@@ -166,7 +122,7 @@ export default class Search extends React.Component {
                 <input
                   type="radio"
                   value="HTL"
-                  checked={this.state.price === "HTL"}
+                  checked={price === "HTL"}
                   onChange={this.handlePrice}
                 />
               </label>
@@ -174,27 +130,50 @@ export default class Search extends React.Component {
           </div>
 
           <div>
-            {this.state.flights.map(item => (
-              <div key={item.id}>
+            {flights_showed.map(item => (
+              <div key={item._id}>
                 <div className="div-box">
-                  <p>Name: {item.name}</p>
-                  <p>Departure: {item.departure}</p>
-                  <p>Arrival: {item.arrival}</p>
+                  <p>Name: {item.flightname}</p>
+                  <p>Departure: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
                   <p>Date: {item.date}</p>
-                  <p>Fare: {item.fare}</p>
+                  <p>Time: {item.time}</p>
+                  <p>Capacity: {item.capacity}</p>
+                  <p>Fare: {item.fares}</p>
+                  {admin !== null ? (
+                    admin.airline === "SEARCH" ? (
+                      <Link
+                        to={{
+                          pathname: "/admin/customerList",
+                          state: {
+                            airline: item
+                          }
+                        }}
+                      >
+                        See All Customer Reservation
+                      </Link>
+                    ) : null
+                  ) : item.status === "ON TIME" ? (
+                    item.isRegistered ? (
+                      <p>Registered</p>
+                    ) : (
+                      <Link
+                        to={{
+                          pathname: "/details",
+                          state: {
+                            flight: item,
+                            type: "REGISTER",
+                            bookedFrom: "SEARCH"
+                          }
+                        }}
+                      >
+                        Register
+                      </Link>
+                    )
+                  ) : (
+                    <p>UNAVAILABLE</p>
+                  )}
                 </div>
-                {this.state.user.status === "ADMIN" ? (
-                  <Link
-                    to={{
-                      pathname: "/admin/customerList",
-                      state: {
-                        airline: item
-                      }
-                    }}
-                  >
-                    See All Customer Reservation
-                  </Link>
-                ) : null}
               </div>
             ))}
           </div>
@@ -203,38 +182,72 @@ export default class Search extends React.Component {
     );
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  async fetchData() {
+    const flight_json = await fetch("/flights");
+    const all_flights_unsorted = await flight_json.json();
+    const all_flights_sorted = all_flights_unsorted.sort(
+      (a, b) =>
+        new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
+    );
+
+    let all_flights = [];
+
+    if (this.props.user !== null) {
+      const booking_json = await fetch("/bookings");
+      const booking = await booking_json.json();
+      const my_booking = booking.filter(
+        item => item.customer === this.props.user.customerid
+      );
+
+      for (let flight of all_flights_sorted) {
+        for (let booking of my_booking) {
+          if (booking.flightid === flight.flightid) {
+            const obj = flight;
+            obj["isRegistered"] = true;
+            if (!all_flights.includes(obj)) {
+              all_flights.push(obj);
+            }
+          } else {
+            const obj = flight;
+            if (!all_flights.includes(obj)) {
+              all_flights.push(obj);
+            }
+          }
+        }
+      }
+    } else {
+      all_flights = all_flights_sorted;
+    }
+
+    const airline_json = await fetch("/airlines");
+    const all_airlines = await airline_json.json();
+
+    const airports_json = await fetch("/airports");
+    const all_airports = await airports_json.json();
+
+    this.setState({ all_airlines, all_airports, all_flights });
+  }
+
   search = () => {
-    const { name, departure, arrival, allFlights, dateString } = this.state;
+    const { all_flights, airline, departure, arrival, dateString } = this.state;
+    const flights_showed = [];
 
-    const flights = [];
-
-    //filter the flight to only show the flight with
-    //the same airline name typed by user
-    //the same departure airport typed by user
-    //the same arrival airport typed by user
-    allFlights.forEach(item => {
-      const iName = item.name.toLocaleLowerCase();
-      const iDeparture = item.departure.toLocaleLowerCase();
-      const iArrival = item.arrival.toLocaleLowerCase();
-      const iDate = item.date.toLocaleLowerCase();
-
+    all_flights.forEach(item => {
       if (
-        iName.includes(name.toLocaleLowerCase()) &&
-        iDeparture.includes(departure.toLocaleLowerCase()) &&
-        iArrival.includes(arrival.toLocaleLowerCase()) &&
-        iDate.includes(dateString.toLocaleLowerCase())
+        item.airline === airline ||
+        item.depart === departure ||
+        item.dest === arrival ||
+        item.date === dateString
       ) {
-        flights.push(item);
+        flights_showed.push(item);
       }
     });
 
-    this.setState({ flights });
-  };
-
-  //airline 
-  handleAirline = e => {
-    const airline = e.target.value;
-    this.search(airline);
+    this.setState({ flights_showed });
   };
 
   handleSubmit = e => {
@@ -242,49 +255,41 @@ export default class Search extends React.Component {
     this.search();
   };
 
+  handleInputChange = event => {
+    const { value, name } = event.target;
+    this.setState({
+      [name]: value
+    });
+  };
+
   handlePrice = e => {
     const price = e.target.value;
-    const { flights } = this.state;
+    const { flights_showed } = this.state;
 
-    if (price === "HTL") flights.sort((a, b) => b.fare - a.fare);
-    else flights.sort((a, b) => a.fare - b.fare);
+    if (price === "HTL") flights_showed.sort((a, b) => b.fares - a.fares);
+    else flights_showed.sort((a, b) => a.fares - b.fares);
 
-    this.setState({ price, flights });
-  };
-
-  handleName = e => {
-    const name = e.target.value;
-    this.setState({ name });
-  };
-
-  handleDeparture = e => {
-    const departure = e.target.value;
-    this.setState({ departure });
-  };
-
-  handleArrival = e => {
-    const arrival = e.target.value;
-    this.setState({ arrival });
+    this.setState({ price, flights_showed });
   };
 
   handleDate = e => {
     const date = e.target.value;
-    //if the user resets the date, show all available flights
+
     if (date.length === 0) {
-      this.setState({ dateString: "" }, this.search);
+      this.setState({ dateString: "" });
       return;
     }
 
     const dateObject = new Date(date);
     const dateString = this.convertDateToString(dateObject);
-    this.setState({ dateString }, this.search);
+    this.setState({ dateString });
   };
 
   convertDateToString = dateObject => {
     const month = dateObject.getUTCMonth() + 1;
     const day = dateObject.getUTCDate();
     const year = dateObject.getUTCFullYear();
-    const date = year + "/" + month + "/" + day;
+    const date = +month + "/" + day + "/" + year;
     return date;
   };
 }

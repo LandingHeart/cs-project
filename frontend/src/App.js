@@ -37,12 +37,13 @@ export default class App extends React.Component {
   };
 
   render() {
+    const { user, admin } = this.state;
     return (
       <Router>
         <div id="App">
           <Navigation
-            user={this.state.user}
-            admin={this.state.admin}
+            user={user}
+            admin={admin}
             setUser={this.setUser}
             setAdmin={this.setAdmin}
           />
@@ -54,28 +55,23 @@ export default class App extends React.Component {
 
             <Route
               path="/airline"
-              render={props => (
-                <Airline
-                  {...props}
-                  user={this.state.user}
-                  admin={this.state.admin}
-                />
-              )}
+              render={props => <Airline {...props} user={user} admin={admin} />}
             />
 
             <Route
               path="/airport"
-              render={props => <Airport {...props} user={this.state.user} />}
+              render={props => <Airport {...props} user={user} admin={admin} />}
             />
 
             <Route
               path="/profile"
-              render={props => <Profile {...props} user={this.state.user} />}
+              render={props => <Profile {...props} user={user} />}
             />
 
-            <Route path="/reserve">
-              <Search />
-            </Route>
+            <Route
+              path="/reserve"
+              render={props => <Search {...props} user={user} admin={admin} />}
+            />
 
             <Route
               path="/admin/customerList"
@@ -113,9 +109,7 @@ export default class App extends React.Component {
 
             <Route
               path="/details"
-              render={props => (
-                <ConfirmationDetails {...props} user={this.state.user} />
-              )}
+              render={props => <ConfirmationDetails {...props} user={user} />}
             />
           </Switch>
         </div>

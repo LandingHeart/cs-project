@@ -16,7 +16,7 @@ export default class Airport extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.user === null) {
+    if (this.props.user === null && this.props.admin === null) {
       this.props.history.push("/");
     }
 
@@ -66,7 +66,7 @@ export default class Airport extends React.Component {
         </div>
 
         <div className="parent-table">
-          <div style={{ textAlign:"center" }}>
+          <div style={{ textAlign: "center" }}>
             <h2>Departure</h2>
             {departures.map(item => (
               <div key={item._id} className="flights-table">
@@ -94,7 +94,6 @@ export default class Airport extends React.Component {
             ))}
           </div>
         </div>
-
       </div>
     );
   }
