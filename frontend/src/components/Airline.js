@@ -37,7 +37,7 @@ export default class Airline extends React.Component {
             animationInOut="5s"
           >
         <div>
-          {admin === null ? <h1>Airlines</h1> : <h1>{admin.airline} Admin</h1>}
+          {admin === null ? <h1 style ={{color: "black", fontWeight: "bold"}}>Airlines</h1> : <h1>{admin.airline} Admin</h1>}
         </div>
 
         {admin === null ? (

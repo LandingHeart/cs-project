@@ -52,7 +52,9 @@ export default class Airport extends React.Component {
           animationInOut="2s"
         >
           <div>
-            <h1>Airport</h1>
+            <h1 style = {{
+              color: "black"
+            }}>Airport</h1>
           </div>
 
           <div>
@@ -69,14 +71,14 @@ export default class Airport extends React.Component {
 
           <div>
             <button onClick={this.refresh}>Refresh</button>
-            <pre style={{ color: "white" }}>Last updated: {lastUpdated}</pre>
+            <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
           </div>
-          <div className="container" style = {{backgroundColor: "black", opacity: "90%", boxShadow: "0px 0.5px 2px 3px #ccc"}}>
+          <div className="container" style = {{backgroundColor: "grey", opacity: "90%", boxShadow: "0px 0.5px 2px 3px #ccc"}}>
             <div className="row">
-              <div className="col flight-table">
+              <div className="col">
                 <h2>Departure</h2>
                 {departures.map(item => (
-                  <div key={item._id} className="" style = {{borderTop:"1px solid grey"}}>
+                  <div key={item._id} className="" style = {{borderTop:"1px solid white"}}>
                     <p>Name: {item.flightname}</p>
                     <p>Airline: {item.airline}</p>
                     <p>Date: {item.date}</p>
@@ -90,7 +92,7 @@ export default class Airport extends React.Component {
               <div className="col flight-table">
                 <h2>Arrival</h2>
                 {arrivals.map(item => (
-                  <div key={item._id} className="" style = {{borderTop:"1px solid grey"}}>
+                  <div key={item._id} className="" style = {{borderTop:"1px solid white"}}>
                     <p>Name: {item.flightname}</p>
                     <p>Airline: {item.airline}</p>
                     <p>Date: {item.date}</p>

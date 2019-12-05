@@ -13,5 +13,8 @@
 }
 
 p{
+  color: white;
+}
+label, h1{
   color: black;
 }
