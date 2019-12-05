@@ -23,7 +23,7 @@ export default class AddFlight extends React.Component {
 
   componentDidMount() {
     if (this.props.admin === null) {
-      this.props.history("/");
+      this.props.history.push("/");
       return;
     }
 
