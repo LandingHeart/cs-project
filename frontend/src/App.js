@@ -83,9 +83,10 @@ export default class App extends React.Component {
               render={props => <SignIn {...props} setUser={this.setUser} />}
             />
 
-            <Route path="/signup">
-              <SignUp />
-            </Route>
+            <Route
+              path="/signup"
+              render={props => <SignUp {...props} setUser={this.setUser} />}
+            />
 
             <Route
               path="/signinadmin"
