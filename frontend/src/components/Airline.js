@@ -102,7 +102,7 @@ export default class Airline extends React.Component {
                       <td>{item.date}</td>
                       <td>{item.time}</td>
                       <td>${item.fares}</td>
-                      <td>{item.capacity}</td>
+                      <td>{item.capacity - item.filled}</td>
                       <td>{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (

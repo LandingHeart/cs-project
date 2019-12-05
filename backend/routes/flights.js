@@ -27,6 +27,7 @@ router.put("/updateAddFilledIntoFlight/:id", async (req, res) => {
   const filled = flight.filled
   const filledPlusOne = filled + 1;
   flight['filled'] = filledPlusOne
+  if(filledPlusOne > 0) flight['status'] = "ON TIME"
 
   Flight.findByIdAndUpdate({ _id: flight._id }, flight)
     .then(function() {
@@ -42,6 +43,8 @@ router.put("/updateSubsFilledIntoFlight/:id", async (req, res) => {
   const filled = flight.filled
   const filledMinusOne = filled - 1;
   flight['filled'] = filledMinusOne
+
+  if(filledMinusOne <= 0) flight['status'] = "FULL"
 
   Flight.findByIdAndUpdate({ _id: flight._id }, flight)
     .then(function() {

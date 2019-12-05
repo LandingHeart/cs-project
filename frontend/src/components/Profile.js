@@ -2,8 +2,6 @@ import React from "react";
 import "./css-files/text.css";
 import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Animated } from "react-animated-css";
-
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -12,6 +10,7 @@ export default class Profile extends React.Component {
       user: this.props.user,
       upcomingFlights: [],
       previousFlights: [],
+      user_booking: [],
       lastUpdated: ""
     };
   }
@@ -30,56 +29,51 @@ export default class Profile extends React.Component {
 
     return (
       <div>
-        <Animated
-          animationIn="fadeIn"
-          animationOut="fadeOut"
-          isVisible={true}
-          animationInOut="2s"
-        >
-          <div>
-            <h1>Profile</h1>
-            <button onClick={this.refresh}>Refresh</button>
-            <pre>Last updated: {lastUpdated}</pre>
-          </div>
-          <div className="div-box">
-            <p>
-              Name: {user.firstname} {user.lastname}
-            </p>
-            <p>Username: {user.username}</p>
-          </div>
-          <hr />
-          <div>
-            <h2>Upcoming flights</h2>
-            {upcomingFlights === null
-              ? null
-              : upcomingFlights.map(item => (
-                  <div key={item._id} className="div-box">
-                    <p>Flight: {item.flightname}</p>
-                    <p>Airline Name: {item.airline}</p>
-                    <p>Date: {new String(item.date)}</p>
-                    <p>Time: {item.time}</p>
-                    <p>Depart: {item.depart}</p>
-                    <p>Destination: {item.dest}</p>
-                  </div>
-                ))}
-          </div>
-          <hr />
-          <div>
-            <h2>Previous flights</h2>
-            {previousFlights === null
-              ? null
-              : previousFlights.map(item => (
-                  <div key={item._id} className="div-box">
-                    <p>Flight: {item.flightname}</p>
-                    <p>Airline Name: {item.airline}</p>
-                    <p>Date: {new String(item.date)}</p>
-                    <p>Time: {item.time}</p>
-                    <p>Depart: {item.depart}</p>
-                    <p>Destination: {item.dest}</p>
-                  </div>
-                ))}
-          </div>
-        </Animated>
+        <div>
+          <h1>Profile</h1>
+          <button onClick={this.refresh}>Refresh</button>
+          <pre>Last updated: {lastUpdated}</pre>
+        </div>
+        <div className="div-box">
+          <p>
+            Name: {user.firstname} {user.lastname}
+          </p>
+          <p>Username: {user.username}</p>
+        </div>
+        <hr />
+        <div>
+          <h2>Upcoming flights</h2>
+          {upcomingFlights === null
+            ? null
+            : upcomingFlights.map(item => (
+                <div key={item._id} className="div-box">
+                  <p>Flight: {item.flightname}</p>
+                  <p>Airline Name: {item.airline}</p>
+                  <p>Date: {new String(item.date)}</p>
+                  <p>Time: {item.time}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
+                  <button onClick={() => this.cancel(item)}>Cancel</button>
+                </div>
+              ))}
+        </div>
+        <hr />
+        <div>
+          <h2>Previous flights</h2>
+          {previousFlights === null
+            ? null
+            : previousFlights.map(item => (
+                <div key={item._id} className="div-box">
+                  <p>Flight: {item.flightname}</p>
+                  <p>Airline Name: {item.airline}</p>
+                  <p>Date: {new String(item.date)}</p>
+                  <p>Time: {item.time}</p>
+                  <p>Depart: {item.depart}</p>
+                  <p>Destination: {item.dest}</p>
+                  <button onClick={() => this.cancel(item)}>Cancel</button>
+                </div>
+              ))}
+        </div>
       </div>
     );
   }
@@ -87,6 +81,40 @@ export default class Profile extends React.Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
+  cancel = flight => {
+    const { user_booking } = this.state;
+    let booking = null;
+    for (let curr_booking of user_booking) {
+      if (curr_booking.flightid === flight.flightid) {
+        booking = curr_booking;
+      }
+    }
+
+    fetch(`/bookings/${booking._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status === 200) {
+          fetch(`/flights/updateSubsFilledIntoFlight/${flight.flightid}`, {
+            method: "PUT",
+            body: JSON.stringify(flight),
+            headers: { "Content-Type": "application/json" }
+          })
+            .then(resp => {
+              if (resp.status === 200) {
+                alert("Success");
+                this.props.history.push("/airline");
+              }
+            })
+            .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
+  };
 
   async setFlight() {
     try {
@@ -123,7 +151,12 @@ export default class Profile extends React.Component {
       );
 
       const lastUpdated = this.getCurrentTime();
-      this.setState({ upcomingFlights, previousFlights, lastUpdated });
+      this.setState({
+        upcomingFlights,
+        previousFlights,
+        lastUpdated,
+        user_booking
+      });
     } catch (e) {
       console.log(e);
     }
