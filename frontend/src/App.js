@@ -24,7 +24,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       currentDate: null,
-      user: null,
+      user: true,
       admin: null
     };
   }

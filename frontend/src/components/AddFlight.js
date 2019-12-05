@@ -1,5 +1,6 @@
 import React from "react";
 import "./css-files/text.css";
+import { Animated } from "react-animated-css";
 
 export default class AddFlight extends React.Component {
   constructor(props) {
@@ -94,126 +95,133 @@ export default class AddFlight extends React.Component {
     return (
       <div>
         <div></div>
-        <div
-          className="container"
-          style={{
-            backgroundColor: "white",
-            width: "300px",
-            marginTop: "20px",
-            marginBottom: "20px",
-            color: "black",
-            boxShadow: "0px 0.5px 2px 3px #ccc"
-          }}
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
         >
-          <h1 style={{ color: "black" }}>
-            {this.props.location.state.type} FLIGHT
-          </h1>
-          <form onSubmit={this.submit}>
-            <label>
-              Flight Name
-              <input
-                type="text"
-                name="flightname"
-                value={flightname}
-                placeholder={"Enter flight name"}
-                onChange={this.handleInputChange}
-                required
-              />
-            </label>
-            <br />
-            <label>
-              Airline Name
-              <input type="text" value={airline} disabled />
-            </label>
-            <br />
-            <label>
-              Departure :
-              <select
-                name="depart"
-                value={depart}
-                onChange={this.handleInputChange}
-              >
-                <option value=""></option>
-                {airports.map(item => (
-                  <option key={item._id} value={item.airports}>
-                    {item.airports}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <br />
-            <label>
-              Destination :
-              <select
-                name="dest"
-                value={dest}
-                onChange={this.handleInputChange}
-              >
-                <option value=""></option>
-                {airports.map(item => (
-                  <option key={item._id} value={item.airports}>
-                    {item.airports}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <br />
-            <label>
-              Date
-              <input
-                type="date"
-                name="date"
-                value={date}
-                onChange={this.handleInputChange}
-                required
-              />
-            </label>
-            <br />
-            <label>
-              Time
-              <input
-                type="time"
-                name="time"
-                value={time}
-                onChange={this.handleInputChange}
-                required
-              />
-            </label>
-            <br />
-            <label>
-              Capacity
-              <input
-                type="number"
-                name="capacity"
-                value={capacity}
-                onChange={this.handleInputChange}
-                required
-              />
-            </label>
-            <br />
-            <label>
-              Fare
-              <input
-                type="number"
-                name="fares"
-                value={fares}
-                onChange={this.handleInputChange}
-                required
-              />
-            </label>
+          <div
+            className="container"
+            style={{
+              backgroundColor: "white",
+              width: "300px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              color: "black",
+              boxShadow: "0px 0.5px 2px 3px #ccc"
+            }}
+          >
+            <h1 style={{ color: "black" }}>
+              {this.props.location.state.type} FLIGHT
+            </h1>
+            <form onSubmit={this.submit}>
+              <label>
+                Flight Name
+                <input
+                  type="text"
+                  name="flightname"
+                  value={flightname}
+                  placeholder={"Enter flight name"}
+                  onChange={this.handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Airline Name
+                <input type="text" value={airline} disabled />
+              </label>
+              <br />
+              <label>
+                Departure :
+                <select
+                  name="depart"
+                  value={depart}
+                  onChange={this.handleInputChange}
+                >
+                  <option value=""></option>
+                  {airports.map(item => (
+                    <option key={item._id} value={item.airports}>
+                      {item.airports}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <br />
+              <label>
+                Destination :
+                <select
+                  name="dest"
+                  value={dest}
+                  onChange={this.handleInputChange}
+                >
+                  <option value=""></option>
+                  {airports.map(item => (
+                    <option key={item._id} value={item.airports}>
+                      {item.airports}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <br />
+              <label>
+                Date
+                <input
+                  type="date"
+                  name="date"
+                  value={date}
+                  onChange={this.handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Time
+                <input
+                  type="time"
+                  name="time"
+                  value={time}
+                  onChange={this.handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Capacity
+                <input
+                  type="number"
+                  name="capacity"
+                  value={capacity}
+                  onChange={this.handleInputChange}
+                  required
+                />
+              </label>
+              <br />
+              <label>
+                Fare
+                <input
+                  type="number"
+                  name="fares"
+                  value={fares}
+                  onChange={this.handleInputChange}
+                  required
+                />
+              </label>
 
-            <br />
+              <br />
 
-            <button
-              className="btn-primary"
-              style={{
-                marginLeft: "30px"
-              }}
-            >
-              {this.state.type}
-            </button>
-          </form>
-        </div>
+              <button
+                className="btn-primary"
+                style={{
+                  marginLeft: "30px"
+                }}
+              >
+                {this.state.type}
+              </button>
+            </form>
+          </div>
+        </Animated>
       </div>
     );
   }

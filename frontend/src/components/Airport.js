@@ -69,36 +69,37 @@ export default class Airport extends React.Component {
 
           <div>
             <button onClick={this.refresh}>Refresh</button>
-            <pre>Last updated: {lastUpdated}</pre>
+            <pre style={{ color: "white" }}>Last updated: {lastUpdated}</pre>
           </div>
+          <div className="container" style = {{backgroundColor: "black", opacity: "90%", boxShadow: "0px 0.5px 2px 3px #ccc"}}>
+            <div className="row">
+              <div className="col flight-table">
+                <h2>Departure</h2>
+                {departures.map(item => (
+                  <div key={item._id} className="" style = {{borderTop:"1px solid grey"}}>
+                    <p>Name: {item.flightname}</p>
+                    <p>Airline: {item.airline}</p>
+                    <p>Date: {item.date}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Departure: {item.depart}</p>
+                    <p>Arrival: {item.dest}</p>
+                  </div>
+                ))}
+              </div>
 
-          <div className="parent-table">
-            <div style={{ textAlign: "center" }}>
-              <h2>Departure</h2>
-              {departures.map(item => (
-                <div key={item._id} className="flights-table">
-                  <p>Name: {item.flightname}</p>
-                  <p>Airline: {item.airline}</p>
-                  <p>Date: {item.date}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Departure: {item.depart}</p>
-                  <p>Arrival: {item.dest}</p>
-                </div>
-              ))}
-            </div>
-
-            <div>
-              <h2>Arrival</h2>
-              {arrivals.map(item => (
-                <div key={item._id} className="flights-table">
-                  <p>Name: {item.flightname}</p>
-                  <p>Airline: {item.airline}</p>
-                  <p>Date: {item.date}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Departure: {item.depart}</p>
-                  <p>Arrival: {item.dest}</p>
-                </div>
-              ))}
+              <div className="col flight-table">
+                <h2>Arrival</h2>
+                {arrivals.map(item => (
+                  <div key={item._id} className="" style = {{borderTop:"1px solid grey"}}>
+                    <p>Name: {item.flightname}</p>
+                    <p>Airline: {item.airline}</p>
+                    <p>Date: {item.date}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Departure: {item.depart}</p>
+                    <p>Arrival: {item.dest}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Animated>

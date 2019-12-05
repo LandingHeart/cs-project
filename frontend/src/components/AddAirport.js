@@ -7,6 +7,7 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class AddAirport extends React.Component {
   constructor(props) {
@@ -21,28 +22,35 @@ export default class AddAirport extends React.Component {
   render() {
     return (
       <div className="container">
-        <div className="form-box-sign-in">
-          <form onSubmit={this.onSubmit}>
-            <h1 style={{ color: "black" }}>Add Airport</h1>
-            <input
-              type="text"
-              name="airport"
-              placeholder="airport"
-              value={this.state.airport}
-              onChange={this.handleInputChange}
-            />
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div className="form-box-sign-in">
+            <form onSubmit={this.onSubmit}>
+              <h1 style={{ color: "black" }}>Add Airport</h1>
+              <input
+                type="text"
+                name="airport"
+                placeholder="airport"
+                value={this.state.airport}
+                onChange={this.handleInputChange}
+              />
 
-            <input
-              type="text"
-              name="description"
-              placeholder="description"
-              value={this.state.description}
-              onChange={this.handleInputChange}
-            />
+              <input
+                type="text"
+                name="description"
+                placeholder="description"
+                value={this.state.description}
+                onChange={this.handleInputChange}
+              />
 
-            <input type="submit" value="Submit" className="btn-primary" />
-          </form>
-        </div>
+              <input type="submit" value="Submit" className="btn-primary" />
+            </form>
+          </div>
+        </Animated>
       </div>
     );
   }
@@ -58,7 +66,7 @@ export default class AddAirport extends React.Component {
     e.preventDefault();
     console.log(this.state.airport);
     console.log(this.state.description);
-    
+
     fetch("/airports/add", {
       method: "POST",
       body: JSON.stringify(this.state),
