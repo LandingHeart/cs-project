@@ -59,7 +59,7 @@ export default class Search extends React.Component {
           animationInOut="2s"
         >
           <div>
-            <h1>Search for a flight</h1>
+            <h1 style={{ color: "black" }}>Search for a flight</h1>
           </div>
 
           <form onSubmit={this.handleSubmit}>

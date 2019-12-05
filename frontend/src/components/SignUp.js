@@ -26,7 +26,7 @@ export default class SignUp extends React.Component {
           isVisible={true}
           animationInOut="2s"
         >
-          <div className="form-box">
+          <div className="form-box" style = {{marginTop: "80px"}}>
             <form onSubmit={this.onSubmit}>
               <h1 style={{ color: "black" }}>New Account</h1>
 

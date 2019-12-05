@@ -30,15 +30,18 @@ export default class SignIn extends React.Component {
         >
         <div className="form-box-sign-in">
           <form onSubmit={this.onSubmit}>
-            <h1 style={{ color: "black" }}>Customer Login</h1>
+            <h1 style={{ color: "black", paddingBottom: "20px"}}>Customer Login</h1>
+          <div className = "mt-3" style = {{paddingBottom: "20px"}}>
             <input
+            style = {{paddingTop: "10px"}}
               type="text"
               name="username"
               placeholder="Username"
               value={this.state.username}
               onChange={this.handleInputChange}
             />
-
+          </div>
+          <div style = {{paddingBottom: "20px"}}>
             <input
               type="text"
               name="password"
@@ -46,6 +49,7 @@ export default class SignIn extends React.Component {
               value={this.state.password}
               onChange={this.handleInputChange}
             />
+            </div>
 
             <input type="submit" value="Submit" className="btn-primary" />
 
