@@ -14,7 +14,7 @@ export default class Home extends React.Component {
       .then(res => res.json())
       .then(flights => {
         this.setState({ flights });
-        console.log("flights fetch", flights);
+        // console.log("flights fetch", flights);
       });
   }
   render() {
@@ -28,7 +28,7 @@ export default class Home extends React.Component {
           animationIn="fadeIn"
           animationOut="fadeOut"
           isVisible={true}
-          animationInOut= "2s"
+          animationInOut="2s"
         >
           {" "}
           <input

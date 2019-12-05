@@ -18,7 +18,7 @@ export default class Airport extends React.Component {
 
   componentDidMount() {
     if (this.props.user === null && this.props.admin === null) {
-      this.props.history.push("/");
+      this.props.history.push("/signin");
     }
 
     fetch("/airports")
@@ -52,9 +52,13 @@ export default class Airport extends React.Component {
           animationInOut="2s"
         >
           <div>
-            <h1 style = {{
-              color: "black"
-            }}>Airport</h1>
+            <h1
+              style={{
+                color: "black"
+              }}
+            >
+              Airport
+            </h1>
           </div>
 
           <div>
@@ -73,12 +77,23 @@ export default class Airport extends React.Component {
             <button onClick={this.refresh}>Refresh</button>
             <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
           </div>
-          <div className="container" style = {{backgroundColor: "grey", opacity: "90%", boxShadow: "0px 0.5px 2px 3px #ccc"}}>
+          <div
+            className="container"
+            style={{
+              backgroundColor: "grey",
+              opacity: "90%",
+              boxShadow: "0px 0.5px 2px 3px #ccc"
+            }}
+          >
             <div className="row">
               <div className="col">
                 <h2>Departure</h2>
                 {departures.map(item => (
-                  <div key={item._id} className="" style = {{borderTop:"1px solid white"}}>
+                  <div
+                    key={item._id}
+                    className=""
+                    style={{ borderTop: "1px solid white" }}
+                  >
                     <p>Name: {item.flightname}</p>
                     <p>Airline: {item.airline}</p>
                     <p>Date: {item.date}</p>
@@ -92,7 +107,11 @@ export default class Airport extends React.Component {
               <div className="col flight-table">
                 <h2>Arrival</h2>
                 {arrivals.map(item => (
-                  <div key={item._id} className="" style = {{borderTop:"1px solid white"}}>
+                  <div
+                    key={item._id}
+                    className=""
+                    style={{ borderTop: "1px solid white" }}
+                  >
                     <p>Name: {item.flightname}</p>
                     <p>Airline: {item.airline}</p>
                     <p>Date: {item.date}</p>
@@ -134,8 +153,11 @@ export default class Airport extends React.Component {
 
       const flights_json = await fetch("/flights");
       const all_flights = await flights_json.json();
+      const flights_today = all_flights.filter(
+        item => item.date === this.props.currentDate
+      );
 
-      for (let flight of all_flights) {
+      for (let flight of flights_today) {
         if (flight.depart === airportName) {
           departures.push(flight);
         } else if (flight.dest === airportName) {

@@ -25,7 +25,7 @@ export default class Search extends React.Component {
 
   componentDidMount() {
     if (this.props.user === null && this.props.admin === null) {
-      this.props.history.push("/");
+      this.props.history.push("/signin");
       return;
     }
 
@@ -197,7 +197,10 @@ export default class Search extends React.Component {
   async fetchData() {
     const flight_json = await fetch("/flights");
     const all_flights_unsorted = await flight_json.json();
-    const all_flights_sorted = all_flights_unsorted.sort(
+    const all_flights_today = all_flights_unsorted.filter(
+      item => new Date(item.date) - new Date(this.props.currentDate) >= 0
+    );
+    const all_flights_sorted = all_flights_today.sort(
       (a, b) =>
         new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
     );

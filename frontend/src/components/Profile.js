@@ -16,7 +16,7 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.user === null) this.props.history.push("/");
+    if (this.state.user === null) this.props.history.push("/signin");
 
     this.setFlight();
     this.interval = setInterval(() => this.setFlight(), 30000);
@@ -69,8 +69,6 @@ export default class Profile extends React.Component {
                   <p>Date: {new String(item.date)}</p>
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
-                  <p>Destination: {item.dest}</p>
-                  <button onClick={() => this.cancel(item)}>Cancel</button>
                 </div>
               ))}
         </div>
@@ -143,11 +141,11 @@ export default class Profile extends React.Component {
       //FILTER THE FLIGHTS BASED ON THE DATES
       //TODO: NEED TO CHANGE new Date() WITH THE DATE USER INPUT
       const upcomingFlights = flight.filter(
-        item => new Date(item.date) - new Date() > 0
+        item => new Date(item.date) - new Date(this.props.currentDate) > 0
       );
 
       const previousFlights = flight.filter(
-        item => new Date(item.date) - new Date() < 0
+        item => new Date(item.date) - new Date(this.props.currentDate) < 0
       );
 
       const lastUpdated = this.getCurrentTime();

@@ -7,7 +7,7 @@ export default class ConfirmationDetails extends React.Component {
 
   componentDidMount() {
     if (this.props.location.state === undefined || this.props.user === null) {
-      this.props.history.push("/");
+      this.props.history.push("/signin");
     }
   }
 
