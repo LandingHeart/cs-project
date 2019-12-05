@@ -3,20 +3,18 @@ import "./css-files/page-style-def.css";
 export default class ConfirmationDetails extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { flight: null, type: "" };
   }
 
   componentDidMount() {
-    if (this.props.location.state === undefined) return;
-
-    const { flight, type } = this.props.location.state;
-    console.log(flight);
-    this.setState({ flight, type });
+    if (this.props.location.state === undefined || this.props.user === null) {
+      this.props.history.push("/");
+    }
   }
 
   render() {
-    const { flight, type } = this.state;
-    if (flight === null) return null;
+    if (this.props.location.state === undefined) return null;
+
+    const { flight, type } = this.props.location.state;
 
     return (
       <div>
@@ -38,13 +36,52 @@ export default class ConfirmationDetails extends React.Component {
     );
   }
 
-  submit = () => {
-    const { type } = this.state;
-    //POST to the DB that user register
-    if (type === "REGISTER") {
-    } else if (type === "CANCEL") {
-      //POST to the DB that admin cancel fligth
+  submit = e => {
+    e.preventDefault();
+    try {
+      fetch("/flights/search", {
+        method: "POST",
+        body: JSON.stringify(this.props.location.state.flight),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+        .then(resp => {
+          if (resp.status === 417) {
+            //THERE IS A DATA COHERENCE PROBLEM.
+            alert("Please do it again");
+            this.props.history.push("/airline");
+            return;
+          }
+
+          if (resp.status === 200) {
+            const booking = {
+              flightid: this.props.location.state.flight.flightid,
+              customer: this.props.user.customerid,
+              bookedFrom: this.props.location.state.bookedFrom
+            };
+            if (this.props.location.state.type === "REGISTER") {
+              fetch("/bookings", {
+                method: "POST",
+                body: JSON.stringify(booking),
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+                .then(res => {
+                  alert("Success");
+                  this.props.history.push("/airline");
+                })
+                .catch(err => console.log(err));
+            } else if (this.props.location.state.type === "CANCEL") {
+              // POST to the DB that admin cancel flight
+              // this.props.history.push("/airline");
+            }
+          }
+        })
+        .catch(err => console.log(err));
+    } catch (err) {
+      console.log(err);
     }
-    this.props.history.push("/airline");
   };
 }

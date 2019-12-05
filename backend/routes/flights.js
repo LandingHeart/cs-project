@@ -63,4 +63,50 @@ router.delete("/:flightId", async (req, res) => {
   }
 });
 
+
+router.post("/search", async (req, res) => {
+  try {
+    const obj = {
+      flightid: req.body.flightid,
+      airline: req.body.airline,
+      airlineid: req.body.airlineid,
+      flightname: req.body.flightname,
+      date: req.body.date,
+      time: req.body.time,
+      capacity: req.body.capacity,
+      filled: req.body.filled,
+      depart: req.body.depart,
+      dest: req.body.dest,
+      fares: req.body.fares,
+      status: req.body.status
+    }
+
+    const flights = await Flight.find();
+
+    let our_flight = null;
+    for(let i = 0; i < flights.length; i++){
+      let curr = flights[i];
+      if(curr.flightid === obj.flightid) {
+        our_flight = curr;
+        break;
+      }
+    }
+
+    const keys = Object.keys(our_flight);
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i];
+      if (our_flight[key] !== obj[key]) {
+
+        //THERE IS A DATA COHERENCE PROBLEM
+        res.sendStatus(417);
+        return;
+      }
+    }
+    //ALL DATA IS GOOD
+    res.sendStatus(200);
+  } catch (err) {
+    res.json({message: err})
+  }
+});
+
 module.exports = router;

@@ -16,13 +16,12 @@ export default class Airline extends React.Component {
   }
 
   componentDidMount() {
-    const { admin } = this.state;
-
-    if (admin !== null) {
-      this.getDataAdmin();
-    } else {
-      this.getDataCustomer();
+    if (this.props.user === null) {
+      this.props.history.push("/");
     }
+    this.getData();
+
+    this.interval = setInterval(() => this.getData(), 30000);
   }
 
   render() {
@@ -72,39 +71,50 @@ export default class Airline extends React.Component {
           <table>
             <thead>
               <tr>
-                <td>Flight</td>
-                <td>Destination</td>
-                <td>Departure</td>
-                <td>Date</td>
-                <td>Time</td>
-                <td>Fare</td>
-                <td>Capacity</td>
+                <td>FLIGHT NAME</td>
+                <td>DEPARTURE</td>
+                <td>DESTINATION</td>
+                <td>DATE</td>
+                <td>TIME</td>
+                <td>FARE</td>
+                <td>CAPACITY</td>
+                <td>STATUS</td>
               </tr>
             </thead>
             <tbody>
               {this.state.data.map(item => (
                 <tr key={item._id}>
                   <td>{item.flightname}</td>
-                  <td>{item.dest}</td>
                   <td>{item.depart}</td>
+                  <td>{item.dest}</td>
                   <td>{item.date}</td>
                   <td>{item.time}</td>
                   <td>${item.fares}</td>
                   <td>{item.capacity}</td>
+                  <td>{item.status}</td>
                   {admin === null ? (
-                    <td>
-                      <Link
-                        to={{
-                          pathname: "/details",
-                          state: {
-                            flight: item,
-                            type: "REGISTER"
-                          }
-                        }}
-                      >
-                        Register
-                      </Link>
-                    </td>
+                    item.status === "ON TIME" ? (
+                      item.isRegistered ? (
+                        <td>Registered</td>
+                      ) : (
+                        <td>
+                          <Link
+                            to={{
+                              pathname: "/details",
+                              state: {
+                                flight: item,
+                                type: "REGISTER",
+                                bookedFrom: "AIRLINE"
+                              }
+                            }}
+                          >
+                            Register
+                          </Link>
+                        </td>
+                      )
+                    ) : (
+                      <td>CAN'T REGISTER</td>
+                    )
                   ) : (
                     <td>
                       <Link
@@ -150,6 +160,19 @@ export default class Airline extends React.Component {
     );
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
+  getData = () => {
+    const { admin } = this.state;
+    if (admin !== null) {
+      this.getDataAdmin();
+    } else {
+      this.getDataCustomer();
+    }
+  };
+
   search = airline => {
     if (airline === "") {
       this.setState({ data: [] });
@@ -186,16 +209,39 @@ export default class Airline extends React.Component {
 
   async getDataCustomer() {
     try {
+      const booking_json = await fetch("/bookings");
+      const booking = await booking_json.json();
+      const my_booking = booking.filter(
+        item => item.customer === this.props.user.customerid
+      );
+
       const flight_json = await fetch("/flights");
       const all_flights_unsorted = await flight_json.json();
-      const all_flights = all_flights_unsorted.sort(
+      const all_flights_sorted = all_flights_unsorted.sort(
         (a, b) =>
           new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
       );
 
+      let all_flights = [];
+      for (let flight of all_flights_sorted) {
+        for (let booking of my_booking) {
+          if (booking.flightid === flight.flightid) {
+            const obj = flight;
+            obj["isRegistered"] = true;
+            if (!all_flights.includes(obj)) {
+              all_flights.push(obj);
+            }
+          } else {
+            const obj = flight;
+            if (!all_flights.includes(obj)) {
+              all_flights.push(obj);
+            }
+          }
+        }
+      }
+
       const airline_json = await fetch("/airlines");
       const all_airlines = await airline_json.json();
-
       this.setState({ all_flights, all_airlines });
     } catch (err) {
       console.log(err);

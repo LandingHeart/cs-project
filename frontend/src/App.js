@@ -54,7 +54,13 @@ export default class App extends React.Component {
 
             <Route
               path="/airline"
-              render={props => <Airline {...props} admin={this.state.admin} />}
+              render={props => (
+                <Airline
+                  {...props}
+                  user={this.state.user}
+                  admin={this.state.admin}
+                />
+              )}
             />
 
             <Route
@@ -107,7 +113,9 @@ export default class App extends React.Component {
 
             <Route
               path="/details"
-              render={props => <ConfirmationDetails {...props} />}
+              render={props => (
+                <ConfirmationDetails {...props} user={this.state.user} />
+              )}
             />
           </Switch>
         </div>
