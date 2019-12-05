@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class Home extends React.Component {
   constructor(props) {
@@ -19,15 +20,28 @@ export default class Home extends React.Component {
   render() {
     return (
       <div>
-        <label for="start" style={{ display: "block" }}>Start date:</label>
+        <label for="start" style={{ display: "block" }}>
+          Start date:
+        </label>
 
-        <input type="date" id="start" name="trip-start"
-           style={{
-             display: "inline-block",
-             width: "15%",
-             height: "auto"
-           }}> 
-        </input>
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut= "2s"
+        >
+          {" "}
+          <input
+            type="date"
+            id="start"
+            name="trip-start"
+            style={{
+              display: "inline-block",
+              width: "15%",
+              height: "auto"
+            }}
+          ></input>
+        </Animated>
       </div>
     );
   }

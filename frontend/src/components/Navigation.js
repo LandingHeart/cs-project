@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class Navigation extends React.Component {
   constructor(props) {
@@ -22,7 +23,13 @@ export default class Navigation extends React.Component {
     if (this.props.admin !== null) {
       return (
         <header style={headerStyle}>
-          <h1>Flights</h1>
+          <Animated
+            animationIn="bounceInLeft"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <h1>Flights</h1>
+          </Animated>
           <Link style={linkStyle} to="/">
             Home
           </Link>
@@ -49,11 +56,7 @@ export default class Navigation extends React.Component {
             </Link>
 
             <Space />
-            <Link style={linkStyle} to="/admin/addAirline">
-              Add Airline
-            </Link>
 
-            <Space />
             <Link
               style={linkStyle}
               to="/"
@@ -73,39 +76,46 @@ export default class Navigation extends React.Component {
     if (this.props.user !== null) {
       return (
         <header style={headerStyle}>
-          <h1>Flights</h1>
-          <Link style={linkStyle} to="/">
-            Home
-          </Link>
-          <Space />
-          <React.Fragment>
-            <Link style={linkStyle} to="/reserve">
-              Reserve
+          <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+            animationInOut="2s"
+          >
+            <h1>Flights</h1>
+            <Link style={linkStyle} to="/">
+              Home
             </Link>
             <Space />
-            <Link style={linkStyle} to="/airline">
-              Airline
-            </Link>
-            <Space />
-            <Link style={linkStyle} to="/airport">
-              Airport
-            </Link>
-            <Space />
-            <Link style={linkStyle} to="/profile">
-              Profile
-            </Link>
-            <Space />
-            <Link
-              style={linkStyle}
-              to="/"
-              onClick={() => {
-                this.props.setAdmin(null);
-                this.props.setUser(null);
-              }}
-            >
-              Log out
-            </Link>
-          </React.Fragment>
+            <React.Fragment>
+              <Link style={linkStyle} to="/reserve">
+                Reserve
+              </Link>
+              <Space />
+              <Link style={linkStyle} to="/airline">
+                Airline
+              </Link>
+              <Space />
+              <Link style={linkStyle} to="/airport">
+                Airport
+              </Link>
+              <Space />
+              <Link style={linkStyle} to="/profile">
+                Profile
+              </Link>
+              <Space />
+              <Link
+                style={linkStyle}
+                to="/"
+                onClick={() => {
+                  this.props.setAdmin(null);
+                  this.props.setUser(null);
+                }}
+              >
+                Log out
+              </Link>
+            </React.Fragment>
+          </Animated>
         </header>
       );
     }
@@ -123,6 +133,7 @@ export default class Navigation extends React.Component {
             Sign In
           </Link>
           <Space />
+
           <Link style={linkStyle} to="/signup">
             Sign Up
           </Link>
