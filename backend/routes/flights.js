@@ -23,11 +23,12 @@ router.get("/:flightId", async (req, res) => {
 });
 
 router.put("/update/:id", function(req, res) {
-  Flight.findByIdAndUpdate({ _id: req.params.id }, req.body).then(function() {
-    Flight.findOne({ _id: req.params.id }).then(function(flight) {
+  const flight = req.body
+  Flight.findByIdAndUpdate({ _id: flight._id }, flight).then(function() {
+    Flight.findOne({ _id: flight._id }).then(function(flight) {
       res.send(flight);
     });
-  });
+  }).catch(err => console.log(err));
 });
 
 router.post("/admin/add", async (req, res) => {

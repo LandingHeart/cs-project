@@ -1,15 +1,27 @@
 const mongoose = require("mongoose");
 
 const FLightSchema = mongoose.Schema({
-  airlineid: {
-    type: String,
+  flightid: {
+    type: Number,
     require: true
   },
   airline: {
     type: String,
     require: true
   },
-  flight: {
+  airlineid: {
+    type: String,
+    require: true
+  },
+  flightname: {
+    type: String,
+    require: true
+  },
+  date: {
+    type: String,
+    require: true
+  },
+  time: {
     type: String,
     require: true
   },
@@ -21,30 +33,22 @@ const FLightSchema = mongoose.Schema({
     type: Number,
     require: true
   },
+  depart: {
+    type: String,
+    require: true
+  },
   dest: {
     type: String,
     require: true
   },
-  departure: {
-    type: String,
-    require: true
-  },
-  fare: {
+  fares: {
     type: Number,
-    require: true
-  },
-  time: {
-    type: String,
-    require: true
-  },
-  date: {
-    type: String,
     require: true
   },
   status:{
     type: String,
     require: true
-  }
+  },
 });
 
 

@@ -5,20 +5,28 @@ export default class AddFlight extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      flightName: "",
+      _id: "",
       airline: "",
-      departure: "",
-      destination: "",
-      capacity: 0,
-      fare: 0,
+      airlineid: "",
+      flightname: "",
+      flightid: "",
       date: "",
       time: "",
+      capacity: 0,
+      fares: 0,
+      depart: "",
+      dest: "",
       type: "",
       airports: []
     };
   }
 
   componentDidMount() {
+    if (this.props.admin === null) {
+      this.props.history("/");
+      return;
+    }
+
     const { flight, type } = this.props.location.state;
 
     fetch("/airports")
@@ -27,20 +35,22 @@ export default class AddFlight extends React.Component {
       .catch(err => console.log(err));
 
     if (Object.keys(flight).length === 0) return;
-    console.log(flight);
-
     if (Object.keys(flight).length === 1) {
       const airline = flight.airline;
       this.setState({ airline, type });
     } else {
       const {
-        capacity,
-        date,
-        departure,
-        destination,
-        fare,
+        _id,
         airline,
-        airlineid
+        airlineid,
+        flightname,
+        flightid,
+        date,
+        time,
+        capacity,
+        fares,
+        depart,
+        dest
       } = flight;
 
       const dateSplit = date.split("/");
@@ -50,26 +60,35 @@ export default class AddFlight extends React.Component {
       const dateString = year + "-" + month + "-" + day;
 
       this.setState({
-        flightName: flight.flight,
-        type,
-        capacity,
+        _id,
+        airline,
         airlineid,
+        flightname,
+        flightid,
         date: dateString,
-        departure,
-        destination,
-        fare,
-        airline
+        time,
+        capacity,
+        fares,
+        depart,
+        dest,
+        type
       });
     }
   }
 
   render() {
+    if (this.props.admin === null) return null;
+
     const {
-      flightName,
+      flightname,
       airline,
-      departure,
+      depart,
       airports,
-      destination
+      dest,
+      date,
+      time,
+      fares,
+      capacity
     } = this.state;
 
     return (
@@ -94,8 +113,8 @@ export default class AddFlight extends React.Component {
               Flight Name
               <input
                 type="text"
-                name="flightName"
-                value={flightName}
+                name="flightname"
+                value={flightname}
                 placeholder={"Enter flight name"}
                 onChange={this.handleInputChange}
                 required
@@ -108,10 +127,10 @@ export default class AddFlight extends React.Component {
             </label>
             <br />
             <label>
-              Departure : {departure}
+              Departure :
               <select
-                name="departure"
-                value={departure}
+                name="depart"
+                value={depart}
                 onChange={this.handleInputChange}
               >
                 <option value=""></option>
@@ -124,10 +143,10 @@ export default class AddFlight extends React.Component {
             </label>
             <br />
             <label>
-              Destination : {destination}
+              Destination :
               <select
-                name="destination"
-                value={destination}
+                name="dest"
+                value={dest}
                 onChange={this.handleInputChange}
               >
                 <option value=""></option>
@@ -144,7 +163,7 @@ export default class AddFlight extends React.Component {
               <input
                 type="date"
                 name="date"
-                value={this.state.date}
+                value={date}
                 onChange={this.handleInputChange}
                 required
               />
@@ -155,6 +174,7 @@ export default class AddFlight extends React.Component {
               <input
                 type="time"
                 name="time"
+                value={time}
                 onChange={this.handleInputChange}
                 required
               />
@@ -165,7 +185,7 @@ export default class AddFlight extends React.Component {
               <input
                 type="number"
                 name="capacity"
-                value={this.state.capacity}
+                value={capacity}
                 onChange={this.handleInputChange}
                 required
               />
@@ -175,8 +195,8 @@ export default class AddFlight extends React.Component {
               Fare
               <input
                 type="number"
-                name="fare"
-                value={this.state.fare}
+                name="fares"
+                value={fares}
                 onChange={this.handleInputChange}
                 required
               />
@@ -220,14 +240,14 @@ export default class AddFlight extends React.Component {
       const obj = {
         airlineid: airline_id,
         airline: this.state.airline,
-        flight: this.state.flightName,
+        flight: this.state.flightname,
         capacity: this.state.capacity,
         fill: 0,
         arrival: this.state.arrival,
-        departure: this.state.departure,
+        depart: this.state.depart,
         time: this.state.time,
         date: this.state.date,
-        fare: this.state.fare
+        fares: this.state.fares
       };
 
       fetch("/flights/admin/add", {
@@ -261,28 +281,39 @@ export default class AddFlight extends React.Component {
         }
       }
 
+      const { date } = this.state;
+      const split = date.split("-");
+      const dateObj = split[1] + "/" + split[2] + "/" + split[0];
+
       const obj = {
-        airlineid: airline_id,
+        _id: this.state._id,
         airline: this.state.airline,
-        flight: this.state.flightName,
-        capacity: this.state.capacity,
-        fill: 0,
-        arrival: this.state.arrival,
-        departure: this.state.departure,
+        airlineid: airline_id,
+        flightname: this.state.flightname,
+        flightid: this.state.flightid,
+        date: dateObj,
         time: this.state.time,
-        date: this.state.date,
-        fare: this.state.fare
+        capacity: this.state.capacity,
+        fares: this.state.fares,
+        depart: this.state.depart,
+        dest: this.state.dest
       };
 
-      fetch("/flights/admin/add", {
+      fetch(`/flights/update/${this.state.flightid}`, {
         method: "PUT",
-        body: JSON.stringify(obj), //add the obj
+        body: JSON.stringify(obj),
         headers: {
           "Content-Type": "application/json"
         }
       })
-        .then(resp => console.log(resp))
-        .catch(err => console.log(err));
+        .then(resp => {
+          alert("SUCCESS UPDATING");
+          this.props.history.push("/");
+        })
+        .catch(err => {
+          alert("FAILED UPDATING");
+          console.log(err);
+        });
     } catch (err) {
       console.log(err);
     }

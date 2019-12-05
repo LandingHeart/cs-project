@@ -97,7 +97,7 @@ export default class App extends React.Component {
 
             <Route
               path="/admin/add"
-              render={props => <AddFlight {...props} />}
+              render={props => <AddFlight {...props} admin={admin} />}
             />
             <Route
               path="/admin/addAirport"
