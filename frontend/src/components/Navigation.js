@@ -111,27 +111,21 @@ export default class Navigation extends React.Component {
     return (
       <header style={headerStyle}>
         <h1>Flights</h1>
-        <Animated
-          animationIn="fadeIn"
-          animationOut="fadeOut"
-          isVisible={true}
-          animationInOut="5s"
-        >
-          <Link style={linkStyle} to="/">
-            Home
+
+        <Link style={linkStyle} to="/">
+          Home
+        </Link>
+        <Space />
+        <React.Fragment>
+          <Link style={linkStyle} to="/signin">
+            Sign In
           </Link>
           <Space />
-          <React.Fragment>
-            <Link style={linkStyle} to="/signin">
-              Sign In
-            </Link>
-            <Space />
 
-            <Link style={linkStyle} to="/signup">
-              Sign Up
-            </Link>
-          </React.Fragment>
-        </Animated>
+          <Link style={linkStyle} to="/signup">
+            Sign Up
+          </Link>
+        </React.Fragment>
       </header>
     );
   }

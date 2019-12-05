@@ -50,79 +50,65 @@ export default class App extends React.Component {
           />
 
           <Switch>
-            <Animated
-              animationIn="fadeIn"
-              animationOut="fadeOut"
-              isVisible={true}
-              animationInOut= "5s"
-              animationInDuration = "10s"
-            >
-              <Route path="/" exact>
-                <Home />
-              </Route>
+            <Route path="/" exact>
+              <Home />
+            </Route>
 
-              <Route
-                path="/airline"
-                render={props => (
-                  <Airline {...props} user={user} admin={admin} />
-                )}
-              />
+            <Route
+              path="/airline"
+              render={props => <Airline {...props} user={user} admin={admin} />}
+            />
 
-              <Route
-                path="/airport"
-                render={props => (
-                  <Airport {...props} user={user} admin={admin} />
-                )}
-              />
+            <Route
+              path="/airport"
+              render={props => <Airport {...props} user={user} admin={admin} />}
+            />
 
-              <Route
-                path="/profile"
-                render={props => <Profile {...props} user={user} />}
-              />
+            <Route
+              path="/profile"
+              render={props => <Profile {...props} user={user} />}
+            />
 
-              <Route
-                path="/reserve"
-                render={props => (
-                  <Search {...props} user={user} admin={admin} />
-                )}
-              />
+            <Route
+              path="/reserve"
+              render={props => <Search {...props} user={user} admin={admin} />}
+            />
 
-              <Route
-                path="/admin/customerList"
-                render={props => <ReservationCustomer {...props} />}
-              />
+            <Route
+              path="/admin/customerList"
+              render={props => <ReservationCustomer {...props} />}
+            />
 
-              <Route
-                path="/signin"
-                render={props => <SignIn {...props} setUser={this.setUser} />}
-              />
+            <Route
+              path="/signin"
+              render={props => <SignIn {...props} setUser={this.setUser} />}
+            />
 
-              <Route
-                path="/signup"
-                render={props => <SignUp {...props} setUser={this.setUser} />}
-              />
-              <Route
-                path="/signinadmin"
-                render={props => (
-                  <SignInAdmin {...props} setAdmin={this.setAdmin} />
-                )}
-              />
+            <Route
+              path="/signup"
+              render={props => <SignUp {...props} setUser={this.setUser} />}
+            />
+            <Route
+              path="/signinadmin"
+              render={props => (
+                <SignInAdmin {...props} setAdmin={this.setAdmin} />
+              )}
+            />
 
-              <Route
-                path="/admin/add"
-                render={props => <AddFlight {...props} admin={admin} />}
-              />
+            <Route
+              path="/admin/add"
+              render={props => <AddFlight {...props} admin={admin} />}
+            />
 
-              <Route
-                path="/admin/addAirport"
-                render={props => <AddAirport {...props} />}
-              />
+            <Route
+              path="/admin/addAirport"
+              render={props => <AddAirport {...props} />}
+            />
 
-              <Route
-                path="/details"
-                render={props => <ConfirmationDetails {...props} user={user} />}
-              />
-            </Animated>
+            <Route
+              path="/details"
+              render={props => <ConfirmationDetails {...props} user={user} />}
+            />
           </Switch>
         </div>
       </Router>
