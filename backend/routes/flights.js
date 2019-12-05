@@ -23,12 +23,14 @@ router.get("/:flightId", async (req, res) => {
 });
 
 router.put("/update/:id", function(req, res) {
-  const flight = req.body
-  Flight.findByIdAndUpdate({ _id: flight._id }, flight).then(function() {
-    Flight.findOne({ _id: flight._id }).then(function(flight) {
-      res.send(flight);
-    });
-  }).catch(err => console.log(err));
+  const flight = req.body;
+  Flight.findByIdAndUpdate({ _id: id }, flight)
+    .then(function() {
+      Flight.findOne({ _id: id }).then(function(flight) {
+        res.send(flight);
+      });
+    })
+    .catch(err => console.log(err));
 });
 
 router.post("/admin/add", async (req, res) => {
@@ -64,7 +66,6 @@ router.delete("/:flightId", async (req, res) => {
   }
 });
 
-
 router.post("/search", async (req, res) => {
   try {
     const obj = {
@@ -80,14 +81,14 @@ router.post("/search", async (req, res) => {
       dest: req.body.dest,
       fares: req.body.fares,
       status: req.body.status
-    }
+    };
 
     const flights = await Flight.find();
 
     let our_flight = null;
-    for(let i = 0; i < flights.length; i++){
+    for (let i = 0; i < flights.length; i++) {
       let curr = flights[i];
-      if(curr.flightid === obj.flightid) {
+      if (curr.flightid === obj.flightid) {
         our_flight = curr;
         break;
       }
@@ -97,7 +98,6 @@ router.post("/search", async (req, res) => {
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       if (our_flight[key] !== obj[key]) {
-
         //THERE IS A DATA COHERENCE PROBLEM
         res.sendStatus(417);
         return;
@@ -106,7 +106,7 @@ router.post("/search", async (req, res) => {
     //ALL DATA IS GOOD
     res.sendStatus(200);
   } catch (err) {
-    res.json({message: err})
+    res.json({ message: err });
   }
 });
 

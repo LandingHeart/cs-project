@@ -30,140 +30,146 @@ export default class Airline extends React.Component {
 
     return (
       <div>
-        <Animated
+        <div>
+          <Animated
             animationIn="fadeIn"
             animationOut="fadeOut"
             isVisible={true}
             animationInOut="5s"
           >
-        <div>
-          {admin === null ? <h1 style ={{color: "black", fontWeight: "bold"}}>Airlines</h1> : <h1>{admin.airline} Admin</h1>}
-        </div>
+            <div>
+              {admin === null ? (
+                <h1 style={{ color: "black", fontWeight: "bold" }}>Airlines</h1>
+              ) : (
+                <h1>{admin.airline} Admin</h1>
+              )}
+            </div>
 
-        {admin === null ? (
-          <div>
-            <form onSubmit={this.handleSubmit}>
-              <label>
-                Choose airline :
-                <select value={airline} onChange={this.handleAirline}>
-                  <option value=""></option>
-                  {all_airlines.map(item => (
-                    <option value={item.airline} key={item._id}>
-                      {item.airline}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </form>
-          </div>
-        ) : (
-          <div>
-            <Link
-              to={{
-                pathname: "/admin/add",
-                state: {
-                  flight: { airline: this.state.airline },
-                  type: "ADD"
-                }
-              }}
-            >
-              Add Flight
-            </Link>
-          </div>
-        )}
+            {admin === null ? (
+              <div>
+                <form onSubmit={this.handleSubmit}>
+                  <label>
+                    Choose airline :
+                    <select value={airline} onChange={this.handleAirline}>
+                      <option value=""></option>
+                      {all_airlines.map(item => (
+                        <option value={item.airline} key={item._id}>
+                          {item.airline}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                </form>
+              </div>
+            ) : (
+              <div>
+                <Link
+                  to={{
+                    pathname: "/admin/add",
+                    state: {
+                      flight: { airline: this.state.airline },
+                      type: "ADD"
+                    }
+                  }}
+                >
+                  Add Flight
+                </Link>
+              </div>
+            )}
 
-        <hr />
+            <hr />
 
-        <div className="table-box">
-          <table>
-            <thead>
-              <tr>
-                <td>FLIGHT NAME</td>
-                <td>DEPARTURE</td>
-                <td>DESTINATION</td>
-                <td>DATE</td>
-                <td>TIME</td>
-                <td>FARE</td>
-                <td>CAPACITY</td>
-                <td>STATUS</td>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.data.map(item => (
-                <tr key={item._id}>
-                  <td>{item.flightname}</td>
-                  <td>{item.depart}</td>
-                  <td>{item.dest}</td>
-                  <td>{item.date}</td>
-                  <td>{item.time}</td>
-                  <td>${item.fares}</td>
-                  <td>{item.capacity}</td>
-                  <td>{item.status}</td>
-                  {admin === null ? (
-                    item.status === "ON TIME" ? (
-                      item.isRegistered ? (
-                        <td>Registered</td>
+            <div className="container" style={{ backgroundColor: "grey" }}>
+              <table>
+                <thead>
+                  <tr>
+                    <td>FLIGHT NAME</td>
+                    <td>DEPARTURE</td>
+                    <td>DESTINATION</td>
+                    <td>DATE</td>
+                    <td>TIME</td>
+                    <td>FARE</td>
+                    <td>CAPACITY</td>
+                    <td>STATUS</td>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.state.data.map(item => (
+                    <tr key={item._id}>
+                      <td>{item.flightname}</td>
+                      <td>{item.depart}</td>
+                      <td>{item.dest}</td>
+                      <td>{item.date}</td>
+                      <td>{item.time}</td>
+                      <td>${item.fares}</td>
+                      <td>{item.capacity}</td>
+                      <td>{item.status}</td>
+                      {admin === null ? (
+                        item.status === "ON TIME" ? (
+                          item.isRegistered ? (
+                            <td>Registered</td>
+                          ) : (
+                            <td>
+                              <Link
+                                to={{
+                                  pathname: "/details",
+                                  state: {
+                                    flight: item,
+                                    type: "REGISTER",
+                                    bookedFrom: "AIRLINE"
+                                  }
+                                }}
+                              >
+                                Register
+                              </Link>
+                            </td>
+                          )
+                        ) : (
+                          <td>CAN'T REGISTER</td>
+                        )
                       ) : (
                         <td>
+                          <Link
+                            to={{
+                              pathname: "/admin/add",
+                              state: {
+                                flight: item,
+                                type: "EDIT"
+                              }
+                            }}
+                          >
+                            Edit Flight
+                          </Link>
                           <Link
                             to={{
                               pathname: "/details",
                               state: {
                                 flight: item,
-                                type: "REGISTER",
-                                bookedFrom: "AIRLINE"
+                                type: "CANCEL"
                               }
                             }}
                           >
-                            Register
+                            Cancel Flight
+                          </Link>
+                          <Link
+                            to={{
+                              pathname: "/admin/customerList",
+                              state: {
+                                airline: item
+                              }
+                            }}
+                          >
+                            See All Customer Reservation
                           </Link>
                         </td>
-                      )
-                    ) : (
-                      <td>CAN'T REGISTER</td>
-                    )
-                  ) : (
-                    <td>
-                      <Link
-                        to={{
-                          pathname: "/admin/add",
-                          state: {
-                            flight: item,
-                            type: "EDIT"
-                          }
-                        }}
-                      >
-                        Edit Flight
-                      </Link>
-                      <Link
-                        to={{
-                          pathname: "/details",
-                          state: {
-                            flight: item,
-                            type: "CANCEL"
-                          }
-                        }}
-                      >
-                        Cancel Flight
-                      </Link>
-                      <Link
-                        to={{
-                          pathname: "/admin/customerList",
-                          state: {
-                            airline: item
-                          }
-                        }}
-                      >
-                        See All Customer Reservation
-                      </Link>
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                      )}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </Animated>
         </div>
-        </Animated>
       </div>
     );
   }
