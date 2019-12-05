@@ -2,6 +2,7 @@ import React from "react";
 // import "./css-files/text.css";
 import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class Airline extends React.Component {
   constructor(props) {
@@ -29,6 +30,12 @@ export default class Airline extends React.Component {
 
     return (
       <div>
+        <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+            animationInOut="5s"
+          >
         <div>
           {admin === null ? <h1>Airlines</h1> : <h1>{admin.airline} Admin</h1>}
         </div>
@@ -156,6 +163,7 @@ export default class Airline extends React.Component {
             </tbody>
           </table>
         </div>
+        </Animated>
       </div>
     );
   }

@@ -1,5 +1,6 @@
 import React from "react";
 import "./css-files/text.css";
+import { Animated } from "react-animated-css";
 
 export default class ReservationCustomer extends React.Component {
   constructor(props) {
@@ -27,11 +28,11 @@ export default class ReservationCustomer extends React.Component {
       });
 
     fetch("/customers")
-      .then(res=>res.json())
-      .then(customers =>{
-        this.setState({customers});
-        console.log("customers fetch", customers)
-      })
+      .then(res => res.json())
+      .then(customers => {
+        this.setState({ customers });
+        console.log("customers fetch", customers);
+      });
     const user = [
       { id: 1, name: "John Doe" },
       { id: 2, name: "Sally Smith" }
@@ -45,31 +46,38 @@ export default class ReservationCustomer extends React.Component {
   render() {
     return (
       <div>
-        <div>Flight Details</div>
-        {this.state.airline === null ? null : (
-          <div>
-            <p>Name: {this.state.airline.name}</p>
-            <p>Departure: {this.state.airline.departure}</p>
-            <p>Destination: {this.state.airline.destination}</p>
-          </div>
-        )}
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div>Flight Details</div>
+          {this.state.airline === null ? null : (
+            <div>
+              <p>Name: {this.state.airline.name}</p>
+              <p>Departure: {this.state.airline.departure}</p>
+              <p>Destination: {this.state.airline.destination}</p>
+            </div>
+          )}
 
-        {this.state.user === null ? null : (
-          <table>
-            <thead>
-              <tr>
-                <td>Name</td>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.user.map(item => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
+          {this.state.user === null ? null : (
+            <table>
+              <thead>
+                <tr>
+                  <td>Name</td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+              </thead>
+              <tbody>
+                {this.state.user.map(item => (
+                  <tr key={item.id}>
+                    <td>{item.name}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </Animated>
       </div>
     );
   }

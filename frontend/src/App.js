@@ -54,7 +54,8 @@ export default class App extends React.Component {
               animationIn="fadeIn"
               animationOut="fadeOut"
               isVisible={true}
-              animationInOut= "2s"
+              animationInOut= "5s"
+              animationInDuration = "10s"
             >
               <Route path="/" exact>
                 <Home />

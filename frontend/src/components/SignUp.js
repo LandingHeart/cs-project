@@ -1,6 +1,7 @@
 import React from "react";
 import "./css-files/SignIn.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -19,62 +20,69 @@ export default class SignUp extends React.Component {
 
     return (
       <div className="container" style={{ color: "black" }}>
-        <div className="form-box">
-          <form onSubmit={this.onSubmit}>
-            <h1 style={{ color: "black" }}>New Account</h1>
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div className="form-box">
+            <form onSubmit={this.onSubmit}>
+              <h1 style={{ color: "black" }}>New Account</h1>
 
-            <label style={{ color: "black" }}>First Name</label>
-            <input
-              type="text"
-              name="firstname"
-              placeholder="First Name"
-              onChange={this.handleInputChange}
-              required
-            />
+              <label style={{ color: "black" }}>First Name</label>
+              <input
+                type="text"
+                name="firstname"
+                placeholder="First Name"
+                onChange={this.handleInputChange}
+                required
+              />
 
-            <label style={{ color: "black" }}>Last Name</label>
-            <input
-              type="text"
-              name="lastname"
-              placeholder="Last Name"
-              onChange={this.handleInputChange}
-              required
-            />
+              <label style={{ color: "black" }}>Last Name</label>
+              <input
+                type="text"
+                name="lastname"
+                placeholder="Last Name"
+                onChange={this.handleInputChange}
+                required
+              />
 
-            <label style={{ color: "black" }}>Username</label>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={username}
-              onChange={this.handleUsername}
-              required
-            />
+              <label style={{ color: "black" }}>Username</label>
+              <input
+                type="text"
+                name="username"
+                placeholder="Username"
+                value={username}
+                onChange={this.handleUsername}
+                required
+              />
 
-            {isUserNameValid ? null : username.length === 0 ? (
-              <p>You can't enter empty username</p>
-            ) : (
-              <p>The username has been taken</p>
-            )}
+              {isUserNameValid ? null : username.length === 0 ? (
+                <p>You can't enter empty username</p>
+              ) : (
+                <p>The username has been taken</p>
+              )}
 
-            <label style={{ color: "black" }}>Password</label>
-            <input
-              type="text"
-              name="password"
-              placeholder="Password"
-              onChange={this.handleInputChange}
-              required
-            />
+              <label style={{ color: "black" }}>Password</label>
+              <input
+                type="text"
+                name="password"
+                placeholder="Password"
+                onChange={this.handleInputChange}
+                required
+              />
 
-            <input
-              type="submit"
-              value="Submit"
-              className="btn-primary"
-              onClick={this.successLogin}
-              disabled={isUserNameValid === false}
-            />
-          </form>
-        </div>
+              <input
+                type="submit"
+                value="Submit"
+                className="btn-primary"
+                onClick={this.successLogin}
+                disabled={isUserNameValid === false}
+              />
+            </form>
+          </div>
+        </Animated>
       </div>
     );
   }

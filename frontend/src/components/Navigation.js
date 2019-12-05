@@ -80,7 +80,7 @@ export default class Navigation extends React.Component {
             animationIn="fadeIn"
             animationOut="fadeOut"
             isVisible={true}
-            animationInOut="2s"
+            animationInOut="5s"
           >
             <h1>Flights</h1>
             <Link style={linkStyle} to="/">
@@ -124,6 +124,12 @@ export default class Navigation extends React.Component {
     return (
       <header style={headerStyle}>
         <h1>Flights</h1>
+        <Animated
+            animationIn="fadeIn"
+            animationOut="fadeOut"
+            isVisible={true}
+            animationInOut="5s"
+          >
         <Link style={linkStyle} to="/">
           Home
         </Link>
@@ -138,6 +144,7 @@ export default class Navigation extends React.Component {
             Sign Up
           </Link>
         </React.Fragment>
+        </Animated>
       </header>
     );
   }

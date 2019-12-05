@@ -2,6 +2,8 @@ import React from "react";
 import "./css-files/text.css";
 import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
+
 export default class Profile extends React.Component {
   constructor(props) {
     super(props);
@@ -28,49 +30,56 @@ export default class Profile extends React.Component {
 
     return (
       <div>
-        <div>
-          <h1>Profile</h1>
-          <button onClick={this.refresh}>Refresh</button>
-          <pre>Last updated: {lastUpdated}</pre>
-        </div>
-        <div className="div-box">
-          <p>
-            Name: {user.firstname} {user.lastname}
-          </p>
-          <p>Username: {user.username}</p>
-        </div>
-        <hr />
-        <div>
-          <h2>Upcoming flights</h2>
-          {upcomingFlights === null
-            ? null
-            : upcomingFlights.map(item => (
-                <div key={item._id} className="div-box">
-                  <p>Flight: {item.flightname}</p>
-                  <p>Airline Name: {item.airline}</p>
-                  <p>Date: {new String(item.date)}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Depart: {item.depart}</p>
-                  <p>Destination: {item.dest}</p>
-                </div>
-              ))}
-        </div>
-        <hr />
-        <div>
-          <h2>Previous flights</h2>
-          {previousFlights === null
-            ? null
-            : previousFlights.map(item => (
-                <div key={item._id} className="div-box">
-                  <p>Flight: {item.flightname}</p>
-                  <p>Airline Name: {item.airline}</p>
-                  <p>Date: {new String(item.date)}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Depart: {item.depart}</p>
-                  <p>Destination: {item.dest}</p>
-                </div>
-              ))}
-        </div>
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div>
+            <h1>Profile</h1>
+            <button onClick={this.refresh}>Refresh</button>
+            <pre>Last updated: {lastUpdated}</pre>
+          </div>
+          <div className="div-box">
+            <p>
+              Name: {user.firstname} {user.lastname}
+            </p>
+            <p>Username: {user.username}</p>
+          </div>
+          <hr />
+          <div>
+            <h2>Upcoming flights</h2>
+            {upcomingFlights === null
+              ? null
+              : upcomingFlights.map(item => (
+                  <div key={item._id} className="div-box">
+                    <p>Flight: {item.flightname}</p>
+                    <p>Airline Name: {item.airline}</p>
+                    <p>Date: {new String(item.date)}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Depart: {item.depart}</p>
+                    <p>Destination: {item.dest}</p>
+                  </div>
+                ))}
+          </div>
+          <hr />
+          <div>
+            <h2>Previous flights</h2>
+            {previousFlights === null
+              ? null
+              : previousFlights.map(item => (
+                  <div key={item._id} className="div-box">
+                    <p>Flight: {item.flightname}</p>
+                    <p>Airline Name: {item.airline}</p>
+                    <p>Date: {new String(item.date)}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Depart: {item.depart}</p>
+                    <p>Destination: {item.dest}</p>
+                  </div>
+                ))}
+          </div>
+        </Animated>
       </div>
     );
   }

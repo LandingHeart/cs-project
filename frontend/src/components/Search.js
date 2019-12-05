@@ -2,6 +2,7 @@ import React from "react";
 // import "./css-files/text.css";
 import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class Search extends React.Component {
   constructor(props) {
@@ -51,133 +52,140 @@ export default class Search extends React.Component {
 
     return (
       <div className="container">
-        <div>
-          <h1>Search for a flight</h1>
-        </div>
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div>
+            <h1>Search for a flight</h1>
+          </div>
 
-        <form onSubmit={this.handleSubmit}>
-          <div>
-            <label>
-              Airline name:
-              <select name="airline" onChange={this.handleInputChange}>
-                <option value=""></option>
-                {all_airlines.map(item => (
-                  <option value={item.airline} key={item.airline}>
-                    {item.airline}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              Departure :
-              <select name="departure" onChange={this.handleInputChange}>
-                <option value=""></option>
-                {all_airports.map(item => (
-                  <option value={item.airports} key={item.airports}>
-                    {item.airports}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              Arrival :
-              <select name="arrival" onChange={this.handleInputChange}>
-                <option value=""></option>
-                {all_airports.map(item => (
-                  <option value={item.airports} key={item.airports}>
-                    {item.airports}
-                  </option>
-                ))}
-              </select>
-            </label>
-          </div>
-          <div>
-            <label>
-              <input type="date" onChange={this.handleDate} />
-            </label>
-          </div>
-          <input type="submit" value="Submit" />
-        </form>
-
-        <div>
-          <div id="div-box">
-            <h3>Result</h3>
-            <form>
+          <form onSubmit={this.handleSubmit}>
+            <div>
               <label>
-                Low to high
-                <input
-                  type="radio"
-                  value="LTH"
-                  checked={price === "LTH"}
-                  onChange={this.handlePrice}
-                />
+                Airline name:
+                <select name="airline" onChange={this.handleInputChange}>
+                  <option value=""></option>
+                  {all_airlines.map(item => (
+                    <option value={item.airline} key={item.airline}>
+                      {item.airline}
+                    </option>
+                  ))}
+                </select>
               </label>
-              &emsp;
+            </div>
+            <div>
               <label>
-                High to low
-                <input
-                  type="radio"
-                  value="HTL"
-                  checked={price === "HTL"}
-                  onChange={this.handlePrice}
-                />
+                Departure :
+                <select name="departure" onChange={this.handleInputChange}>
+                  <option value=""></option>
+                  {all_airports.map(item => (
+                    <option value={item.airports} key={item.airports}>
+                      {item.airports}
+                    </option>
+                  ))}
+                </select>
               </label>
-            </form>
-          </div>
+            </div>
+            <div>
+              <label>
+                Arrival :
+                <select name="arrival" onChange={this.handleInputChange}>
+                  <option value=""></option>
+                  {all_airports.map(item => (
+                    <option value={item.airports} key={item.airports}>
+                      {item.airports}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
+            <div>
+              <label>
+                <input type="date" onChange={this.handleDate} />
+              </label>
+            </div>
+            <input type="submit" value="Submit" />
+          </form>
 
           <div>
-            {flights_showed.map(item => (
-              <div key={item._id}>
-                <div className="div-box">
-                  <p>Name: {item.flightname}</p>
-                  <p>Departure: {item.depart}</p>
-                  <p>Destination: {item.dest}</p>
-                  <p>Date: {item.date}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Capacity: {item.capacity}</p>
-                  <p>Fare: {item.fares}</p>
-                  {admin !== null ? (
-                    admin.airline === "SEARCH" ? (
-                      <Link
-                        to={{
-                          pathname: "/admin/customerList",
-                          state: {
-                            airline: item
-                          }
-                        }}
-                      >
-                        See All Customer Reservation
-                      </Link>
-                    ) : null
-                  ) : item.status === "ON TIME" ? (
-                    item.isRegistered ? (
-                      <p>Registered</p>
+            <div id="div-box">
+              <h3>Result</h3>
+              <form>
+                <label>
+                  Low to high
+                  <input
+                    type="radio"
+                    value="LTH"
+                    checked={price === "LTH"}
+                    onChange={this.handlePrice}
+                  />
+                </label>
+                &emsp;
+                <label>
+                  High to low
+                  <input
+                    type="radio"
+                    value="HTL"
+                    checked={price === "HTL"}
+                    onChange={this.handlePrice}
+                  />
+                </label>
+              </form>
+            </div>
+
+            <div>
+              {flights_showed.map(item => (
+                <div key={item._id}>
+                  <div className="div-box">
+                    <p>Name: {item.flightname}</p>
+                    <p>Departure: {item.depart}</p>
+                    <p>Destination: {item.dest}</p>
+                    <p>Date: {item.date}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Capacity: {item.capacity}</p>
+                    <p>Fare: {item.fares}</p>
+                    {admin !== null ? (
+                      admin.airline === "SEARCH" ? (
+                        <Link
+                          to={{
+                            pathname: "/admin/customerList",
+                            state: {
+                              airline: item
+                            }
+                          }}
+                        >
+                          See All Customer Reservation
+                        </Link>
+                      ) : null
+                    ) : item.status === "ON TIME" ? (
+                      item.isRegistered ? (
+                        <p>Registered</p>
+                      ) : (
+                        <Link
+                          to={{
+                            pathname: "/details",
+                            state: {
+                              flight: item,
+                              type: "REGISTER",
+                              bookedFrom: "SEARCH"
+                            }
+                          }}
+                        >
+                          Register
+                        </Link>
+                      )
                     ) : (
-                      <Link
-                        to={{
-                          pathname: "/details",
-                          state: {
-                            flight: item,
-                            type: "REGISTER",
-                            bookedFrom: "SEARCH"
-                          }
-                        }}
-                      >
-                        Register
-                      </Link>
-                    )
-                  ) : (
-                    <p>UNAVAILABLE</p>
-                  )}
+                      <p>UNAVAILABLE</p>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        </Animated>
       </div>
     );
   }

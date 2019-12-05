@@ -2,6 +2,7 @@ import React from "react";
 // import "./css-files/text.css";
 import "./css-files/Airport.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class Airport extends React.Component {
   constructor(props) {
@@ -44,56 +45,63 @@ export default class Airport extends React.Component {
 
     return (
       <div>
-        <div>
-          <h1>Airport</h1>
-        </div>
-
-        <div>
-          <label>Select airport :</label>
-          <select value={airportName} onChange={this.handleChangeAirport}>
-            <option value=""></option>
-            {airports.map(item => (
-              <option key={item._id} value={item.airports}>
-                {item.airports}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div>
-          <button onClick={this.refresh}>Refresh</button>
-          <pre>Last updated: {lastUpdated}</pre>
-        </div>
-
-        <div className="parent-table">
-          <div style={{ textAlign: "center" }}>
-            <h2>Departure</h2>
-            {departures.map(item => (
-              <div key={item._id} className="flights-table">
-                <p>Name: {item.flightname}</p>
-                <p>Airline: {item.airline}</p>
-                <p>Date: {item.date}</p>
-                <p>Time: {item.time}</p>
-                <p>Departure: {item.depart}</p>
-                <p>Arrival: {item.dest}</p>
-              </div>
-            ))}
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut="2s"
+        >
+          <div>
+            <h1>Airport</h1>
           </div>
 
           <div>
-            <h2>Arrival</h2>
-            {arrivals.map(item => (
-              <div key={item._id} className="flights-table">
-                <p>Name: {item.flightname}</p>
-                <p>Airline: {item.airline}</p>
-                <p>Date: {item.date}</p>
-                <p>Time: {item.time}</p>
-                <p>Departure: {item.depart}</p>
-                <p>Arrival: {item.dest}</p>
-              </div>
-            ))}
+            <label>Select airport :</label>
+            <select value={airportName} onChange={this.handleChangeAirport}>
+              <option value=""></option>
+              {airports.map(item => (
+                <option key={item._id} value={item.airports}>
+                  {item.airports}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
+
+          <div>
+            <button onClick={this.refresh}>Refresh</button>
+            <pre>Last updated: {lastUpdated}</pre>
+          </div>
+
+          <div className="parent-table">
+            <div style={{ textAlign: "center" }}>
+              <h2>Departure</h2>
+              {departures.map(item => (
+                <div key={item._id} className="flights-table">
+                  <p>Name: {item.flightname}</p>
+                  <p>Airline: {item.airline}</p>
+                  <p>Date: {item.date}</p>
+                  <p>Time: {item.time}</p>
+                  <p>Departure: {item.depart}</p>
+                  <p>Arrival: {item.dest}</p>
+                </div>
+              ))}
+            </div>
+
+            <div>
+              <h2>Arrival</h2>
+              {arrivals.map(item => (
+                <div key={item._id} className="flights-table">
+                  <p>Name: {item.flightname}</p>
+                  <p>Airline: {item.airline}</p>
+                  <p>Date: {item.date}</p>
+                  <p>Time: {item.time}</p>
+                  <p>Departure: {item.depart}</p>
+                  <p>Arrival: {item.dest}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Animated>
       </div>
     );
   }

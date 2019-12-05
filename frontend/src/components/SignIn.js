@@ -7,6 +7,7 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import { Animated } from "react-animated-css";
 
 export default class SignIn extends React.Component {
   constructor(props) {
@@ -21,6 +22,12 @@ export default class SignIn extends React.Component {
   render() {
     return (
       <div className="container">
+        <Animated
+          animationIn="fadeIn"
+          animationOut="fadeOut"
+          isVisible={true}
+          animationInOut= "2s"
+        >
         <div className="form-box-sign-in">
           <form onSubmit={this.onSubmit}>
             <h1 style={{ color: "black" }}>Customer Login</h1>
@@ -45,6 +52,7 @@ export default class SignIn extends React.Component {
             <Link to={"/signinadmin"}>Log in as Admin</Link>
           </form>
         </div>
+        </Animated>
       </div>
     );
   }
