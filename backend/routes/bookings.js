@@ -61,6 +61,7 @@ router.post("/", async (req, res) => {
 
 router.delete("/:bookingId", async (req, res) => {
   try {
+    console.log("ok")
     const removebookings = await Booking.remove({
       _id: req.params.bookingId
     });

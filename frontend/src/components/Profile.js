@@ -10,6 +10,7 @@ export default class Profile extends React.Component {
       user: this.props.user,
       upcomingFlights: [],
       previousFlights: [],
+      user_booking: [],
       lastUpdated: ""
     };
   }
@@ -52,6 +53,7 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
+                  <button onClick={() => this.cancel(item)}>Cancel</button>
                 </div>
               ))}
         </div>
@@ -68,6 +70,7 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
+                  <button onClick={() => this.cancel(item)}>Cancel</button>
                 </div>
               ))}
         </div>
@@ -78,6 +81,29 @@ export default class Profile extends React.Component {
   componentWillUnmount() {
     clearInterval(this.interval);
   }
+
+  cancel = flight => {
+    console.log(flight);
+    const { user_booking } = this.state;
+    let booking = null;
+    for (let curr_booking of user_booking) {
+      if (curr_booking.flightid === flight.flightid) {
+        booking = curr_booking;
+      }
+    }
+    console.log(booking);
+
+    fetch(`/bookings/${booking._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+  };
 
   async setFlight() {
     try {
@@ -114,7 +140,12 @@ export default class Profile extends React.Component {
       );
 
       const lastUpdated = this.getCurrentTime();
-      this.setState({ upcomingFlights, previousFlights, lastUpdated });
+      this.setState({
+        upcomingFlights,
+        previousFlights,
+        lastUpdated,
+        user_booking
+      });
     } catch (e) {
       console.log(e);
     }

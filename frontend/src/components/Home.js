@@ -9,27 +9,28 @@ export default class Home extends React.Component {
     };
   }
   componentDidMount() {
-    fetch("/flights")
-      .then(res => res.json())
-      .then(flights => {
-        this.setState({ flights });
-        console.log("flights fetch", flights);
-      });
+    // fetch("/flights")
+    //   .then(res => res.json())
+    //   .then(flights => {
+    //     this.setState({ flights });
+    //     console.log("flights fetch", flights);
+    //   });
   }
   render() {
-    return (
-      <div>
-        <label for="start" style={{ display: "block" }}>Start date:</label>
+    return null;
+    // return (
+    //   <div>
+    //     <label for="start" style={{ display: "block" }}>Start date:</label>
 
-        <input type="date" id="start" name="trip-start"
-           style={{
-             display: "inline-block",
-             width: "15%",
-             height: "auto"
-           }}> 
-        </input>
-      </div>
-    );
+    //     <input type="date" id="start" name="trip-start"
+    //        style={{
+    //          display: "inline-block",
+    //          width: "15%",
+    //          height: "auto"
+    //        }}>
+    //     </input>
+    //   </div>
+    // );
   }
 
   handleChange = e => {

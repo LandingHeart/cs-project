@@ -22,6 +22,7 @@ router.get("/:customerId", async (req, res) => {
     res.json({ message: err });
   }
 });
+
 router.post("/api/register", async (req, res) => {
   const { customerid, firstname, lastname, username, password } = req.body;
 
@@ -32,10 +33,9 @@ router.post("/api/register", async (req, res) => {
     username,
     password
   });
-  console.log(customer);
+
   try {
     const saveCustomer = await customer.save();
-    console.log("Aaa");
     res.json(saveCustomer);
   } catch (err) {
     console.log("err");

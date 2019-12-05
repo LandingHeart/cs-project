@@ -93,7 +93,7 @@ router.post("/search", async (req, res) => {
       }
     }
 
-    const keys = Object.keys(our_flight);
+    const keys = Object.keys(obj);
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       if (our_flight[key] !== obj[key]) {
