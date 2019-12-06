@@ -161,54 +161,48 @@ export default class Search extends React.Component {
               {flights_showed.map(item => (
                 <div key={item._id}>
                   <div>
-                    <div
-                      className="row"
-                      style={{ backgroundColor: "grey", marginTop: "3px" }}
-                    >
-                      <p className="col">Name:{item.flightname}</p>
-
-                      <p className="col">Departure: {item.depart}</p>
-                      <p className="col">Destination: {item.dest}</p>
-                      <p className="col">Date: {item.date}</p>
-                      <p className="col">Time: {item.time}</p>
-                      <p className="col">Capacity: {item.capacity}</p>
-                      <p className="col">Fare: {item.fares}</p>
-                    </div>
-
-                    {admin !== null ? (
-                      admin.airline === "SEARCH" ? (
-                        <Link
-                          to={{
-                            pathname: "/admin/customerList",
-                            state: {
-                              airline: item
-                            }
-                          }}
-                        >
-                          See All Customer Reservation
-                        </Link>
-                      ) : null
-                    ) : item.status === "ON TIME" ? (
-                      item.isRegistered ? (
-                        <p>Registered</p>
-                      ) : (
-                        <Link
-                          to={{
-                            pathname: "/details",
-                            state: {
-                              flight: item,
-                              type: "REGISTER",
-                              bookedFrom: "SEARCH"
-                            }
-                          }}
-                        >
-                          Register
-                        </Link>
-                      )
-                    ) : (
-                      <p>UNAVAILABLE</p>
-                    )}
+                    <p>Name:{item.flightname}</p>
+                    <p>Departure: {item.depart}</p>
+                    <p>Destination: {item.dest}</p>
+                    <p>Date: {item.date}</p>
+                    <p>Time: {item.time}</p>
+                    <p>Capacity: {item.capacity}</p>
+                    <p>Fare: {item.fares}</p>
                   </div>
+
+                  {admin !== null ? (
+                    admin.airline === "SEARCH" ? (
+                      <Link
+                        to={{
+                          pathname: "/admin/customerList",
+                          state: {
+                            airline: item
+                          }
+                        }}
+                      >
+                        See All Customer Reservation
+                      </Link>
+                    ) : null
+                  ) : item.status === "ON TIME" ? (
+                    item.isRegistered ? (
+                      <p>Registered</p>
+                    ) : (
+                      <Link
+                        to={{
+                          pathname: "/details",
+                          state: {
+                            flight: item,
+                            type: "REGISTER",
+                            bookedFrom: "SEARCH"
+                          }
+                        }}
+                      >
+                        Register
+                      </Link>
+                    )
+                  ) : (
+                    <p>UNAVAILABLE</p>
+                  )}
                 </div>
               ))}
             </div>
@@ -243,6 +237,10 @@ export default class Search extends React.Component {
       );
 
       for (let flight of all_flights_sorted) {
+        if (booking.length === 0) {
+          all_flights.push(flight);
+          continue;
+        }
         for (let booking of my_booking) {
           if (booking.flightid === flight.flightid) {
             const obj = flight;
@@ -285,7 +283,6 @@ export default class Search extends React.Component {
         flights_showed.push(item);
       }
     });
-
     this.setState({ flights_showed });
   };
 
