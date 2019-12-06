@@ -19,7 +19,7 @@ export default class SignUp extends React.Component {
     const { username, isUserNameValid } = this.state;
 
     return (
-      <div className="container" style={{ color: "black" }}>
+      <div className="container" style={{ color: "black", backgroundColor: "#eceff1" }}>
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"

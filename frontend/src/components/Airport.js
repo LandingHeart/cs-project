@@ -94,12 +94,12 @@ export default class Airport extends React.Component {
                     className=""
                     style={{ borderTop: "1px solid white" }}
                   >
-                    <p>Name: {item.flightname}</p>
-                    <p>Airline: {item.airline}</p>
-                    <p>Date: {item.date}</p>
-                    <p>Time: {item.time}</p>
-                    <p>Departure: {item.depart}</p>
-                    <p>Arrival: {item.dest}</p>
+                    <p className="col">Name: {item.flightname}</p>
+                    <p className="col">Airline: {item.airline}</p>
+                    <p className="col">Date: {item.date}</p>
+                    <p className="col">Time: {item.time}</p>
+                    <p className="col">Departure: {item.depart}</p>
+                    <p className="col">Arrival: {item.dest}</p>
                   </div>
                 ))}
               </div>

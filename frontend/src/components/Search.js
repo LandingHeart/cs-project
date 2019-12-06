@@ -51,7 +51,7 @@ export default class Search extends React.Component {
     } = this.state;
 
     return (
-      <div className="container" style={{ textAlign: "center" }}>
+      <div className="container" style={{ textAlign: "center", backgroundColor: "white"}}>
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"

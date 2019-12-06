@@ -82,7 +82,7 @@ export default class Airline extends React.Component {
             <div className="container" style={{ backgroundColor: "grey" }}>
               <table>
                 <thead>
-                  <tr className="row" style = {{border: "1px solid black"}}>
+                  <tr className="row">
                     <td className="col">FLIGHT NAME</td>
                     <td className="col">DEPARTURE</td>
                     <td className="col">DESTINATION</td>
@@ -95,7 +95,11 @@ export default class Airline extends React.Component {
                 </thead>
                 <tbody>
                   {this.state.data.map(item => (
-                    <tr key={item._id} className="row" style = {{borderTop: "1px solid black"}}>
+                    <tr
+                      key={item._id}
+                      className="row"
+                      style={{ borderTop: "1px solid black" }}
+                    >
                       <td className="col">{item.flightname}</td>
                       <td className="col">{item.depart}</td>
                       <td className="col">{item.dest}</td>
@@ -111,6 +115,7 @@ export default class Airline extends React.Component {
                           ) : (
                             <td>
                               <Link
+                                className="btn-success btn"
                                 to={{
                                   pathname: "/details",
                                   state: {
@@ -130,6 +135,7 @@ export default class Airline extends React.Component {
                       ) : (
                         <td>
                           <Link
+                            className="btn-success btn"
                             to={{
                               pathname: "/admin/add",
                               state: {
