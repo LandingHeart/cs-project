@@ -26,7 +26,7 @@ export default class Airline extends React.Component {
   }
 
   render() {
-    const { admin, airline, all_airlines } = this.state;
+    const { admin, airline, all_airlines, data } = this.state;
 
     return (
       <div>
@@ -94,20 +94,16 @@ export default class Airline extends React.Component {
                   </tr>
                 </thead>
                 <tbody>
-                  {this.state.data.map(item => (
-                    <tr
-                      key={item._id}
-                      className="row"
-                      style={{ borderTop: "1px solid black" }}
-                    >
-                      <td className="col">{item.flightname}</td>
-                      <td className="col">{item.depart}</td>
-                      <td className="col">{item.dest}</td>
-                      <td className="col">{item.date}</td>
-                      <td className="col">{item.time}</td>
-                      <td className="col">${item.fares}</td>
-                      <td className="col">{item.capacity - item.filled}</td>
-                      <td className="col">{item.status}</td>
+                  {data.map(item => (
+                    <tr key={item._id}>
+                      <td>{item.flightname}</td>
+                      <td>{item.depart}</td>
+                      <td>{item.dest}</td>
+                      <td>{item.date}</td>
+                      <td>{item.time}</td>
+                      <td>${item.fares}</td>
+                      <td>{item.capacity - item.filled}</td>
+                      <td>{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (
                           item.isRegistered ? (
@@ -211,12 +207,25 @@ export default class Airline extends React.Component {
       const flights_json = await fetch("/flights");
       const flights_unfiltered = await flights_json.json();
 
-      const admin_airline = this.state.admin.airline;
+      const airline_json = await fetch("/airlines");
+      const all_airlines = await airline_json.json();
+      const { airline } = this.state.admin;
+      let airlineid = null;
+      for (let currAirline of all_airlines) {
+        if (currAirline.airline === airline) {
+          airlineid = currAirline.airlineid;
+          break;
+        }
+      }
       const all_flights_filtered = flights_unfiltered.filter(
-        item => item.airline === admin_airline
+        item => item.airlineid == airlineid
       );
 
-      const data = all_flights_filtered.sort(
+      const all_flights_today = all_flights_filtered.filter(
+        item => new Date(item.date) - new Date(this.props.currentDate) >= 0
+      );
+
+      const data = all_flights_today.sort(
         (a, b) =>
           new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
       );
@@ -231,10 +240,10 @@ export default class Airline extends React.Component {
     try {
       const booking_json = await fetch("/bookings");
       const booking = await booking_json.json();
+
       const my_booking = booking.filter(
         item => item.customer === this.props.user.customerid
       );
-
       const flight_json = await fetch("/flights");
       const all_flights_unsorted = await flight_json.json();
       const all_flights_today = all_flights_unsorted.filter(
@@ -247,6 +256,10 @@ export default class Airline extends React.Component {
 
       let all_flights = [];
       for (let flight of all_flights_sorted) {
+        if (my_booking.length === 0) {
+          all_flights.push(flight);
+          continue;
+        }
         for (let booking of my_booking) {
           if (booking.flightid === flight.flightid) {
             const obj = flight;
