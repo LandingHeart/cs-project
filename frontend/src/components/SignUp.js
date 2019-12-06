@@ -1,7 +1,7 @@
 import React from "react";
-import "./css-files/SignIn.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
+import "./css-files/SignIn.css";
 
 export default class SignUp extends React.Component {
   constructor(props) {
@@ -11,30 +11,35 @@ export default class SignUp extends React.Component {
       lastname: "",
       username: "",
       password: "",
-      isUserNameValid: false
+      isUserNameValid: false,
+      userHasTyped: false
     };
   }
 
   render() {
-    const { username, isUserNameValid } = this.state;
+    const { username, isUserNameValid, userHasTyped } = this.state;
 
     return (
-      <div className="container" style={{ color: "black", backgroundColor: "#eceff1" }}>
+      <div
+        className="container"
+        style={{ color: "black", backgroundColor: "#eceff1" }}
+      >
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"
           isVisible={true}
           animationInOut="2s"
         >
-          <div className="form-box" style = {{marginTop: "80px"}}>
+          <div className="form-box" style={{ marginTop: "80px" }}>
             <form onSubmit={this.onSubmit}>
-              <h1 style={{ color: "black" }}>New Account</h1>
-
+              <h1 style={{ color: "black" }}>Create Account</h1>
               <label style={{ color: "black" }}>First Name</label>
+
               <input
                 type="text"
                 name="firstname"
                 placeholder="First Name"
+                value={this.state.firstname}
                 onChange={this.handleInputChange}
                 required
               />
@@ -44,6 +49,7 @@ export default class SignUp extends React.Component {
                 type="text"
                 name="lastname"
                 placeholder="Last Name"
+                value={this.state.lastname}
                 onChange={this.handleInputChange}
                 required
               />
@@ -54,15 +60,18 @@ export default class SignUp extends React.Component {
                 name="username"
                 placeholder="Username"
                 value={username}
-                onChange={this.handleUsername}
+                onChange={this.handleInputChange}
+                onBlur={this.checkUserName}
                 required
               />
 
-              {isUserNameValid ? null : username.length === 0 ? (
-                <p>You can't enter empty username</p>
-              ) : (
-                <p>The username has been taken</p>
-              )}
+              {userHasTyped ? (
+                isUserNameValid ? null : username.length === 0 ? (
+                  <p>You can't enter empty username</p>
+                ) : (
+                  <p>The username has been taken</p>
+                )
+              ) : null}
 
               <label style={{ color: "black" }}>Password</label>
               <input
@@ -131,28 +140,56 @@ export default class SignUp extends React.Component {
   };
 
   handleUsername = e => {
-    const username = e.target.value;
+    const val = e.target.value;
+    const username = val.trim();
     this.checkUserName(username);
   };
 
-  async checkUserName(username) {
+  async checkUserNameA(username) {
     try {
       const customer_json = await fetch("/customers/users");
       const customers = await customer_json.json();
-
       let isExist = false;
 
-      for (let user of customers) {
+      for (const user of customers) {
         if (user.username === username) isExist = true;
       }
 
       if (isExist || username.length === 0) {
-        this.setState({ isUserNameValid: false, username });
+        this.setState({ isUserNameValid: false, username, userHasTyped: true });
       } else {
-        this.setState({ isUserNameValid: true, username });
+        this.setState({ isUserNameValid: true, username, userHasTyped: true });
       }
     } catch (err) {
       console.log(err);
     }
   }
+
+  checkUserName = () => {
+    fetch("/customers/users")
+      .then(res => res.json())
+      .then(customers => {
+        const { username } = this.state;
+        let isExist = false;
+
+        for (const user of customers) {
+          if (user.username === username) isExist = true;
+        }
+
+        if (isExist || username.length === 0) {
+          this.setState({
+            isUserNameValid: false,
+            username,
+            userHasTyped: true
+          });
+        } else {
+          this.setState({
+            isUserNameValid: true,
+            username,
+            userHasTyped: true
+          });
+        }
+      })
+      .catch(err => console.log(err));
+  };
 }

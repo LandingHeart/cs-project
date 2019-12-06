@@ -3,13 +3,11 @@ import React from "react";
 // import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
-import "./css-files/search.css"
+import "./css-files/search.css";
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      user: this.props.user,
-      admin: this.props.admin,
       all_airports: [],
       all_flights: [],
       all_airlines: [],
@@ -17,7 +15,7 @@ export default class Search extends React.Component {
       airline: "",
       departure: "",
       arrival: "",
-      date: null,
+      date: "null",
       dateString: "",
       price: ""
     };
@@ -34,21 +32,16 @@ export default class Search extends React.Component {
   }
 
   render() {
-    if (this.props.user === null && this.props.admin === null) return null;
     if (
+      (this.props.user === null && this.props.admin === null) ||
       this.state.all_airlines === null ||
       this.state.all_flights === null ||
       this.state.all_airports === null
     )
       return null;
 
-    const {
-      flights_showed,
-      all_airports,
-      all_airlines,
-      price,
-      admin
-    } = this.state;
+    const { admin } = this.props;
+    const { flights_showed, all_airports, all_airlines, price } = this.state;
 
     return (
       <div

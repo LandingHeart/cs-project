@@ -28,28 +28,41 @@ export default class SignIn extends React.Component {
           isVisible={true}
           animationInOut="2s"
         >
-        <div className="form-box-sign-in">
-          <form onSubmit={this.onSubmit}>
-            <h1 style={{ color: "black" }}>Admin Login</h1>
-            <input
-              type="text"
-              name="username"
-              placeholder="Username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-            />
+          <div className="form-box-sign-in">
+            <form onSubmit={this.onSubmit}>
+              <h1
+                style={{
+                  color: "black",
+                  paddingBottom: "20px",
+                  paddingTop: "20px"
+                }}
+              >
+                Admin Login
+              </h1>
 
-            <input
-              type="text"
-              name="password"
-              placeholder="Password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-            />
+              <div className="mt-3" style={{ paddingBottom: "20px" }}>
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={this.state.username}
+                  onChange={this.handleInputChange}
+                />
+              </div>
 
-            <input type="submit" value="Submit" className="btn-primary" />
-          </form>
-        </div>
+              <div style={{ paddingBottom: "20px" }}>
+                <input
+                  type="text"
+                  name="password"
+                  placeholder="Password"
+                  value={this.state.password}
+                  onChange={this.handleInputChange}
+                />
+              </div>
+
+              <input type="submit" value="Submit" className="btn-primary" />
+            </form>
+          </div>
         </Animated>
       </div>
     );
@@ -64,14 +77,14 @@ export default class SignIn extends React.Component {
 
   onSubmit = event => {
     event.preventDefault();
-    const obj = {
-      username: this.state.username,
-      password: this.state.password
-    };
+    // const obj = {
+    //   username: this.state.username,
+    //   password: this.state.password
+    // };
 
     fetch("/admins/api/auth", {
       method: "POST",
-      body: JSON.stringify(obj),
+      body: JSON.stringify(this.state),
       headers: {
         "Content-Type": "application/json"
       }

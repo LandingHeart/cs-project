@@ -20,7 +20,9 @@ export default class Navigation extends React.Component {
       padding: "10px"
     };
 
-    if (this.props.admin !== null) {
+    const { admin, user } = this.props;
+
+    if (admin !== null) {
       return (
         <header style={headerStyle}>
           <h1>Flights</h1>
@@ -29,10 +31,16 @@ export default class Navigation extends React.Component {
           </Link>
           <Space />
           <React.Fragment>
-            {this.props.admin.airline === "SEARCH" ? (
-              <Link style={linkStyle} to="/reserve">
-                Reserve
-              </Link>
+            {admin.airline === "SEARCH" ? (
+              <div>
+                <Link style={linkStyle} to="/reserve">
+                  Reserve
+                </Link>
+                <Space />
+                <Link style={linkStyle} to="/admin/addAirport">
+                  Add Airport
+                </Link>
+              </div>
             ) : (
               <Link style={linkStyle} to="/airline">
                 Airline
@@ -43,12 +51,6 @@ export default class Navigation extends React.Component {
             <Link style={linkStyle} to="/airport">
               Airport
             </Link>
-            <Space />
-
-            <Link style={linkStyle} to="/admin/addAirport">
-              Add Airport
-            </Link>
-
             <Space />
 
             <Link
@@ -67,7 +69,7 @@ export default class Navigation extends React.Component {
     }
 
     //IF USER LOGGED IN
-    if (this.props.user !== null) {
+    if (user !== null) {
       return (
         <header style={headerStyle}>
           <h1>Flights</h1>

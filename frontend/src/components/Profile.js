@@ -7,7 +7,6 @@ export default class Profile extends React.Component {
     super(props);
 
     this.state = {
-      user: this.props.user,
       upcomingFlights: [],
       previousFlights: [],
       user_booking: [],
@@ -16,21 +15,22 @@ export default class Profile extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.user === null) this.props.history.push("/signin");
+    if (this.props.user === null) this.props.history.push("/signin");
 
     this.setFlight();
     this.interval = setInterval(() => this.setFlight(), 30000);
   }
 
   render() {
-    const { user, upcomingFlights, previousFlights, lastUpdated } = this.state;
-
+    const { user } = this.props;
     if (user === null) return null;
 
+    const { upcomingFlights, previousFlights, lastUpdated } = this.state;
+
     return (
-      <div className = "container">
+      <div className="container">
         <div>
-          <h1 style = {{color: "black", fontWeight: "bold"}}>Profile</h1>
+          <h1 style={{ color: "black", fontWeight: "bold" }}>Profile</h1>
           <button onClick={this.refresh}>Refresh</button>
           <pre>Last updated: {lastUpdated}</pre>
         </div>
@@ -42,7 +42,7 @@ export default class Profile extends React.Component {
         </div>
         <hr />
         <div>
-          <h2 style = {{color: "black"}}>Upcoming flights</h2>
+          <h2 style={{ color: "black" }}>Upcoming flights</h2>
           {upcomingFlights === null
             ? null
             : upcomingFlights.map(item => (
@@ -53,13 +53,18 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
-                  <button className = "btn btn-success" onClick={() => this.cancel(item)}>Cancel Flights</button>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => this.cancel(item)}
+                  >
+                    Cancel Flights
+                  </button>
                 </div>
               ))}
         </div>
         <hr />
         <div>
-          <h2 style = {{color: "black"}}>Previous flights</h2>
+          <h2 style={{ color: "black" }}>Previous flights</h2>
           {previousFlights === null
             ? null
             : previousFlights.map(item => (
@@ -121,7 +126,7 @@ export default class Profile extends React.Component {
       const all_bookings = await bookings_json.json();
 
       const user_booking = all_bookings.filter(
-        item => item.customer === this.state.user.customerid
+        item => item.customer === this.props.user.customerid
       );
 
       //GET ALL FLIGHTS
