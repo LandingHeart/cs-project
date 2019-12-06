@@ -1,5 +1,14 @@
 h1,
 p,
 div {
-  color:black;
+  color: black;
+}
+
+table,
+th,
+td {
+  border-top: 1px solid lightgray;
+  text-align: center;
+  margin-left:auto;
+  margin-right:auto;
 }

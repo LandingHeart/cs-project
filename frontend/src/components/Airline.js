@@ -1,6 +1,6 @@
 import React from "react";
-// import "./css-files/text.css";
-import "./css-files/page-style-def.css";
+import "./css-files/text.css";
+// import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
 
@@ -79,31 +79,37 @@ export default class Airline extends React.Component {
 
             <hr />
 
-            <div className="container" style={{ backgroundColor: "grey" }}>
+            <div
+              className="container"
+              style={{
+                boxShadow: "0px 0.5px 2px 3px #ccc",
+                border: "1px solid lightgray"
+              }}
+            >
               <table>
                 <thead>
-                  <tr className="row">
-                    <td className="col">FLIGHT NAME</td>
-                    <td className="col">DEPARTURE</td>
-                    <td className="col">DESTINATION</td>
-                    <td className="col">DATE</td>
-                    <td className="col">TIME</td>
-                    <td className="col">FARE</td>
-                    <td className="col">CAPACITY</td>
-                    <td className="col">STATUS</td>
+                  <tr>
+                    <td> FLIGHT NAME</td>
+                    <td>DEPARTURE</td>
+                    <td>DESTINATION</td>
+                    <td>DATE</td>
+                    <td>TIME</td>
+                    <td>FARE</td>
+                    <td>CAPACITY</td>
+                    <td>STATUS</td>
                   </tr>
                 </thead>
                 <tbody>
                   {data.map(item => (
-                    <tr key={item._id} className="row">
-                      <td className="col">{item.flightname}</td>
-                      <td className="col">{item.depart}</td>
-                      <td className="col">{item.dest}</td>
-                      <td className="col">{item.date}</td>
-                      <td className="col">{item.time}</td>
-                      <td className="col">${item.fares}</td>
-                      <td className="col">{item.capacity - item.filled}</td>
-                      <td className="col">{item.status}</td>
+                    <tr key={item._id}>
+                      <td >{item.flightname}</td>
+                      <td>{item.depart}</td>
+                      <td>{item.dest}</td>
+                      <td >{item.date}</td>
+                      <td>{item.time}</td>
+                      <td >${item.fares}</td>
+                      <td >{item.capacity - item.filled}</td>
+                      <td >{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (
                           item.isRegistered ? (

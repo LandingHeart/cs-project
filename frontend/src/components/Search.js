@@ -3,7 +3,7 @@ import React from "react";
 // import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
-
+import "./css-files/search.css"
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
