@@ -83,7 +83,8 @@ export default class Airline extends React.Component {
               className="container"
               style={{
                 boxShadow: "0px 0.5px 2px 3px #ccc",
-                border: "1px solid lightgray"
+                border: "1px solid lightgray",
+                backgroundColor: "#fff"
               }}
             >
               <table>

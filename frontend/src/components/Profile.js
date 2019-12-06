@@ -28,7 +28,7 @@ export default class Profile extends React.Component {
     if (user === null) return null;
 
     return (
-      <div>
+      <div className = "container">
         <div>
           <h1 style = {{color: "black", fontWeight: "bold"}}>Profile</h1>
           <button onClick={this.refresh}>Refresh</button>
