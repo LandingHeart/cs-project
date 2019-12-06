@@ -1,5 +1,5 @@
 import React from "react";
-import "./App.css";
+import { Animated } from "react-animated-css";
 import Navigation from "./components/Navigation.js";
 import Home from "./components/Home.js";
 import Airline from "./components/Airline.js";
@@ -13,8 +13,8 @@ import ReservationCustomer from "./components/ReservationCustomer";
 import AddFlight from "./components/AddFlight";
 import ConfirmationDetails from "./components/ConfirmationDetails";
 import AddAirport from "./components/AddAirport";
-import { Animated } from "react-animated-css";
 // import AddAirline from "./components/AddAirline";
+import "./App.css";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
@@ -22,9 +22,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentDate: "",
       user: null,
       admin: null,
+      currentDate: "",
       notChosenDate: true
     };
   }
@@ -34,15 +34,29 @@ export default class App extends React.Component {
 
     if (notChosenDate) {
       return (
-        <div>
-          <h1>ENTER CURRENT DATE</h1>
-          <input type="date" onChange={this.setDate}></input>
-          {currentDate === "" ? null : (
-            <h3 style={{ color: "black" }}>Date: {currentDate}</h3>
-          )}
-          <button onClick={this.saveDate} disabled={currentDate.length === 0}>
-            SAVE
-          </button>
+        <div style={{ display: "flex", height: "100vh" }}>
+          <div
+            style={{
+              margin: "auto"
+            }}
+          >
+            <h1>ENTER CURRENT DATE</h1>
+            <input type="date" onChange={this.setDate}></input>
+
+            {currentDate.length === 0 ||
+            currentDate.includes(undefined) ? null : (
+              <h3 style={{ color: "black" }}>DATE: {currentDate}</h3>
+            )}
+
+            <button
+              onClick={this.saveDate}
+              disabled={
+                currentDate.length === 0 || currentDate.includes(undefined)
+              }
+            >
+              CONTINUE TO THE SITE
+            </button>
+          </div>
         </div>
       );
     }
@@ -107,7 +121,7 @@ export default class App extends React.Component {
 
             <Route
               path="/admin/customerList"
-              render={props => <ReservationCustomer {...props} />}
+              render={props => <ReservationCustomer {...props} admin={admin} />}
             />
 
             <Route
@@ -129,7 +143,9 @@ export default class App extends React.Component {
 
             <Route
               path="/admin/add"
-              render={props => <AddFlight {...props} admin={admin} />}
+              render={props => (
+                <AddFlight {...props} admin={admin} currentDate={currentDate} />
+              )}
             />
 
             <Route
