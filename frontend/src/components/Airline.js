@@ -95,15 +95,15 @@ export default class Airline extends React.Component {
                 </thead>
                 <tbody>
                   {data.map(item => (
-                    <tr key={item._id}>
-                      <td>{item.flightname}</td>
-                      <td>{item.depart}</td>
-                      <td>{item.dest}</td>
-                      <td>{item.date}</td>
-                      <td>{item.time}</td>
-                      <td>${item.fares}</td>
-                      <td>{item.capacity - item.filled}</td>
-                      <td>{item.status}</td>
+                    <tr key={item._id} className="row">
+                      <td className="col">{item.flightname}</td>
+                      <td className="col">{item.depart}</td>
+                      <td className="col">{item.dest}</td>
+                      <td className="col">{item.date}</td>
+                      <td className="col">{item.time}</td>
+                      <td className="col">${item.fares}</td>
+                      <td className="col">{item.capacity - item.filled}</td>
+                      <td className="col">{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (
                           item.isRegistered ? (

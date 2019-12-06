@@ -51,7 +51,10 @@ export default class Search extends React.Component {
     } = this.state;
 
     return (
-      <div className="container" style={{ textAlign: "center", backgroundColor: "white"}}>
+      <div
+        className="container"
+        style={{ textAlign: "center", backgroundColor: "white" }}
+      >
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"
@@ -66,11 +69,11 @@ export default class Search extends React.Component {
             <div>
               <label className="row">
                 Airline name:
-                <div className="col" style = {{ paddingLeft: "70px"}}>
+                <div className="col" style={{ paddingLeft: "70px" }}>
                   <select
                     name="airline"
                     onChange={this.handleInputChange}
-                    style={{ width: "100%"}}
+                    style={{ width: "100%" }}
                   >
                     <option value=""></option>
                     {all_airlines.map(item => (
@@ -86,11 +89,11 @@ export default class Search extends React.Component {
             <div>
               <label className="row">
                 Departure :
-                <div className="col" style = {{paddingLeft: "80px" }}>
+                <div className="col" style={{ paddingLeft: "80px" }}>
                   <select
                     name="departure"
                     onChange={this.handleInputChange}
-                    style={{ width: "80px", }}
+                    style={{ width: "80px" }}
                   >
                     <option value=""></option>
                     {all_airports.map(item => (
@@ -105,7 +108,7 @@ export default class Search extends React.Component {
             <div>
               <label className="row">
                 Arrival :
-                <div className="col" style = {{paddingLeft: "105px" }}>
+                <div className="col" style={{ paddingLeft: "105px" }}>
                   <select
                     name="arrival"
                     onChange={this.handleInputChange}
