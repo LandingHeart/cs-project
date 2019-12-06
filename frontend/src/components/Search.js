@@ -1,6 +1,6 @@
 import React from "react";
 // import "./css-files/text.css";
-import "./css-files/page-style-def.css";
+// import "./css-files/page-style-def.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Animated } from "react-animated-css";
 
@@ -51,7 +51,7 @@ export default class Search extends React.Component {
     } = this.state;
 
     return (
-      <div className="container">
+      <div className="container" style={{ textAlign: "center" }}>
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"
@@ -64,42 +64,61 @@ export default class Search extends React.Component {
 
           <form onSubmit={this.handleSubmit}>
             <div>
-              <label>
+              <label className="row">
                 Airline name:
-                <select name="airline" onChange={this.handleInputChange}>
-                  <option value=""></option>
-                  {all_airlines.map(item => (
-                    <option value={item.airline} key={item.airline}>
-                      {item.airline}
-                    </option>
-                  ))}
-                </select>
+                <div className="col" style = {{ paddingLeft: "70px"}}>
+                  <select
+                    name="airline"
+                    onChange={this.handleInputChange}
+                    style={{ width: "100%"}}
+                  >
+                    <option value=""></option>
+                    {all_airlines.map(item => (
+                      <option value={item.airline} key={item.airline}>
+                        {item.airline}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </label>
             </div>
+
             <div>
-              <label>
+              <label className="row">
                 Departure :
-                <select name="departure" onChange={this.handleInputChange}>
-                  <option value=""></option>
-                  {all_airports.map(item => (
-                    <option value={item.airports} key={item.airports}>
-                      {item.airports}
-                    </option>
-                  ))}
-                </select>
+                <div className="col" style = {{paddingLeft: "80px" }}>
+                  <select
+                    name="departure"
+                    onChange={this.handleInputChange}
+                    style={{ width: "80px", }}
+                  >
+                    <option value=""></option>
+                    {all_airports.map(item => (
+                      <option value={item.airports} key={item.airports}>
+                        {item.airports}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </label>
             </div>
             <div>
-              <label>
+              <label className="row">
                 Arrival :
-                <select name="arrival" onChange={this.handleInputChange}>
-                  <option value=""></option>
-                  {all_airports.map(item => (
-                    <option value={item.airports} key={item.airports}>
-                      {item.airports}
-                    </option>
-                  ))}
-                </select>
+                <div className="col" style = {{paddingLeft: "105px" }}>
+                  <select
+                    name="arrival"
+                    onChange={this.handleInputChange}
+                    style={{ width: "80px" }}
+                  >
+                    <option value=""></option>
+                    {all_airports.map(item => (
+                      <option value={item.airports} key={item.airports}>
+                        {item.airports}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </label>
             </div>
             <div>
@@ -135,18 +154,24 @@ export default class Search extends React.Component {
                 </label>
               </form>
             </div>
-
             <div>
               {flights_showed.map(item => (
                 <div key={item._id}>
-                  <div className="div-box">
-                    <p>Name: {item.flightname}</p>
-                    <p>Departure: {item.depart}</p>
-                    <p>Destination: {item.dest}</p>
-                    <p>Date: {item.date}</p>
-                    <p>Time: {item.time}</p>
-                    <p>Capacity: {item.capacity}</p>
-                    <p>Fare: {item.fares}</p>
+                  <div>
+                    <div
+                      className="row"
+                      style={{ backgroundColor: "grey", marginTop: "3px" }}
+                    >
+                      <p className="col">Name:{item.flightname}</p>
+
+                      <p className="col">Departure: {item.depart}</p>
+                      <p className="col">Destination: {item.dest}</p>
+                      <p className="col">Date: {item.date}</p>
+                      <p className="col">Time: {item.time}</p>
+                      <p className="col">Capacity: {item.capacity}</p>
+                      <p className="col">Fare: {item.fares}</p>
+                    </div>
+
                     {admin !== null ? (
                       admin.airline === "SEARCH" ? (
                         <Link

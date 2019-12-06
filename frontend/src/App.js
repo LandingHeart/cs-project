@@ -37,7 +37,9 @@ export default class App extends React.Component {
         <div>
           <h1>ENTER CURRENT DATE</h1>
           <input type="date" onChange={this.setDate}></input>
-          {currentDate === "" ? null : <h3>Date: {currentDate}</h3>}
+          {currentDate === "" ? null : (
+            <h3 style={{ color: "black" }}>Date: {currentDate}</h3>
+          )}
           <button onClick={this.saveDate} disabled={currentDate.length === 0}>
             SAVE
           </button>

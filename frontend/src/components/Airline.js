@@ -82,28 +82,28 @@ export default class Airline extends React.Component {
             <div className="container" style={{ backgroundColor: "grey" }}>
               <table>
                 <thead>
-                  <tr>
-                    <td>FLIGHT NAME</td>
-                    <td>DEPARTURE</td>
-                    <td>DESTINATION</td>
-                    <td>DATE</td>
-                    <td>TIME</td>
-                    <td>FARE</td>
-                    <td>CAPACITY</td>
-                    <td>STATUS</td>
+                  <tr className="row" style = {{border: "1px solid black"}}>
+                    <td className="col">FLIGHT NAME</td>
+                    <td className="col">DEPARTURE</td>
+                    <td className="col">DESTINATION</td>
+                    <td className="col">DATE</td>
+                    <td className="col">TIME</td>
+                    <td className="col">FARE</td>
+                    <td className="col">CAPACITY</td>
+                    <td className="col">STATUS</td>
                   </tr>
                 </thead>
                 <tbody>
                   {this.state.data.map(item => (
-                    <tr key={item._id}>
-                      <td>{item.flightname}</td>
-                      <td>{item.depart}</td>
-                      <td>{item.dest}</td>
-                      <td>{item.date}</td>
-                      <td>{item.time}</td>
-                      <td>${item.fares}</td>
-                      <td>{item.capacity - item.filled}</td>
-                      <td>{item.status}</td>
+                    <tr key={item._id} className="row" style = {{borderTop: "1px solid black"}}>
+                      <td className="col">{item.flightname}</td>
+                      <td className="col">{item.depart}</td>
+                      <td className="col">{item.dest}</td>
+                      <td className="col">{item.date}</td>
+                      <td className="col">{item.time}</td>
+                      <td className="col">${item.fares}</td>
+                      <td className="col">{item.capacity - item.filled}</td>
+                      <td className="col">{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (
                           item.isRegistered ? (
