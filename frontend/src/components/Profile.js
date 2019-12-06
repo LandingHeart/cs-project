@@ -30,7 +30,7 @@ export default class Profile extends React.Component {
     return (
       <div>
         <div>
-          <h1>Profile</h1>
+          <h1 style = {{color: "black", fontWeight: "bold"}}>Profile</h1>
           <button onClick={this.refresh}>Refresh</button>
           <pre>Last updated: {lastUpdated}</pre>
         </div>
@@ -42,7 +42,7 @@ export default class Profile extends React.Component {
         </div>
         <hr />
         <div>
-          <h2>Upcoming flights</h2>
+          <h2 style = {{color: "black"}}>Upcoming flights</h2>
           {upcomingFlights === null
             ? null
             : upcomingFlights.map(item => (
@@ -59,7 +59,7 @@ export default class Profile extends React.Component {
         </div>
         <hr />
         <div>
-          <h2>Previous flights</h2>
+          <h2 style = {{color: "black"}}>Previous flights</h2>
           {previousFlights === null
             ? null
             : previousFlights.map(item => (
