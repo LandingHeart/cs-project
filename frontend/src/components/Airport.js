@@ -80,7 +80,7 @@ export default class Airport extends React.Component {
           <div
             className="container"
             style={{
-              backgroundColor: "grey",
+              backgroundColor: "white",
               opacity: "90%",
               boxShadow: "0px 0.5px 2px 3px #ccc"
             }}

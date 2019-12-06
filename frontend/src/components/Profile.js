@@ -53,7 +53,7 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
-                  <button onClick={() => this.cancel(item)}>Cancel</button>
+                  <button className = "btn btn-success" onClick={() => this.cancel(item)}>Cancel Flights</button>
                 </div>
               ))}
         </div>
