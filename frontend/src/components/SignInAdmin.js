@@ -33,8 +33,8 @@ export default class SignIn extends React.Component {
               <h1
                 style={{
                   color: "black",
-                  paddingBottom: "20px",
-                  paddingTop: "20px"
+                  paddingBottom: "10px",
+                  paddingTop: "10px"
                 }}
               >
                 Admin Login
@@ -50,7 +50,7 @@ export default class SignIn extends React.Component {
                 />
               </div>
 
-              <div style={{ paddingBottom: "20px" }}>
+              <div style={{ paddingTop: "10px" }}>
                 <input
                   type="text"
                   name="password"

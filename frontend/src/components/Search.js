@@ -44,10 +44,7 @@ export default class Search extends React.Component {
     const { flights_showed, all_airports, all_airlines, price } = this.state;
 
     return (
-      <div
-        className="container"
-        style={{ textAlign: "center", backgroundColor: "white" }}
-      >
+      <div style={{ textAlign: "center" }}>
         <Animated
           animationIn="fadeIn"
           animationOut="fadeOut"
@@ -58,75 +55,79 @@ export default class Search extends React.Component {
             <h1 style={{ color: "black" }}>Search for a flight</h1>
           </div>
 
-          <form onSubmit={this.handleSubmit}>
-            <div>
-              <label className="row">
-                Airline name:
-                <div className="col" style={{ paddingLeft: "70px" }}>
-                  <select
-                    name="airline"
-                    onChange={this.handleInputChange}
-                    style={{ width: "100%" }}
-                  >
-                    <option value=""></option>
-                    {all_airlines.map(item => (
-                      <option value={item.airline} key={item.airline}>
-                        {item.airline}
-                      </option>
-                    ))}
-                  </select>
+          <div className="container">
+            <div style={{ backgroundColor: "#fff" }}>
+              <form onSubmit={this.handleSubmit}>
+                <div>
+                  <label className="row">
+                    Airline name:
+                    <div className="col" style={{ paddingLeft: "70px" }}>
+                      <select
+                        name="airline"
+                        onChange={this.handleInputChange}
+                        style={{ width: "100%" }}
+                      >
+                        <option value=""></option>
+                        {all_airlines.map(item => (
+                          <option value={item.airline} key={item.airline}>
+                            {item.airline}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </label>
                 </div>
-              </label>
-            </div>
 
-            <div>
-              <label className="row">
-                Departure :
-                <div className="col" style={{ paddingLeft: "80px" }}>
-                  <select
-                    name="departure"
-                    onChange={this.handleInputChange}
-                    style={{ width: "80px" }}
-                  >
-                    <option value=""></option>
-                    {all_airports.map(item => (
-                      <option value={item.airports} key={item.airports}>
-                        {item.airports}
-                      </option>
-                    ))}
-                  </select>
+                <div>
+                  <label className="row">
+                    Departure :
+                    <div className="col" style={{ paddingLeft: "80px" }}>
+                      <select
+                        name="departure"
+                        onChange={this.handleInputChange}
+                        style={{ width: "80px" }}
+                      >
+                        <option value=""></option>
+                        {all_airports.map(item => (
+                          <option value={item.airports} key={item.airports}>
+                            {item.airports}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </label>
                 </div>
-              </label>
-            </div>
-            <div>
-              <label className="row">
-                Arrival :
-                <div className="col" style={{ paddingLeft: "105px" }}>
-                  <select
-                    name="arrival"
-                    onChange={this.handleInputChange}
-                    style={{ width: "80px" }}
-                  >
-                    <option value=""></option>
-                    {all_airports.map(item => (
-                      <option value={item.airports} key={item.airports}>
-                        {item.airports}
-                      </option>
-                    ))}
-                  </select>
+                <div>
+                  <label className="row">
+                    Arrival :
+                    <div className="col" style={{ paddingLeft: "105px" }}>
+                      <select
+                        name="arrival"
+                        onChange={this.handleInputChange}
+                        style={{ width: "80px" }}
+                      >
+                        <option value=""></option>
+                        {all_airports.map(item => (
+                          <option value={item.airports} key={item.airports}>
+                            {item.airports}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </label>
                 </div>
-              </label>
+                <div>
+                  <label>
+                    <input type="date" onChange={this.handleDate} />
+                  </label>
+                </div>
+                <input type="submit" value="Submit" />
+              </form>
             </div>
-            <div>
-              <label>
-                <input type="date" onChange={this.handleDate} />
-              </label>
-            </div>
-            <input type="submit" value="Submit" />
-          </form>
+          </div>
 
-          <div>
-            <div id="div-box">
+          <div style = {{paddingTop: "20px", marginTop: "10px"}}>
+            <div id="div-box" >
               <h3>Result</h3>
               <form>
                 <label>
@@ -150,55 +151,71 @@ export default class Search extends React.Component {
                 </label>
               </form>
             </div>
-            <div>
-              {flights_showed.map(item => (
-                <div key={item._id}>
-                  <div>
-                    <p>Name:{item.flightname}</p>
-                    <p>Departure: {item.depart}</p>
-                    <p>Destination: {item.dest}</p>
-                    <p>Date: {item.date}</p>
-                    <p>Time: {item.time}</p>
-                    <p>Capacity: {item.capacity}</p>
-                    <p>Fare: {item.fares}</p>
-                  </div>
 
-                  {admin !== null ? (
-                    admin.airline === "SEARCH" ? (
-                      <Link
-                        to={{
-                          pathname: "/admin/customerList",
-                          state: {
-                            flight: item,
-                            type: "SEARCH"
-                          }
-                        }}
-                      >
-                        See All Customer Reservation
-                      </Link>
-                    ) : null
-                  ) : item.status === "ON TIME" ? (
-                    item.isRegistered ? (
-                      <p>Registered</p>
+            <div className="container-data" style={{ paddingTop: "30px" }}>
+              
+              <div
+                className="container"
+                style={{
+                  border: "1px solid grey",
+                  boxShadow: "0px 0.5px 2px 3px #ccc",
+                  textAlign: "center",
+                  width: "80%",
+                  right: "0",
+                  height: "auto",
+                  display: "inlineBlock",
+                  backgroundColor: "#fff"
+                }}
+              >
+                {flights_showed.map(item => (
+                  <div key={item._id}>
+                    <div>
+                      <p>Name:{item.flightname}</p>
+                      <p>Departure: {item.depart}</p>
+                      <p>Destination: {item.dest}</p>
+                      <p>Date: {item.date}</p>
+                      <p>Time: {item.time}</p>
+                      <p>Capacity: {item.capacity}</p>
+                      <p>Fare: {item.fares}</p>
+                    </div>
+
+                    {admin !== null ? (
+                      admin.airline === "SEARCH" ? (
+                        <Link
+                          to={{
+                            pathname: "/admin/customerList",
+                            state: {
+                              flight: item,
+                              type: "SEARCH"
+                            }
+                          }}
+                        >
+                          See All Customer Reservation
+                        </Link>
+                      ) : null
+                    ) : item.status === "ON TIME" ? (
+                      item.isRegistered ? (
+                        <p>Registered</p>
+                      ) : (
+                        <Link
+                          to={{
+                            pathname: "/details",
+                            state: {
+                              flight: item,
+                              type: "REGISTER",
+                              bookedFrom: "SEARCH"
+                            }
+                          }}
+                        >
+                          Register
+                        </Link>
+                      )
                     ) : (
-                      <Link
-                        to={{
-                          pathname: "/details",
-                          state: {
-                            flight: item,
-                            type: "REGISTER",
-                            bookedFrom: "SEARCH"
-                          }
-                        }}
-                      >
-                        Register
-                      </Link>
-                    )
-                  ) : (
-                    <p>UNAVAILABLE</p>
-                  )}
-                </div>
-              ))}
+                      <p>UNAVAILABLE</p>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </Animated>
