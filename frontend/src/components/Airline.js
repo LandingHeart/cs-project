@@ -19,6 +19,7 @@ export default class Airline extends React.Component {
   componentDidMount() {
     if (this.props.user === null && this.props.admin === null) {
       this.props.history.push("/signin");
+      return;
     }
     this.getData();
 
@@ -137,29 +138,34 @@ export default class Airline extends React.Component {
                         )
                       ) : (
                         <td>
-                          <Link
-                            className="btn-success btn"
-                            to={{
-                              pathname: "/admin/add",
-                              state: {
-                                flight: item,
-                                type: "EDIT"
-                              }
-                            }}
-                          >
-                            Edit Flight
-                          </Link>
-                          <Link
-                            to={{
-                              pathname: "/details",
-                              state: {
-                                flight: item,
-                                type: "CANCEL"
-                              }
-                            }}
-                          >
-                            Cancel Flight
-                          </Link>
+                          {item.status === "CANCELLED" ? null : (
+                            <span>
+                              <Link
+                                className="btn-success btn"
+                                to={{
+                                  pathname: "/admin/add",
+                                  state: {
+                                    flight: item,
+                                    type: "EDIT"
+                                  }
+                                }}
+                              >
+                                Edit Flight
+                              </Link>
+                              <Link
+                                to={{
+                                  pathname: "/details",
+                                  state: {
+                                    flight: item,
+                                    type: "CANCEL"
+                                  }
+                                }}
+                              >
+                                Cancel Flight
+                              </Link>
+                            </span>
+                          )}
+
                           <Link
                             to={{
                               pathname: "/admin/customerList",
@@ -225,8 +231,9 @@ export default class Airline extends React.Component {
           break;
         }
       }
+
       const all_flights_filtered = flights_unfiltered.filter(
-        item => item.airlineid == airlineid
+        item => item.airlineid === airlineid
       );
 
       const all_flights_today = all_flights_filtered.filter(

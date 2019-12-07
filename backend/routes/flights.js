@@ -55,6 +55,20 @@ router.put("/updateSubsFilledIntoFlight/:id", async (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.put("/cancelFlight/:id", async (req, res) => {
+  const flight = req.body;
+  flight['status'] = "CANCELLED"
+  console.log("HELLO THERE")
+
+  Flight.findByIdAndUpdate({ _id: flight._id }, flight)
+    .then(function() {
+      Flight.findOne({ _id: flight._id }).then(function(flight) {
+        res.send(flight);
+      });
+    })
+    .catch(err => console.log(err));
+})
+
 router.post("/admin/add", async (req, res) => {
   const flight = new Flight({
     airlineid: req.body.airlineid,

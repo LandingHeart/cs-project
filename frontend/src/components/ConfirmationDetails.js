@@ -6,7 +6,7 @@ export default class ConfirmationDetails extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.location.state === undefined || this.props.user === null) {
+    if (this.props.location.state === undefined) {
       this.props.history.push("/signin");
     }
   }
@@ -55,12 +55,13 @@ export default class ConfirmationDetails extends React.Component {
           }
 
           if (resp.status === 200) {
-            const booking = {
-              flightid: this.props.location.state.flight.flightid,
-              customer: this.props.user.customerid,
-              bookedFrom: this.props.location.state.bookedFrom
-            };
             if (this.props.location.state.type === "REGISTER") {
+              const booking = {
+                flightid: this.props.location.state.flight.flightid,
+                customer: this.props.user.customerid,
+                bookedFrom: this.props.location.state.bookedFrom
+              };
+
               fetch("/bookings", {
                 method: "POST",
                 body: JSON.stringify(booking),
@@ -80,7 +81,7 @@ export default class ConfirmationDetails extends React.Component {
                     )
                       .then(resp => {
                         if (resp.status === 200) {
-                          alert("Success");
+                          alert("Success Registering");
                           this.props.history.push("/airline");
                         }
                       })
@@ -89,8 +90,21 @@ export default class ConfirmationDetails extends React.Component {
                 })
                 .catch(err => console.log(err));
             } else if (this.props.location.state.type === "CANCEL") {
-              // POST to the DB that admin cancel flight
-              // this.props.history.push("/airline");
+              fetch(
+                `flights/cancelFlight/${this.props.location.state.flight.flightid}`,
+                {
+                  method: "PUT",
+                  body: JSON.stringify(this.props.location.state.flight),
+                  headers: { "Content-Type": "application/json" }
+                }
+              )
+                .then(resp => {
+                  if (resp.status === 200) {
+                    alert("Success Cancelling Flight");
+                    this.props.history.push("/airline");
+                  }
+                })
+                .catch(err => console.log(err));
             }
           }
         })
