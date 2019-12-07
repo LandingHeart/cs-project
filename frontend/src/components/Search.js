@@ -169,7 +169,8 @@ export default class Search extends React.Component {
                         to={{
                           pathname: "/admin/customerList",
                           state: {
-                            airline: item
+                            flight: item,
+                            type: "SEARCH"
                           }
                         }}
                       >

@@ -6,44 +6,28 @@ export default class ReservationCustomer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      airline: null,
-      user: null,
       bookings: [],
-      customers: []
+      customers: null
     };
   }
 
   componentDidMount() {
-    const { airline } = this.props.location.state;
+    if (this.props.admin === null) {
+      this.props.history.push("/signin");
+      return;
+    }
 
-    //TODO: fetch user data, match the one who register for this flight
-    // const user = await fetch("..");
-
-    //fetch from bookings and set to bookings
-    fetch("/bookings")
-      .then(res => res.json())
-      .then(bookings => {
-        this.setState({ bookings });
-        console.log("bookings fetch", bookings);
-      });
-
-    fetch("/customers")
-      .then(res => res.json())
-      .then(customers => {
-        this.setState({ customers });
-        console.log("customers fetch", customers);
-      });
-    const user = [
-      { id: 1, name: "John Doe" },
-      { id: 2, name: "Sally Smith" }
-    ];
-
-    // const userThisFlight = [];
-
-    this.setState({ airline, user });
+    this.getData();
+    this.interval = setInterval(() => this.getData(), 30000);
   }
 
   render() {
+    if (this.props.admin === null) return null;
+
+    const { flight, type } = this.props.location.state;
+    const { admin } = this.props;
+    const { customers } = this.state;
+
     return (
       <div>
         <Animated
@@ -53,25 +37,32 @@ export default class ReservationCustomer extends React.Component {
           animationInOut="2s"
         >
           <div>Flight Details</div>
-          {this.state.airline === null ? null : (
+          {admin === null ? null : (
             <div>
-              <p>Name: {this.state.airline.name}</p>
-              <p>Departure: {this.state.airline.departure}</p>
-              <p>Destination: {this.state.airline.destination}</p>
+              <p>Name: {flight.flightname}</p>
+              <p>Airline: {flight.airline}</p>
+              <p>Departure: {flight.depart}</p>
+              <p>Destination: {flight.dest}</p>
+              <p>Date: {flight.date}</p>
+              <p>Time: {flight.time}</p>
             </div>
           )}
 
-          {this.state.user === null ? null : (
+          {customers === null ? null : (
             <table>
               <thead>
                 <tr>
-                  <td>Name</td>
+                  <td>First Name</td>
+                  <td>Last Name</td>
+                  <td>Booked From</td>
                 </tr>
               </thead>
               <tbody>
-                {this.state.user.map(item => (
-                  <tr key={item.id}>
-                    <td>{item.name}</td>
+                {customers.map(item => (
+                  <tr key={item._id}>
+                    <td>{item.firstname}</td>
+                    <td>{item.lastname}</td>
+                    <td>{type}</td>
                   </tr>
                 ))}
               </tbody>
@@ -80,5 +71,41 @@ export default class ReservationCustomer extends React.Component {
         </Animated>
       </div>
     );
+  }
+
+  async getData() {
+    try {
+      const { flight, type } = this.props.location.state;
+      //GET ALL BOOKING
+      const bookings = await fetch("/bookings");
+      const all_bookings = await bookings.json();
+
+      //FILTER BOOKING TO GET BOOKING ONLY FOR THIS FLIGHT
+      //AND WHO BOOKEDFROM either SEARCH or from AIRLINE
+      const booking_for_this_flight = all_bookings.filter(
+        item => item.flightid === flight.flightid && item.bookedFrom === type
+      );
+
+      //GET THE CUSTOMER ID(s) IN THE BOOKING
+      const customers_id = [];
+      for (let book of booking_for_this_flight) {
+        customers_id.push(book.customer);
+      }
+
+      //GET ALL CUSTOMERS
+      const customers_data = await fetch("/customers/users");
+      const all_customers = await customers_data.json();
+
+      //FILTER THE CUSTOMER
+      const customers = [];
+      for (const cust of all_customers) {
+        if (customers_id.includes(cust.customerid)) {
+          customers.push(cust);
+        }
+      }
+      this.setState({ customers });
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

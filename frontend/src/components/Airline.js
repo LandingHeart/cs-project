@@ -90,7 +90,7 @@ export default class Airline extends React.Component {
               <table>
                 <thead>
                   <tr>
-                    <td> FLIGHT NAME</td>
+                    <td>FLIGHT NAME</td>
                     <td>DEPARTURE</td>
                     <td>DESTINATION</td>
                     <td>DATE</td>
@@ -103,14 +103,14 @@ export default class Airline extends React.Component {
                 <tbody>
                   {data.map(item => (
                     <tr key={item._id}>
-                      <td >{item.flightname}</td>
+                      <td>{item.flightname}</td>
                       <td>{item.depart}</td>
                       <td>{item.dest}</td>
-                      <td >{item.date}</td>
+                      <td>{item.date}</td>
                       <td>{item.time}</td>
-                      <td >${item.fares}</td>
-                      <td >{item.capacity - item.filled}</td>
-                      <td >{item.status}</td>
+                      <td>${item.fares}</td>
+                      <td>{item.capacity - item.filled}</td>
+                      <td>{item.status}</td>
                       {admin === null ? (
                         item.status === "ON TIME" ? (
                           item.isRegistered ? (
@@ -164,7 +164,8 @@ export default class Airline extends React.Component {
                             to={{
                               pathname: "/admin/customerList",
                               state: {
-                                airline: item
+                                flight: item,
+                                type: "AIRLINE"
                               }
                             }}
                           >
