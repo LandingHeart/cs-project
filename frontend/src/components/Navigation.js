@@ -32,15 +32,16 @@ export default class Navigation extends React.Component {
           <Space />
           <React.Fragment>
             {admin.airline === "SEARCH" ? (
-              <div>
+              <span>
                 <Link style={linkStyle} to="/reserve">
                   Reserve
                 </Link>
+                {/* 
                 <Space />
                 <Link style={linkStyle} to="/admin/addAirport">
                   Add Airport
-                </Link>
-              </div>
+              </Link>*/}
+              </span>
             ) : (
               <Link style={linkStyle} to="/airline">
                 Airline

@@ -49,7 +49,7 @@ export default class Profile extends React.Component {
                 <div key={item._id} className="div-box">
                   <p>Flight: {item.flightname}</p>
                   <p>Airline Name: {item.airline}</p>
-                  <p>Date: {new String(item.date)}</p>
+                  <p>Date: {String(item.date)}</p>
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
@@ -71,7 +71,7 @@ export default class Profile extends React.Component {
                 <div key={item._id} className="div-box">
                   <p>Flight: {item.flightname}</p>
                   <p>Airline Name: {item.airline}</p>
-                  <p>Date: {new String(item.date)}</p>
+                  <p>Date: {String(item.date)}</p>
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                 </div>
