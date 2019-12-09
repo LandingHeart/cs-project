@@ -63,7 +63,7 @@ export default class Search extends React.Component {
             <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
           </div>
 
-          <div className="container">
+          <div className="mycontainer">
             <div style={{ backgroundColor: "#fff" }}>
               <form onSubmit={this.handleSubmit}>
                 <div>
@@ -159,69 +159,87 @@ export default class Search extends React.Component {
                 </label>
               </form>
             </div>
+          </div>
 
-            <div className="container-data" style={{ paddingTop: "30px" }}>
-              <div
-                className="container"
-                style={{
-                  border: "1px solid grey",
-                  boxShadow: "0px 0.5px 2px 3px #ccc",
-                  textAlign: "center",
-                  width: "80%",
-                  right: "0",
-                  height: "auto",
-                  display: "inlineBlock",
-                  backgroundColor: "#fff"
-                }}
-              >
-                {flights_showed.map(item => (
-                  <div key={item._id}>
-                    <div>
-                      <p>Name:{item.flightname}</p>
-                      <p>Departure: {item.depart}</p>
-                      <p>Destination: {item.dest}</p>
-                      <p>Date: {item.date}</p>
-                      <p>Time: {item.time}</p>
-                      <p>Capacity: {item.capacity - item.filled}</p>
-                      <p>Fare: {item.fares}</p>
-                    </div>
+          <div style={{ paddingTop: "30px" }}>
+            <div
+              className="container"
+              style={{
+                border: "1px solid grey",
+                boxShadow: "0px 0.5px 2px 3px #ccc",
+                textAlign: "center",
+                width: "80%",
+                right: "0",
+                height: "auto",
+                display: "inlineBlock",
+                backgroundColor: "#fff"
+              }}
+            >
+              <div>
+                <table>
+                  <thead>
+                    <tr>
+                      <td>FLIGHT NAME</td>
+                      <td>DEPARTURE</td>
+                      <td>DESTINATION</td>
+                      <td>DATE</td>
+                      <td>TIME</td>
+                      <td>FARE</td>
+                      <td>CAPACITY</td>
+                    </tr>
+                  </thead>
 
-                    {admin !== null ? (
-                      admin.airline === "SEARCH" ? (
-                        <Link
-                          to={{
-                            pathname: "/admin/customerList",
-                            state: {
-                              flight: item,
-                              type: "SEARCH"
-                            }
-                          }}
-                        >
-                          See All Customer Reservation
-                        </Link>
-                      ) : null
-                    ) : item.status === "ON TIME" ? (
-                      item.isRegistered ? (
-                        <p>REGISTERED</p>
-                      ) : (
-                        <Link
-                          to={{
-                            pathname: "/details",
-                            state: {
-                              flight: item,
-                              type: "REGISTER",
-                              bookedFrom: "SEARCH"
-                            }
-                          }}
-                        >
-                          Register
-                        </Link>
-                      )
-                    ) : (
-                      <p>UNAVAILABLE</p>
-                    )}
-                  </div>
-                ))}
+                  <tbody>
+                    {flights_showed.map(item => (
+                      <tr key={item._id}>
+                        <td>{item.flightname}</td>
+                        <td>{item.depart}</td>
+                        <td>{item.dest}</td>
+                        <td>{item.date}</td>
+                        <td>{item.time}</td>
+                        <td>{item.capacity - item.filled}</td>
+                        <td>${item.fares}</td>
+
+                        {admin !== null ? (
+                          admin.airline === "SEARCH" ? (
+                            <Link
+                              to={{
+                                pathname: "/admin/customerList",
+                                state: {
+                                  flight: item,
+                                  type: "SEARCH"
+                                }
+                              }}
+                            >
+                              See All Customer Reservation
+                            </Link>
+                          ) : null
+                        ) : item.status === "ON TIME" ? (
+                          item.isRegistered ? (
+                            <p>REGISTERED</p>
+                          ) : (
+                            <td>
+                              <Link
+                                to={{
+                                  pathname: "/details",
+                                  state: {
+                                    flight: item,
+                                    type: "REGISTER",
+                                    bookedFrom: "SEARCH"
+                                  }
+                                }}
+                              >
+                                Register
+                              </Link>
+                            </td>
+                          )
+                        ) : (
+                          <p>UNAVAILABLE</p>
+                        )}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
