@@ -41,8 +41,51 @@ export default class Profile extends React.Component {
           <p>Username: {user.username}</p>
         </div>
         <hr />
-        <div>
-          <h2 style={{ color: "black" }}>Upcoming flights</h2>
+        <h2 style={{ color: "black" }}>Upcoming flights</h2>
+        <div
+          className="container"
+          style={{
+            border: "1px solid grey",
+            boxShadow: "0px 0.5px 2px 3px #ccc",
+            textAlign: "center",
+            width: "80%",
+            right: "0",
+            height: "auto",
+            display: "inlineBlock",
+            backgroundColor: "#fff"
+          }}
+        >
+          <table>
+            <thead>
+              <tr>
+                <td>Flight: </td>
+                <td>Airline Name:</td>
+
+                <td>DATE</td>
+                <td>TIME</td>
+                <td>DESTINATION</td>
+                <td>Depart:</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              {upcomingFlights === null
+                ? null
+                : upcomingFlights.map(item => (
+                    <tr key={item._id}>
+                      <td>{item.flightname}</td>
+                      <td>{item.airline}</td>
+
+                      <td>{String(item.date)}</td>
+                      <td>{item.time}</td>
+                      <td>{item.dest}</td>
+                      <td>{item.depart}</td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
+        </div>
+        {/*<div>
           {upcomingFlights === null
             ? null
             : upcomingFlights.map(item => (
@@ -53,6 +96,7 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
+
                   {/* 
                   <button
                     className="btn btn-success"
@@ -61,9 +105,7 @@ export default class Profile extends React.Component {
                     Cancel Flights
                   </button>
                 */}
-                </div>
-              ))}
-        </div>
+
         <hr />
         <div>
           <h2 style={{ color: "black" }}>Previous flights</h2>
