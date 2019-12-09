@@ -51,7 +51,7 @@ export default class SignIn extends React.Component {
               </div>
               <div style={{ paddingBottom: "20px" }}>
                 <input
-                  type="text"
+                  type="password"
                   name="password"
                   placeholder="Password"
                   value={this.state.password}
