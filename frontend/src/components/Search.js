@@ -17,7 +17,8 @@ export default class Search extends React.Component {
       arrival: "",
       date: "null",
       dateString: "",
-      price: ""
+      price: "",
+      lastUpdated: ""
     };
   }
 
@@ -41,7 +42,13 @@ export default class Search extends React.Component {
       return null;
 
     const { admin } = this.props;
-    const { flights_showed, all_airports, all_airlines, price } = this.state;
+    const {
+      flights_showed,
+      all_airports,
+      all_airlines,
+      price,
+      lastUpdated
+    } = this.state;
 
     return (
       <div style={{ textAlign: "center" }}>
@@ -53,6 +60,7 @@ export default class Search extends React.Component {
         >
           <div>
             <h1 style={{ color: "black" }}>Search for a flight</h1>
+            <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
           </div>
 
           <div className="container">
@@ -275,8 +283,9 @@ export default class Search extends React.Component {
 
     const airports_json = await fetch("/airports");
     const all_airports = await airports_json.json();
+    const lastUpdated = this.getCurrentTime();
 
-    this.setState({ all_airlines, all_airports, all_flights });
+    this.setState({ all_airlines, all_airports, all_flights, lastUpdated });
   }
 
   search = () => {
@@ -319,15 +328,15 @@ export default class Search extends React.Component {
   };
 
   handleDate = e => {
-    const date = e.target.value;
-
-    if (date.length === 0) {
+    const dateString = e.target.value;
+    console.log(dateString);
+    if (dateString.length === 0) {
       this.setState({ dateString: "" });
       return;
     }
 
-    const dateObject = new Date(date);
-    const dateString = this.convertDateToString(dateObject);
+    // const dateObject = new Date(date);
+    // const dateString = this.convertDateToString(dateObject);
     this.setState({ dateString });
   };
 
@@ -337,5 +346,21 @@ export default class Search extends React.Component {
     const year = dateObject.getUTCFullYear();
     const date = +month + "/" + day + "/" + year;
     return date;
+  };
+
+  getCurrentTime = () => {
+    const now = new Date();
+    const month = this.addZero(now.getMonth());
+    const date = this.addZero(now.getDate());
+    const year = now.getFullYear();
+    const hour = this.addZero(now.getHours());
+    const minutes = this.addZero(now.getMinutes());
+    const seconds = this.addZero(now.getSeconds());
+
+    return this.props.currentDate + " " + hour + ":" + minutes + ":" + seconds;
+  };
+
+  addZero = val => {
+    return val < 10 ? "0" + val : val;
   };
 }

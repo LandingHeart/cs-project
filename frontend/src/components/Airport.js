@@ -201,19 +201,7 @@ export default class Airport extends React.Component {
     const minutes = this.addZero(now.getMinutes());
     const seconds = this.addZero(now.getSeconds());
 
-    return (
-      month +
-      "/" +
-      date +
-      "/" +
-      year +
-      " " +
-      hour +
-      ":" +
-      minutes +
-      ":" +
-      seconds
-    );
+    return this.props.currentDate + " " + hour + ":" + minutes + ":" + seconds;
   };
 
   addZero = val => {

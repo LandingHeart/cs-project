@@ -73,7 +73,7 @@ export default class App extends React.Component {
 
           <Switch>
             <Route path="/" exact>
-              <Home />
+              <Home currentDate={currentDate} />
             </Route>
 
             <Route

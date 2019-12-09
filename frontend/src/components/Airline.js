@@ -12,7 +12,8 @@ export default class Airline extends React.Component {
       airline: this.props.admin === null ? "" : this.props.admin.airline,
       all_flights: [],
       all_airlines: [],
-      data: []
+      data: [],
+      lastUpdated: ""
     };
   }
 
@@ -27,7 +28,7 @@ export default class Airline extends React.Component {
   }
 
   render() {
-    const { admin, airline, all_airlines, data } = this.state;
+    const { admin, airline, all_airlines, data, lastUpdated } = this.state;
 
     return (
       <div>
@@ -44,6 +45,8 @@ export default class Airline extends React.Component {
               ) : (
                 <h1>{admin.airline} Admin</h1>
               )}
+
+              <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
             </div>
 
             {admin === null ? (
@@ -112,30 +115,36 @@ export default class Airline extends React.Component {
                       <td>${item.fares}</td>
                       <td>{item.capacity - item.filled}</td>
                       <td>{item.status}</td>
+
                       {admin === null ? (
-                        item.status === "ON TIME" &&
-                        item.capacity - item.filled > 0 ? (
-                          item.isRegistered ? (
-                            <td>REGISTERED</td>
-                          ) : (
-                            <td>
-                              <Link
-                                className="btn-success btn"
-                                to={{
-                                  pathname: "/details",
-                                  state: {
-                                    flight: item,
-                                    type: "REGISTER",
-                                    bookedFrom: "AIRLINE"
-                                  }
-                                }}
-                              >
-                                Register
-                              </Link>
-                            </td>
-                          )
-                        ) : (
+                        item.isRegistered ? (
+                          <td>
+                            <button
+                              className="btn btn-success"
+                              onClick={() => this.cancel(item)}
+                            >
+                              Cancel Flights
+                            </button>
+                          </td>
+                        ) : item.status === "CANCELLED" ||
+                          item.capacity - item.filled <= 0 ? (
                           <td>CAN'T REGISTER</td>
+                        ) : (
+                          <td>
+                            <Link
+                              className="btn-success btn"
+                              to={{
+                                pathname: "/details",
+                                state: {
+                                  flight: item,
+                                  type: "REGISTER",
+                                  bookedFrom: "AIRLINE"
+                                }
+                              }}
+                            >
+                              Register
+                            </Link>
+                          </td>
                         )
                       ) : (
                         <td>
@@ -254,11 +263,52 @@ export default class Airline extends React.Component {
             new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
         );
       }
+      const lastUpdated = this.getCurrentTime();
 
-      this.setState({ data });
+      this.setState({ data, lastUpdated });
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async cancel(flight) {
+    // const { user_booking } = this.state;
+    const all_booking = await fetch("/bookings");
+    const bookings = await all_booking.json();
+
+    let booking = null;
+    for (let curr_booking of bookings) {
+      if (
+        curr_booking.flightid === flight.flightid &&
+        curr_booking.customer === this.props.user.customerid
+      ) {
+        booking = curr_booking;
+      }
+    }
+
+    fetch(`/bookings/${booking._id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(res => {
+        if (res.status === 200) {
+          fetch(`/flights/updateSubsFilledIntoFlight/${flight.flightid}`, {
+            method: "PUT",
+            body: JSON.stringify(flight),
+            headers: { "Content-Type": "application/json" }
+          })
+            .then(resp => {
+              if (resp.status === 200) {
+                alert("Success");
+                this.props.history.push("/");
+              }
+            })
+            .catch(err => console.log(err));
+        }
+      })
+      .catch(err => console.log(err));
   }
 
   async getDataCustomer() {
@@ -303,11 +353,30 @@ export default class Airline extends React.Component {
 
       const airline_json = await fetch("/airlines");
       const all_airlines = await airline_json.json();
-      this.setState({ all_flights, all_airlines });
+
+      const lastUpdated = this.getCurrentTime();
+
+      this.setState({ all_flights, all_airlines, lastUpdated });
     } catch (err) {
       console.log(err);
     }
   }
+
+  getCurrentTime = () => {
+    const now = new Date();
+    const month = this.addZero(now.getMonth());
+    const date = this.addZero(now.getDate());
+    const year = now.getFullYear();
+    const hour = this.addZero(now.getHours());
+    const minutes = this.addZero(now.getMinutes());
+    const seconds = this.addZero(now.getSeconds());
+
+    return this.props.currentDate + " " + hour + ":" + minutes + ":" + seconds;
+  };
+
+  addZero = val => {
+    return val < 10 ? "0" + val : val;
+  };
 
   handleAirline = e => {
     const airline = e.target.value;

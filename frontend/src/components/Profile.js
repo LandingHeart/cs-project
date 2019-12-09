@@ -53,12 +53,14 @@ export default class Profile extends React.Component {
                   <p>Time: {item.time}</p>
                   <p>Depart: {item.depart}</p>
                   <p>Destination: {item.dest}</p>
+                  {/* 
                   <button
                     className="btn btn-success"
                     onClick={() => this.cancel(item)}
                   >
                     Cancel Flights
                   </button>
+                */}
                 </div>
               ))}
         </div>
@@ -180,19 +182,7 @@ export default class Profile extends React.Component {
     const minutes = this.addZero(now.getMinutes());
     const seconds = this.addZero(now.getSeconds());
 
-    return (
-      month +
-      "/" +
-      date +
-      "/" +
-      year +
-      " " +
-      hour +
-      ":" +
-      minutes +
-      ":" +
-      seconds
-    );
+    return this.props.currentDate + " " + hour + ":" + minutes + ":" + seconds;
   };
 
   addZero = val => {

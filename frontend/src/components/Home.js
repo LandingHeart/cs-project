@@ -13,6 +13,7 @@ export default class Home extends React.Component {
     return (
       <div>
         <h1>Welcome to Flights Website</h1>
+        <h2>Date: {this.props.currentDate}</h2>
       </div>
     );
   }
