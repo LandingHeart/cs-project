@@ -89,11 +89,7 @@ export default class Airport extends React.Component {
               <div className="col">
                 <h2>Departure</h2>
                 {departures.map(item => (
-                  <div
-                    key={item._id}
-                    className=""
-                    style={{ borderTop: "1px solid white" }}
-                  >
+                  <div key={item._id} style={{ borderTop: "1px solid white" }}>
                     <p className="col">Name: {item.flightname}</p>
                     <p className="col">Airline: {item.airline}</p>
                     <p className="col">Date: {item.date}</p>
@@ -104,7 +100,7 @@ export default class Airport extends React.Component {
                 ))}
               </div>
 
-              <div className="col flight-table">
+              <div className="col">
                 <h2>Arrival</h2>
                 {arrivals.map(item => (
                   <div
@@ -146,13 +142,22 @@ export default class Airport extends React.Component {
       const lastUpdated = this.getCurrentTime();
       let departures = [];
       let arrivals = [];
+
       if (airportName === "") {
-        this.setState({ departures, arrivals, airportName, lastUpdated });
+        this.setState({
+        
+          departures,
+          arrivals,
+          airportName,
+          lastUpdated
+        });
         return;
       }
 
       const flights_json = await fetch("/flights");
+
       const all_flights = await flights_json.json();
+
       const flights_today = all_flights.filter(
         item => item.date === this.props.currentDate
       );
@@ -167,6 +172,7 @@ export default class Airport extends React.Component {
 
       departures = this.sortDateAndTime(departures);
       arrivals = this.sortDateAndTime(arrivals);
+
       this.setState({ departures, arrivals, airportName, lastUpdated });
     } catch (err) {
       console.log(err);
