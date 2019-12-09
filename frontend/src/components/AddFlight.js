@@ -337,13 +337,10 @@ export default class AddFlight extends React.Component {
     }
   }
 
-  //TODO: HANDLE NAME
-  //CHECK NO DUPLICATE
   handleFlightName = e => {
     const val = e.target.value;
     const flightname = val.trim();
     this.checkFlightName(flightname);
-    // this.setState({ flightname });
   };
 
   async checkFlightName(flightname) {

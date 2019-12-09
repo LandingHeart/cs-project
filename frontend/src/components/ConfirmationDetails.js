@@ -29,7 +29,7 @@ export default class ConfirmationDetails extends React.Component {
           <p>Date: {flight.date}</p>
           <p>Time: {flight.time}</p>
           <p>Fare: {flight.fares}</p>
-          <p>Capacity: {flight.capacity}</p>
+          <p>Capacity: {flight.capacity - flight.filled}</p>
           <button onClick={this.submit}>{type}</button>
         </div>
       </div>

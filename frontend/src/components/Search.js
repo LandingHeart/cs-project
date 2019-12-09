@@ -28,7 +28,7 @@ export default class Search extends React.Component {
     }
 
     this.fetchData();
-    this.interval = setInterval(() => this.fetchData(), 30000);
+    this.interval = setInterval(() => this.fetchData(), 20000);
   }
 
   render() {
@@ -126,8 +126,8 @@ export default class Search extends React.Component {
             </div>
           </div>
 
-          <div style = {{paddingTop: "20px", marginTop: "10px"}}>
-            <div id="div-box" >
+          <div style={{ paddingTop: "20px", marginTop: "10px" }}>
+            <div id="div-box">
               <h3>Result</h3>
               <form>
                 <label>
@@ -153,7 +153,6 @@ export default class Search extends React.Component {
             </div>
 
             <div className="container-data" style={{ paddingTop: "30px" }}>
-              
               <div
                 className="container"
                 style={{
@@ -175,7 +174,7 @@ export default class Search extends React.Component {
                       <p>Destination: {item.dest}</p>
                       <p>Date: {item.date}</p>
                       <p>Time: {item.time}</p>
-                      <p>Capacity: {item.capacity}</p>
+                      <p>Capacity: {item.capacity - item.filled}</p>
                       <p>Fare: {item.fares}</p>
                     </div>
 
@@ -195,7 +194,7 @@ export default class Search extends React.Component {
                       ) : null
                     ) : item.status === "ON TIME" ? (
                       item.isRegistered ? (
-                        <p>Registered</p>
+                        <p>REGISTERED</p>
                       ) : (
                         <Link
                           to={{
@@ -248,7 +247,7 @@ export default class Search extends React.Component {
       );
 
       for (let flight of all_flights_sorted) {
-        if (booking.length === 0) {
+        if (my_booking.length === 0) {
           all_flights.push(flight);
           continue;
         }

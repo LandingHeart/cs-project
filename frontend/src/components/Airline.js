@@ -113,9 +113,10 @@ export default class Airline extends React.Component {
                       <td>{item.capacity - item.filled}</td>
                       <td>{item.status}</td>
                       {admin === null ? (
-                        item.status === "ON TIME" ? (
+                        item.status === "ON TIME" &&
+                        item.capacity - item.filled > 0 ? (
                           item.isRegistered ? (
-                            <td>Registered</td>
+                            <td>REGISTERED</td>
                           ) : (
                             <td>
                               <Link
@@ -221,7 +222,7 @@ export default class Airline extends React.Component {
     try {
       const flights_json = await fetch("/flights");
       const flights_unfiltered = await flights_json.json();
-      console.log(flights_unfiltered);
+
       const airline_json = await fetch("/airlines");
       const all_airlines = await airline_json.json();
       const { airline } = this.state.admin;
@@ -237,7 +238,6 @@ export default class Airline extends React.Component {
         item => item.airlineid === airlineid
       );
 
-      console.log(all_flights_filtered);
       let data = [];
       if (this.state.admin === null) {
         const all_flights_today = all_flights_filtered.filter(
