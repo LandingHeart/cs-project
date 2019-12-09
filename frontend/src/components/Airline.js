@@ -9,7 +9,7 @@ export default class Airline extends React.Component {
     super(props);
     this.state = {
       admin: this.props.admin,
-      airline: "",
+      airline: this.props.admin === null ? "" : this.props.admin.airline,
       all_flights: [],
       all_airlines: [],
       data: []
@@ -23,7 +23,7 @@ export default class Airline extends React.Component {
     }
     this.getData();
 
-    this.interval = setInterval(() => this.getData(), 30000);
+    this.interval = setInterval(() => this.getData(), 10000);
   }
 
   render() {
@@ -138,7 +138,8 @@ export default class Airline extends React.Component {
                         )
                       ) : (
                         <td>
-                          {item.status === "CANCELLED" ? null : (
+                          {item.status === "CANCELLED" ||
+                          item.capacity - item.filled === 0 ? null : (
                             <span>
                               <Link
                                 className="btn-success btn"
@@ -220,7 +221,7 @@ export default class Airline extends React.Component {
     try {
       const flights_json = await fetch("/flights");
       const flights_unfiltered = await flights_json.json();
-
+      console.log(flights_unfiltered);
       const airline_json = await fetch("/airlines");
       const all_airlines = await airline_json.json();
       const { airline } = this.state.admin;
@@ -236,14 +237,23 @@ export default class Airline extends React.Component {
         item => item.airlineid === airlineid
       );
 
-      const all_flights_today = all_flights_filtered.filter(
-        item => new Date(item.date) - new Date(this.props.currentDate) >= 0
-      );
+      console.log(all_flights_filtered);
+      let data = [];
+      if (this.state.admin === null) {
+        const all_flights_today = all_flights_filtered.filter(
+          item => new Date(item.date) - new Date(this.props.currentDate) >= 0
+        );
 
-      const data = all_flights_today.sort(
-        (a, b) =>
-          new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
-      );
+        data = all_flights_today.sort(
+          (a, b) =>
+            new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
+        );
+      } else {
+        data = all_flights_filtered.sort(
+          (a, b) =>
+            new Date(a.date + " " + a.time) - new Date(b.date + " " + b.time)
+        );
+      }
 
       this.setState({ data });
     } catch (err) {

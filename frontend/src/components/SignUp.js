@@ -145,14 +145,17 @@ export default class SignUp extends React.Component {
     this.checkUserName(username);
   };
 
-  async checkUserNameA(username) {
+  async checkUserName(username) {
     try {
       const customer_json = await fetch("/customers/users");
       const customers = await customer_json.json();
       let isExist = false;
 
       for (const user of customers) {
-        if (user.username === username) isExist = true;
+        if (user.username === username) {
+          isExist = true;
+          break;
+        }
       }
 
       if (isExist || username.length === 0) {

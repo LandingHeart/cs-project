@@ -18,7 +18,8 @@ export default class AddFlight extends React.Component {
       depart: "",
       dest: "",
       type: "",
-      airports: []
+      airports: [],
+      isFlightNameValid: true
     };
   }
 
@@ -54,12 +55,11 @@ export default class AddFlight extends React.Component {
         dest
       } = flight;
 
-      const dateSplit = date.split("/");
-      const month = this.addZero(dateSplit[0]);
-      const day = this.addZero(dateSplit[1]);
-      const year = this.addZero(dateSplit[2]);
+      const dateSplit = date.split("-");
+      const year = this.addZero(dateSplit[0]);
+      const month = this.addZero(dateSplit[1]);
+      const day = this.addZero(dateSplit[2]);
       const dateString = year + "-" + month + "-" + day;
-
       this.setState({
         _id,
         airline,
@@ -123,10 +123,13 @@ export default class AddFlight extends React.Component {
                   name="flightname"
                   value={flightname}
                   placeholder={"Enter flight name"}
-                  onChange={this.handleInputChange}
+                  onChange={this.handleFlightName}
                   required
                 />
               </label>
+              {this.state.isFlightNameValid ? null : (
+                <p>Duplicate flight name</p>
+              )}
               <br />
               <label>
                 Airline Name
@@ -193,7 +196,7 @@ export default class AddFlight extends React.Component {
                   type="number"
                   name="capacity"
                   value={capacity}
-                  onChange={this.handleInputChange}
+                  onChange={this.handleInputNumber}
                   required
                 />
               </label>
@@ -203,8 +206,9 @@ export default class AddFlight extends React.Component {
                 <input
                   type="number"
                   name="fares"
+                  min="0"
                   value={fares}
-                  onChange={this.handleInputChange}
+                  onChange={this.handleInputNumber}
                   required
                 />
               </label>
@@ -212,10 +216,10 @@ export default class AddFlight extends React.Component {
               <br />
 
               <button
-                className="btn-primary"
                 style={{
                   marginLeft: "30px"
                 }}
+                disabled={this.isValid() && !this.state.isFlightNameValid}
               >
                 {this.state.type}
               </button>
@@ -245,17 +249,22 @@ export default class AddFlight extends React.Component {
         }
       }
 
+      const flights = await fetch("/flights");
+      const flights_total = await flights.json();
+
       const obj = {
+        flightid: flights_total.length,
         airlineid: airline_id,
         airline: this.state.airline,
-        flight: this.state.flightname,
+        flightname: this.state.flightname,
         capacity: this.state.capacity,
-        fill: 0,
-        arrival: this.state.arrival,
+        filled: 0,
+        dest: this.state.dest,
         depart: this.state.depart,
         time: this.state.time,
         date: this.state.date,
-        fares: this.state.fares
+        fares: this.state.fares,
+        status: "ON TIME"
       };
 
       fetch("/flights/admin/add", {
@@ -266,8 +275,7 @@ export default class AddFlight extends React.Component {
         }
       })
         .then(resp => {
-          console.log(resp);
-          this.props.history.push("/");
+          this.props.history.push("/airline");
           alert("success");
         })
         .catch(err => console.log(err));
@@ -276,7 +284,6 @@ export default class AddFlight extends React.Component {
     }
   }
 
-  //EDIT FLIGHT
   async editFlight() {
     try {
       const airlines_json = await fetch("/airlines");
@@ -290,8 +297,6 @@ export default class AddFlight extends React.Component {
       }
 
       const { date } = this.state;
-      const split = date.split("-");
-      const dateObj = split[1] + "/" + split[2] + "/" + split[0];
 
       const obj = {
         _id: this.state._id,
@@ -299,7 +304,7 @@ export default class AddFlight extends React.Component {
         airlineid: airline_id,
         flightname: this.state.flightname,
         flightid: this.state.flightid,
-        date: dateObj,
+        date,
         time: this.state.time,
         capacity: this.state.capacity,
         fares: this.state.fares,
@@ -315,8 +320,13 @@ export default class AddFlight extends React.Component {
         }
       })
         .then(resp => {
-          alert("SUCCESS UPDATING");
-          this.props.history.push("/");
+          if (resp.status === 200) {
+            alert("SUCCESS UPDATING");
+            this.props.history.push("/airline");
+          } else {
+            alert("FAILED UPDATING");
+            this.props.history.push("/airline");
+          }
         })
         .catch(err => {
           alert("FAILED UPDATING");
@@ -327,11 +337,85 @@ export default class AddFlight extends React.Component {
     }
   }
 
+  //TODO: HANDLE NAME
+  //CHECK NO DUPLICATE
+  handleFlightName = e => {
+    const val = e.target.value;
+    const flightname = val.trim();
+    this.checkFlightName(flightname);
+    // this.setState({ flightname });
+  };
+
+  async checkFlightName(flightname) {
+    try {
+      const flight_json = await fetch("/flights");
+      const flights = await flight_json.json();
+      let isExist = false;
+
+      for (const flight of flights) {
+        if (
+          flight.flightname.toLocaleLowerCase() ===
+            flightname.toLocaleLowerCase() &&
+          flight.airline === this.state.airline
+        ) {
+          isExist = true;
+          break;
+        }
+      }
+
+      if (isExist || flightname.length === 0) {
+        this.setState({ isFlightNameValid: false, flightname });
+      } else {
+        this.setState({ isFlightNameValid: true, flightname });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   handleInputChange = event => {
     const { value, name } = event.target;
     this.setState({
       [name]: value
     });
+  };
+
+  handleInputNumber = event => {
+    const { value, name } = event.target;
+
+    const re = /^[0-9\b]+$/;
+    if (value === "" || re.test(value)) {
+      this.setState({
+        [name]: value
+      });
+    }
+  };
+
+  isValid = () => {
+    const {
+      flightname,
+      date,
+      time,
+      capacity,
+      fares,
+      depart,
+      dest
+    } = this.state;
+
+    if (fares < 0 || capacity < 0) {
+      return true;
+    }
+
+    if (
+      flightname.length === 0 ||
+      date.length === 0 ||
+      time.length === 0 ||
+      depart.length === 0 ||
+      dest.length === 0
+    )
+      return true;
+
+    return false;
   };
 
   addZero = val => {

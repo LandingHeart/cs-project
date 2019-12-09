@@ -38,6 +38,14 @@ router.put("/updateAddFilledIntoFlight/:id", async (req, res) => {
     .catch(err => console.log(err));
 });
 
+router.put("/update/:id", async (req, res)=>{
+  const flight = req.body;
+
+  Flight.findByIdAndUpdate({_id: flight._id}, flight).then(resp =>{
+    res.send(resp)
+  }).catch(err => console.log(err))
+})
+
 router.put("/updateSubsFilledIntoFlight/:id", async (req, res) => {
   const flight = req.body;
   const filled = flight.filled
@@ -58,7 +66,6 @@ router.put("/updateSubsFilledIntoFlight/:id", async (req, res) => {
 router.put("/cancelFlight/:id", async (req, res) => {
   const flight = req.body;
   flight['status'] = "CANCELLED"
-  console.log("HELLO THERE")
 
   Flight.findByIdAndUpdate({ _id: flight._id }, flight)
     .then(function() {
@@ -74,12 +81,14 @@ router.post("/admin/add", async (req, res) => {
     airlineid: req.body.airlineid,
     airline: req.body.airline,
     flight: req.body.flight,
+    flightid: req.body.flightid,
+    flightname: req.body.flightname,
     capacity: req.body.capacity,
     filled: req.body.filled,
     dest: req.body.dest,
-    departure: req.body.departure,
+    depart: req.body.depart,
     time: req.body.time,
-    fare: req.body.fare,
+    fares: req.body.fares,
     date: req.body.date,
     status: req.body.status
   });
