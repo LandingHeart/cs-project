@@ -150,12 +150,15 @@ export default class Airport extends React.Component {
         this.setState({ departures, arrivals, airportName, lastUpdated });
         return;
       }
-
       const flights_json = await fetch("/flights");
       const all_flights = await flights_json.json();
       const flights_today = all_flights.filter(
         item => item.date === this.props.currentDate
       );
+
+      console.log(all_flights);
+      console.log(this.props.currentDate);
+      console.log(flights_today);
 
       for (let flight of flights_today) {
         if (flight.depart === airportName) {
