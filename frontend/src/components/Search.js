@@ -184,8 +184,8 @@ export default class Search extends React.Component {
                       <td>DESTINATION</td>
                       <td>DATE</td>
                       <td>TIME</td>
-                      <td>FARE</td>
                       <td>CAPACITY</td>
+                      <td>FARE</td>
                     </tr>
                   </thead>
 

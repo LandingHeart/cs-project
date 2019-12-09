@@ -172,9 +172,9 @@ export default class App extends React.Component {
   };
 
   setDate = e => {
-    const date = e.target.value;
-    const split = date.split("-");
-    const currentDate = split[1] + "/" + split[2] + "/" + split[0];
+    const currentDate = e.target.value;
+    // const split = date.split("-");
+    // const currentDate = split[1] + "/" + split[2] + "/" + split[0];
 
     this.setState({ currentDate });
   };
