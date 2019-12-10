@@ -214,15 +214,22 @@ export default class AddFlight extends React.Component {
               </label>
 
               <br />
-
-              <button
+              <div
+                className="container"
                 style={{
-                  marginLeft: "30px"
+                  marginLeft: "30px",
+                  width: "150px",
+                  textAlign: "center",
+                  paddingRight: "10px"
                 }}
-                disabled={this.isValid() && !this.state.isFlightNameValid}
               >
-                {this.state.type}
-              </button>
+                <button
+                  className="btn-success"
+                  disabled={this.isValid() && !this.state.isFlightNameValid}
+                >
+                  {this.state.type}
+                </button>
+              </div>
             </form>
           </div>
         </Animated>

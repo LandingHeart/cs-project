@@ -25,7 +25,7 @@ export default class Navigation extends React.Component {
     if (admin !== null) {
       return (
         <header style={headerStyle}>
-          <h1 style = {{color: "white", fontWeight: "bold"}}>Flights</h1>
+          <h1 style={{ color: "white", fontWeight: "bold" }}>Flights</h1>
           <Link style={linkStyle} to="/">
             Home
           </Link>

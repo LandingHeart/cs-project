@@ -107,19 +107,47 @@ export default class Profile extends React.Component {
                 */}
 
         <hr />
-        <div>
-          <h2 style={{ color: "black" }}>Previous flights</h2>
-          {previousFlights === null
-            ? null
-            : previousFlights.map(item => (
-                <div key={item._id} className="div-box">
-                  <p>Flight: {item.flightname}</p>
-                  <p>Airline Name: {item.airline}</p>
-                  <p>Date: {String(item.date)}</p>
-                  <p>Time: {item.time}</p>
-                  <p>Depart: {item.depart}</p>
-                </div>
-              ))}
+        <h2 style={{ color: "black" }}>Previous flights</h2>
+        <div
+          className="container"
+          style={{
+            border: "1px solid grey",
+            boxShadow: "0px 0.5px 2px 3px #ccc",
+            textAlign: "center",
+            width: "80%",
+            right: "0",
+            height: "auto",
+            display: "inlineBlock",
+            backgroundColor: "#fff",
+            marginBottom: "150px"
+          }}
+        >
+          <table>
+            <thead>
+              <tr>
+                <td>Flight: </td>
+                <td>Airline Name:</td>
+
+                <td>DATE</td>
+                <td>TIME</td>
+                <td>Depart:</td>
+              </tr>
+            </thead>
+
+            <tbody>
+              {previousFlights === null
+                ? null
+                : previousFlights.map(item => (
+                    <tr key={item._id}>
+                      <td>{item.flightname}</td>
+                      <td>{item.airline}</td>
+                      <td>{String(item.date)}</td>
+                      <td>{item.time}</td>
+                      <td>{item.depart}</td>
+                    </tr>
+                  ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );

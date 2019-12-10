@@ -172,7 +172,8 @@ export default class Search extends React.Component {
                 right: "0",
                 height: "auto",
                 display: "inlineBlock",
-                backgroundColor: "#fff"
+                backgroundColor: "#fff",
+                marginBottom: "150px"
               }}
             >
               <div>
