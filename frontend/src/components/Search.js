@@ -187,6 +187,7 @@ export default class Search extends React.Component {
                       <td>TIME</td>
                       <td>CAPACITY</td>
                       <td>FARE</td>
+                      <td>STATUS</td>
                     </tr>
                   </thead>
 
@@ -200,6 +201,7 @@ export default class Search extends React.Component {
                         <td>{item.time}</td>
                         <td>{item.capacity - item.filled}</td>
                         <td>${item.fares}</td>
+                        <td>{item.status}</td>
 
                         {admin !== null ? (
                           admin.airline === "SEARCH" ? (

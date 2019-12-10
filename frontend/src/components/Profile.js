@@ -221,7 +221,7 @@ export default class Profile extends React.Component {
       //FILTER THE FLIGHTS BASED ON THE DATES
       //TODO: NEED TO CHANGE new Date() WITH THE DATE USER INPUT
       const upcomingFlights = flight.filter(
-        item => new Date(item.date) - new Date(this.props.currentDate) > 0
+        item => new Date(item.date) - new Date(this.props.currentDate) >= 0
       );
 
       const previousFlights = flight.filter(
