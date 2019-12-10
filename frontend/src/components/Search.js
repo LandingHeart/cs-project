@@ -77,7 +77,7 @@ export default class Search extends React.Component {
                       >
                         <option value=""></option>
                         {all_airlines.map(item => (
-                          <option value={item.airline} key={item.airline}>
+                          <option value={item.airline} key={item._id}>
                             {item.airline}
                           </option>
                         ))}
@@ -97,7 +97,7 @@ export default class Search extends React.Component {
                       >
                         <option value=""></option>
                         {all_airports.map(item => (
-                          <option value={item.airports} key={item.airports}>
+                          <option value={item.airports} key={item._id}>
                             {item.airports}
                           </option>
                         ))}
@@ -116,7 +116,7 @@ export default class Search extends React.Component {
                       >
                         <option value=""></option>
                         {all_airports.map(item => (
-                          <option value={item.airports} key={item.airports}>
+                          <option value={item.airports} key={item._id}>
                             {item.airports}
                           </option>
                         ))}
@@ -217,7 +217,7 @@ export default class Search extends React.Component {
                           ) : null
                         ) : item.status === "ON TIME" ? (
                           item.isRegistered ? (
-                            <p>REGISTERED</p>
+                            <td>REGISTERED</td>
                           ) : (
                             <td>
                               <Link
@@ -235,7 +235,7 @@ export default class Search extends React.Component {
                             </td>
                           )
                         ) : (
-                          <p>UNAVAILABLE</p>
+                          <td>UNAVAILABLE</td>
                         )}
                       </tr>
                     ))}

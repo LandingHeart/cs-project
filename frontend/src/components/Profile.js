@@ -30,7 +30,7 @@ export default class Profile extends React.Component {
     return (
       <div className="container">
         <div>
-          <h1 style={{ color: "black", fontWeight: "bold" }}>Profile</h1>
+          <h1 style={{ color: "black", fontWeight: "bold" }}>{user.firstname} Profile</h1>
           <button onClick={this.refresh}>Refresh</button>
           <pre>Last updated: {lastUpdated}</pre>
         </div>
@@ -41,7 +41,7 @@ export default class Profile extends React.Component {
           <p>Username: {user.username}</p>
         </div>
         <hr />
-        <h2 style={{ color: "black" }}>Upcoming flights</h2>
+        <h2 style={{ color: "black" }}>UPCOMING</h2>
         <div
           className="container"
           style={{
@@ -58,13 +58,13 @@ export default class Profile extends React.Component {
           <table>
             <thead>
               <tr>
-                <td>Flight: </td>
-                <td>Airline Name:</td>
+                <td>FLIGHT</td>
+                <td>AIRLINE</td>
 
                 <td>DATE</td>
                 <td>TIME</td>
                 <td>DESTINATION</td>
-                <td>Depart:</td>
+                <td>DEPARTUR</td>
               </tr>
             </thead>
 
@@ -125,12 +125,13 @@ export default class Profile extends React.Component {
           <table>
             <thead>
               <tr>
-                <td>Flight: </td>
-                <td>Airline Name:</td>
+                <td>FLIGHT </td>
+                <td>AIRLINE</td>
 
                 <td>DATE</td>
                 <td>TIME</td>
-                <td>Depart:</td>
+                <td>DEPARTUR</td>
+                <td>DESTINATION:</td>
               </tr>
             </thead>
 
@@ -143,6 +144,7 @@ export default class Profile extends React.Component {
                       <td>{item.airline}</td>
                       <td>{String(item.date)}</td>
                       <td>{item.time}</td>
+                      <td>{item.dest}</td>
                       <td>{item.depart}</td>
                     </tr>
                   ))}
