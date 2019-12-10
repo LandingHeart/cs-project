@@ -17,9 +17,9 @@ export default class Airport extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.user === null && this.props.admin === null) {
-      this.props.history.push("/signin");
-    }
+    // if (this.props.user === null && this.props.admin === null) {
+    //   this.props.history.push("/signin");
+    // }
 
     fetch("/airports")
       .then(resp => resp.json())

@@ -128,6 +128,12 @@ export default class Navigation extends React.Component {
           <Link style={linkStyle} to="/signup">
             Sign Up
           </Link>
+          <Space />
+
+          <Link style={linkStyle} to="/airport">
+            Airport
+          </Link>
+       
         </React.Fragment>
       </header>
     );

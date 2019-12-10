@@ -64,6 +64,7 @@ export default class App extends React.Component {
     return (
       <Router>
         <div id="App">
+
           <Navigation
             user={user}
             admin={admin}

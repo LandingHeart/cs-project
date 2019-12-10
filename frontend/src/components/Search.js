@@ -298,13 +298,13 @@ export default class Search extends React.Component {
     }
 
     const airline_json = await fetch("/airlines");
-    const all_airlines = await airline_json.json();
-
+    const all_airlines = await airline_json.json();   
     const airports_json = await fetch("/airports");
     const all_airports = await airports_json.json();
     const lastUpdated = this.getCurrentTime();
 
     this.setState({ all_airlines, all_airports, all_flights, lastUpdated });
+    
   }
 
   search = () => {
