@@ -149,7 +149,7 @@ export default class Airline extends React.Component {
                       ) : (
                         <td>
                           {item.status === "CANCELLED" ||
-                          item.capacity - item.filled === 0 ? null : (
+                          item.capacity - item.filled <= 0 ? null : (
                             <span>
                               <Link
                                 className="btn-success btn"

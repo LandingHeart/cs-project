@@ -17,9 +17,9 @@ export default class Airport extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.user === null && this.props.admin === null) {
-      this.props.history.push("/signin");
-    }
+    // if (this.props.user === null && this.props.admin === null) {
+    //   this.props.history.push("/signin");
+    // }
 
     fetch("/airports")
       .then(resp => resp.json())
@@ -30,7 +30,7 @@ export default class Airport extends React.Component {
 
     this.interval = setInterval(
       () => this.assignDepartureArrivalFlights(this.state.airportName),
-      30000
+      5000
     );
   }
 
@@ -74,7 +74,8 @@ export default class Airport extends React.Component {
           </div>
 
           <div>
-            <button onClick={this.refresh}>Refresh</button>
+            {/** */}
+            {/* <button onClick={this.refresh}>Refresh</button> */}
             <pre style={{ color: "black" }}>Last updated: {lastUpdated}</pre>
           </div>
           <div
@@ -145,7 +146,6 @@ export default class Airport extends React.Component {
 
       if (airportName === "") {
         this.setState({
-        
           departures,
           arrivals,
           airportName,

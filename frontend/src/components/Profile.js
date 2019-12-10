@@ -18,7 +18,7 @@ export default class Profile extends React.Component {
     if (this.props.user === null) this.props.history.push("/signin");
 
     this.setFlight();
-    this.interval = setInterval(() => this.setFlight(), 30000);
+    this.interval = setInterval(() => this.setFlight(), 5000);
   }
 
   render() {
@@ -30,8 +30,10 @@ export default class Profile extends React.Component {
     return (
       <div className="container">
         <div>
-          <h1 style={{ color: "black", fontWeight: "bold" }}>{user.firstname} Profile</h1>
-          <button onClick={this.refresh}>Refresh</button>
+          <h1 style={{ color: "black", fontWeight: "bold" }}>
+            {user.firstname} Profile
+          </h1>
+          {/* <button onClick={this.refresh}>Refresh</button> */}
           <pre>Last updated: {lastUpdated}</pre>
         </div>
         <div className="div-box">
@@ -65,6 +67,7 @@ export default class Profile extends React.Component {
                 <td>TIME</td>
                 <td>DESTINATION</td>
                 <td>DEPARTURE</td>
+                <td>STATUS</td>
               </tr>
             </thead>
 
@@ -80,6 +83,7 @@ export default class Profile extends React.Component {
                       <td>{item.time}</td>
                       <td>{item.dest}</td>
                       <td>{item.depart}</td>
+                      <td>{item.status}</td>
                     </tr>
                   ))}
             </tbody>
@@ -132,7 +136,6 @@ export default class Profile extends React.Component {
                 <td>TIME</td>
                 <td>DESTINATION:</td>
                 <td>DEPARTURE</td>
-                
               </tr>
             </thead>
 
