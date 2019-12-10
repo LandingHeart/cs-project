@@ -64,7 +64,7 @@ export default class Profile extends React.Component {
                 <td>DATE</td>
                 <td>TIME</td>
                 <td>DESTINATION</td>
-                <td>DEPARTUR</td>
+                <td>DEPARTURE</td>
               </tr>
             </thead>
 
@@ -130,8 +130,9 @@ export default class Profile extends React.Component {
 
                 <td>DATE</td>
                 <td>TIME</td>
-                <td>DEPARTUR</td>
                 <td>DESTINATION:</td>
+                <td>DEPARTURE</td>
+                
               </tr>
             </thead>
 
