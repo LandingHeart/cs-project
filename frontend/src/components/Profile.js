@@ -150,6 +150,7 @@ export default class Profile extends React.Component {
                       <td>{item.time}</td>
                       <td>{item.dest}</td>
                       <td>{item.depart}</td>
+                      <td>{item.status}</td>
                     </tr>
                   ))}
             </tbody>

@@ -148,35 +148,31 @@ export default class Airline extends React.Component {
                         )
                       ) : (
                         <td>
-                          {item.status === "CANCELLED" ||
-                          item.capacity - item.filled <= 0 ? null : (
-                            <span>
-                              <Link
-                                className="btn-success btn"
-                                to={{
-                                  pathname: "/admin/add",
-                                  state: {
-                                    flight: item,
-                                    type: "EDIT"
-                                  }
-                                }}
-                              >
-                                Edit Flight
-                              </Link>
-                              <Link
-                                to={{
-                                  pathname: "/details",
-                                  state: {
-                                    flight: item,
-                                    type: "CANCEL"
-                                  }
-                                }}
-                              >
-                                Cancel Flight
-                              </Link>
-                            </span>
-                          )}
-
+                          <span>
+                            <Link
+                              className="btn-success btn"
+                              to={{
+                                pathname: "/admin/add",
+                                state: {
+                                  flight: item,
+                                  type: "EDIT"
+                                }
+                              }}
+                            >
+                              Edit Flight
+                            </Link>
+                            <Link
+                              to={{
+                                pathname: "/details",
+                                state: {
+                                  flight: item,
+                                  type: "CANCEL"
+                                }
+                              }}
+                            >
+                              Cancel Flight
+                            </Link>
+                          </span>
                           <Link
                             to={{
                               pathname: "/admin/customerList",
